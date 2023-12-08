@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import fs from 'fs';
 import {setTimeout as sleep} from 'timers/promises';
 
