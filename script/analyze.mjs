@@ -19,6 +19,14 @@ const getUserProgression = async () => {
 const progression = await getUserProgression();
 console.log(progression);
 
+fs.writeFileSync('data/progression.json', JSON.stringify(progression), err => {
+	if (err) {
+		throw err;
+	}
+	console.log('JSON data is saved.');
+});
+
+
 // const data = JSON.parse(fs.readFileSync('./data/achievements.json'));
 // console.log(data.length)
 // const permAchis = data.filter(ach => ach.flags.includes('Permanent'));
