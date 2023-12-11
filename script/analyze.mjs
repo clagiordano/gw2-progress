@@ -45,7 +45,19 @@ achis.forEach(group => {
 		cat.achievements.forEach(ach => {
 			let aPts = ach.tiers.reduce((aPts, t) => t.points + aPts, 0);
 			let uaPts = 0;
-			// console.log(` -> ${ach.name}: ${aPts}`);
+
+			//console.log(ach.id)
+			let up = progression.find(a => a.id == ach.id);
+			if (up) {
+				uaPts = ach.tiers
+					.filter(t => t.count <= up.current)
+					.reduce((uaPts, t) => t.points + uaPts, 0);
+				// console.log('reachedTiers', reachedTiers);
+				// console.log(ach, up, 'curent count:', up.current, 'maxPoint: ', aPts);
+				//process.exit(1);
+			}
+
+			// console.log(` -> ${ach.name}: ${uaPts} / ${aPts}`);
 			cPts = cPts + aPts;
 			ucPts = ucPts + uaPts;
 		});
