@@ -22,26 +22,18 @@ const getAchievementsGroupById = async (groupId) => {
 	return await resp.json();
 };
 
-const getAchievementsCategories = async () => {
-	process.stdout.write('Fetching achievemnts categories...');
-	const resp = await fetch(`${baseURL}/achievements/categories`, reqConfig);
-	process.stdout.write(' done!\n');
-	return await resp.json();
-};
-
 const getAchievementsCategoryById = async (cId) => {
 	const resp = await fetch(`${baseURL}/achievements/categories?ids=${cId}`, reqConfig);
 	return await resp.json();
 };
 
-const getAchievementsIds = async () => {
-	process.stdout.write('Fetching achievemnts ids...');
-	const resp = await fetch(`${baseURL}/achievements`, reqConfig);
-	process.stdout.write(' done!\n');
-	return await resp.json();
-};
-
 const getAchievementById = async aId => {
+	if (!aId) {
+		/**
+		 * On emprty aId directly returns an empty array to avoid useless api calls
+		 */
+		return []
+	}
 	const resp = await fetch(`${baseURL}/achievements?ids=${aId}`, reqConfig);
 	return await resp.json();
 };
@@ -59,7 +51,7 @@ for (const idx in achievements) {
 	/**
 	 * Populate categories
 	 */
-	achievements[idx].categories = await getAchievementsCategoryById(achievements[idx].categories.join(','))
+	achievements[idx].categories = await getAchievementsCategoryById(achievements[idx].categories.join(','));
 
 	/**
 	 * Populate achievements
@@ -73,7 +65,7 @@ for (const idx in achievements) {
 
 bar.stop();
 
-fs.writeFileSync('data/achievements.json', JSON.stringify(achievements), err => {
+fs.writeFileSync('data/achievements.json', JSON.stringify(achievements, null, 4), err => {
 	if (err) {
 		throw err;
 	}

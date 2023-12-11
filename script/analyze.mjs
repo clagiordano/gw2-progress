@@ -18,7 +18,7 @@ const getUserProgression = async () => {
 
 const progression = await getUserProgression();
 
-fs.writeFileSync('data/progression.json', JSON.stringify(progression), err => {
+fs.writeFileSync('data/progression.json', JSON.stringify(progression, null, 4), err => {
 	if (err) {
 		throw err;
 	}
