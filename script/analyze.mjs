@@ -30,7 +30,7 @@ const achis = JSON.parse(fs.readFileSync('./data/achievements.json'));
 let tPts = 0;
 let utPts = 0;
 achis.forEach(group => {
-	console.log(`${group.name}: `);
+	// console.log(`${group.name}: `);
 	let gPts = 0;
 	let ugPts = 0;
 	group.categories.forEach(cat => {
@@ -47,14 +47,11 @@ achis.forEach(group => {
 			let uaPts = 0;
 
 			//console.log(ach.id)
-			let up = progression.find(a => a.id == ach.id);
-			if (up) {
+			let uach = progression.find(a => a.id == ach.id);
+			if (uach) {
 				uaPts = ach.tiers
-					.filter(t => t.count <= up.current)
+					.filter(t => t.count <= uach.current)
 					.reduce((uaPts, t) => t.points + uaPts, 0);
-				// console.log('reachedTiers', reachedTiers);
-				// console.log(ach, up, 'curent count:', up.current, 'maxPoint: ', aPts);
-				//process.exit(1);
 			}
 
 			// console.log(` -> ${ach.name}: ${uaPts} / ${aPts}`);
