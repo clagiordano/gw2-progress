@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import fs from 'fs';
+import {sprintf} from 'sprintf-js';
 import 'dotenv/config';
 
 const baseURL = 'https://api.guildwars2.com/v2';
@@ -59,14 +60,16 @@ achis.forEach(group => {
 			ucPts = ucPts + uaPts;
 		});
 
-		console.log(` -> ${cat.name}: ${ucPts} / ${cPts}`);
+		//console.log(`  \u21B3 ${cat.name}: ${ucPts} / ${cPts}`);
 		gPts = gPts + cPts;
 		ugPts = ugPts + ucPts;
 	});
 
 	tPts = tPts + gPts;
 	utPts = utPts + ugPts;
-	console.log(`${group.name} total points: ${ugPts} / ${gPts}`);
+	// console.log(`${group.name} group points: ${ugPts} / ${gPts}`);
+	console.log(sprintf("%25s: %5d / %5d (%3d%%)", `${group.name}`, ugPts, gPts, ((ugPts / (gPts || 1)) * 100)));
 });
 
-console.log(`Total points: ${utPts} / ${tPts}`);
+// console.log(`Total points: ${utPts} / ${tPts}`);
+console.log(sprintf("%25s: %5d / %5d (%3d%%)", "Total points", utPts, tPts, ((utPts / (tPts || 1)) * 100)));
