@@ -48,7 +48,6 @@ achis.forEach(group => {
 			let aPts = ach.tiers.reduce((aPts, t) => t.points + aPts, 0);
 			let uaPts = 0;
 
-			//console.log(ach.id)
 			let fIdx = progression.findIndex(a => a.id == ach.id);
 			if (fIdx !== -1) {
 				// console.log('fIdx', fIdx);
@@ -57,6 +56,25 @@ achis.forEach(group => {
 				uaPts = ach.tiers
 					.filter(t => t.count <= uach.current)
 					.reduce((uaPts, t) => t.points + uaPts, 0);
+
+				if (uach.repeated) {
+					/** Include repeated times */
+					// console.log('repeated ', ach.name, uach.repeated, aPts, (aPts * uach.repeated));
+					let uaPtsRepeated = (aPts * uach.repeated);
+					if (uaPtsRepeated > ach.point_cap) {
+						uaPtsRepeated = ach.point_cap;
+					}
+					uaPts = uaPts + uaPtsRepeated;
+				}
+			}
+
+			if (ach.point_cap && ach.point_cap > 0) {
+				/**
+				 * For repeatable achievements use point_cap as maximum earnable amount
+				 * -1 means infinite
+				 */
+				//console.log('override aPts', aPts, '->', ach.point_cap);
+				aPts = ach.point_cap;
 			}
 
 			// console.log(` -> ${ach.name}: ${uaPts} / ${aPts}`);
