@@ -18,6 +18,7 @@ const getUserProgression = async () => {
 };
 
 const progression = await getUserProgression();
+console.log('progression len', progression.length);
 
 fs.writeFileSync('data/progression.json', JSON.stringify(progression, null, 4), err => {
 	if (err) {
@@ -48,8 +49,11 @@ achis.forEach(group => {
 			let uaPts = 0;
 
 			//console.log(ach.id)
-			let uach = progression.find(a => a.id == ach.id);
-			if (uach) {
+			let fIdx = progression.findIndex(a => a.id == ach.id);
+			if (fIdx !== -1) {
+				// console.log('fIdx', fIdx);
+				let uach = progression[fIdx];
+				progression.splice(fIdx, 1);
 				uaPts = ach.tiers
 					.filter(t => t.count <= uach.current)
 					.reduce((uaPts, t) => t.points + uaPts, 0);
@@ -73,3 +77,5 @@ achis.forEach(group => {
 
 // console.log(`Total points: ${utPts} / ${tPts}`);
 console.log(sprintf("%25s: %5d / %5d (%3d%%)", "Total points", utPts, tPts, ((utPts / (tPts || 1)) * 100)));
+console.log('progression len', progression.length);
+// console.log(progression)
