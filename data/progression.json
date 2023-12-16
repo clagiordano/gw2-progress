@@ -13,7 +13,7 @@
     },
     {
         "id": 3,
-        "current": 474,
+        "current": 497,
         "max": 1000,
         "done": false
     },
@@ -49,7 +49,7 @@
     },
     {
         "id": 9,
-        "current": 4145,
+        "current": 4190,
         "max": 5000,
         "done": false
     },
@@ -68,13 +68,13 @@
     },
     {
         "id": 13,
-        "current": 443,
+        "current": 1082,
         "max": 100000,
         "done": false
     },
     {
         "id": 14,
-        "current": 217,
+        "current": 219,
         "max": 800,
         "done": false
     },
@@ -86,19 +86,19 @@
     },
     {
         "id": 16,
-        "current": 481,
+        "current": 489,
         "max": 1000,
         "done": false
     },
     {
         "id": 17,
-        "current": 669,
+        "current": 686,
         "max": 5000,
         "done": false
     },
     {
         "id": 18,
-        "current": 4289,
+        "current": 4291,
         "max": 5000,
         "done": false
     },
@@ -122,7 +122,7 @@
     },
     {
         "id": 22,
-        "current": 1062,
+        "current": 1064,
         "max": 5000,
         "done": false
     },
@@ -134,7 +134,7 @@
     },
     {
         "id": 24,
-        "current": 275,
+        "current": 276,
         "max": 1000,
         "done": false
     },
@@ -158,7 +158,7 @@
     },
     {
         "id": 28,
-        "current": 222,
+        "current": 223,
         "max": 1000,
         "done": false
     },
@@ -200,7 +200,7 @@
     },
     {
         "id": 35,
-        "current": 985,
+        "current": 988,
         "max": 1000,
         "done": false
     },
@@ -254,7 +254,7 @@
     },
     {
         "id": 44,
-        "current": 484,
+        "current": 486,
         "max": 1000,
         "done": false
     },
@@ -272,7 +272,7 @@
     },
     {
         "id": 47,
-        "current": 179,
+        "current": 181,
         "max": 1000,
         "done": false
     },
@@ -290,7 +290,7 @@
     },
     {
         "id": 50,
-        "current": 161,
+        "current": 168,
         "max": 1000,
         "done": false
     },
@@ -320,7 +320,7 @@
     },
     {
         "id": 55,
-        "current": 37,
+        "current": 42,
         "max": 5000,
         "done": false
     },
@@ -350,19 +350,19 @@
     },
     {
         "id": 61,
-        "current": 2275,
+        "current": 2278,
         "max": 5000,
         "done": false
     },
     {
         "id": 62,
-        "current": 3,
+        "current": 4,
         "max": 5000,
         "done": false
     },
     {
         "id": 63,
-        "current": 35,
+        "current": 38,
         "max": 5000,
         "done": false
     },
@@ -727,16 +727,16 @@
     },
     {
         "id": 128,
-        "current": 75,
+        "current": 81,
         "max": 100,
         "done": false
     },
     {
         "id": 129,
-        "current": 94,
+        "current": 40,
         "max": 200,
         "done": false,
-        "repeated": 81
+        "repeated": 82
     },
     {
         "id": 134,
@@ -850,6 +850,12 @@
     },
     {
         "id": 158,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 160,
         "current": 1,
         "max": 1,
         "done": true
@@ -1103,7 +1109,7 @@
     },
     {
         "id": 283,
-        "current": 1050,
+        "current": 1063,
         "max": 250000,
         "done": false
     },
@@ -1115,19 +1121,19 @@
     },
     {
         "id": 285,
-        "current": 165,
+        "current": 169,
         "max": 2500,
         "done": false
     },
     {
         "id": 288,
-        "current": 355,
+        "current": 363,
         "max": 2500,
         "done": false
     },
     {
         "id": 291,
-        "current": 261,
+        "current": 266,
         "max": 2500,
         "done": false
     },
@@ -1139,19 +1145,19 @@
     },
     {
         "id": 297,
-        "current": 77,
+        "current": 82,
         "max": 2000,
         "done": false
     },
     {
         "id": 300,
-        "current": 28,
+        "current": 31,
         "max": 1000,
         "done": false
     },
     {
         "id": 303,
-        "current": 390,
+        "current": 403,
         "max": 7500,
         "done": false
     },
@@ -1169,7 +1175,7 @@
     },
     {
         "id": 310,
-        "current": 16,
+        "current": 21,
         "max": 500,
         "done": false
     },
@@ -1187,7 +1193,7 @@
     },
     {
         "id": 319,
-        "current": 78,
+        "current": 83,
         "max": 3000,
         "done": false
     },
@@ -1766,7 +1772,7 @@
     },
     {
         "id": 855,
-        "current": 428,
+        "current": 429,
         "max": 500,
         "done": false
     },
@@ -2567,9 +2573,10 @@
         "id": 1728,
         "bits": [
             1,
-            3
+            3,
+            4
         ],
-        "current": 2,
+        "current": 3,
         "max": 9,
         "done": false,
         "unlocked": true
@@ -2993,13 +3000,25 @@
         "done": true
     },
     {
-        "id": 2049,
-        "bits": [
-            0
-        ],
+        "id": 2030,
+        "bits": [],
+        "current": 6,
+        "max": 6,
+        "done": true,
+        "unlocked": true
+    },
+    {
+        "id": 2048,
         "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 2049,
+        "bits": [],
+        "current": 3,
         "max": 3,
-        "done": false
+        "done": true
     },
     {
         "id": 2051,
@@ -3953,15 +3972,15 @@
     },
     {
         "id": 2765,
-        "current": 415,
+        "current": 1053,
         "max": 10000,
         "done": false
     },
     {
         "id": 2769,
-        "current": 10,
+        "current": 30,
         "max": 30,
-        "done": false
+        "done": true
     },
     {
         "id": 2776,
@@ -4812,25 +4831,25 @@
     },
     {
         "id": 3262,
-        "current": 19,
+        "current": 213,
         "max": 500,
         "done": false
     },
     {
         "id": 3264,
-        "current": 30,
+        "current": 50,
         "max": 50,
-        "done": false
+        "done": true
     },
     {
         "id": 3266,
-        "current": 1,
+        "current": 4,
         "max": 5,
         "done": false
     },
     {
         "id": 3268,
-        "current": 8,
+        "current": 10,
         "max": 25,
         "done": false
     },
@@ -7106,9 +7125,9 @@
     },
     {
         "id": 4043,
-        "current": 290,
+        "current": 500,
         "max": 500,
-        "done": false
+        "done": true
     },
     {
         "id": 4045,
@@ -7118,19 +7137,20 @@
     },
     {
         "id": 4046,
-        "current": 1,
+        "current": 3,
         "max": 3,
-        "done": false
+        "done": true
     },
     {
         "id": 4047,
-        "current": 10,
+        "current": 0,
         "max": 30,
-        "done": false
+        "done": true,
+        "repeated": 1
     },
     {
         "id": 4048,
-        "current": 19,
+        "current": 213,
         "max": 1000,
         "done": false
     },
@@ -7139,7 +7159,7 @@
         "current": 0,
         "max": 3,
         "done": true,
-        "repeated": 1
+        "repeated": 3
     },
     {
         "id": 4052,
@@ -7155,28 +7175,29 @@
     },
     {
         "id": 4056,
-        "current": 1,
+        "current": 0,
         "max": 3,
+        "done": true,
+        "repeated": 4
+    },
+    {
+        "id": 4057,
+        "current": 14,
+        "max": 30,
         "done": false,
         "repeated": 1
     },
     {
-        "id": 4057,
-        "current": 17,
-        "max": 30,
-        "done": false
-    },
-    {
         "id": 4058,
-        "current": 2,
+        "current": 10,
         "max": 20,
         "done": false
     },
     {
         "id": 4059,
-        "current": 3,
+        "current": 5,
         "max": 5,
-        "done": false
+        "done": true
     },
     {
         "id": 4060,
@@ -7929,15 +7950,42 @@
         "done": false
     },
     {
+        "id": 4488,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4489,
+        "current": 101,
+        "max": 101,
+        "done": true
+    },
+    {
         "id": 4490,
         "bits": [
             0,
+            3,
             4,
-            5
+            5,
+            6,
+            7
         ],
-        "current": 3,
+        "current": 6,
         "max": 7,
         "done": false
+    },
+    {
+        "id": 4491,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4492,
+        "current": 1,
+        "max": 1,
+        "done": true
     },
     {
         "id": 4493,
@@ -8905,8 +8953,17 @@
         "done": true
     },
     {
+        "id": 5069,
+        "bits": [
+            0
+        ],
+        "current": 1,
+        "max": 16,
+        "done": false
+    },
+    {
         "id": 5074,
-        "current": 107,
+        "current": 295,
         "max": 1000,
         "done": false
     },
@@ -9197,7 +9254,7 @@
     },
     {
         "id": 5198,
-        "current": 50,
+        "current": 63,
         "max": 100,
         "done": false,
         "repeated": 10
@@ -9247,10 +9304,10 @@
     },
     {
         "id": 5220,
-        "current": 90,
+        "current": 3,
         "max": 100,
         "done": false,
-        "repeated": 3
+        "repeated": 4
     },
     {
         "id": 5222,
@@ -11485,6 +11542,15 @@
         "done": false
     },
     {
+        "id": 6262,
+        "bits": [
+            0
+        ],
+        "current": 1,
+        "max": 14,
+        "done": false
+    },
+    {
         "id": 6266,
         "current": 1,
         "max": 1,
@@ -11635,9 +11701,10 @@
             21,
             29,
             30,
+            32,
             33
         ],
-        "current": 8,
+        "current": 9,
         "max": 35,
         "done": false
     },
@@ -11688,7 +11755,7 @@
     },
     {
         "id": 6310,
-        "current": 5,
+        "current": 6,
         "max": 200,
         "done": false
     },
@@ -11793,7 +11860,7 @@
     },
     {
         "id": 6335,
-        "current": 19,
+        "current": 20,
         "max": 50,
         "done": false
     },
@@ -12424,6 +12491,12 @@
         "current": 2,
         "max": 4,
         "done": false
+    },
+    {
+        "id": 6473,
+        "current": 1,
+        "max": 1,
+        "done": true
     },
     {
         "id": 6474,
@@ -14478,7 +14551,7 @@
     },
     {
         "id": 7164,
-        "current": 81,
+        "current": 89,
         "max": 200,
         "done": false,
         "repeated": 6

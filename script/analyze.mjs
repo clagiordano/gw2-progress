@@ -32,7 +32,6 @@ const saveUserProgression = (data, path = 'data/progression.json') => {
 
 const oldProgression = loadUserProgression();
 const progression = await getUserProgression();
-console.log('prog', progression);
 saveUserProgression(progression);
 //console.log('progression len', progression.length);
 
@@ -106,5 +105,5 @@ achis.forEach(group => {
 
 // console.log(`Total points: ${utPts} / ${tPts}`);
 console.log(sprintf("%25s: %5d / %5d (%3d%%)", "Total points", utPts, tPts, ((utPts / (tPts || 1)) * 100)));
-console.log('progression len', progression.length);
+//console.log('progression len', progression.length);
 // console.log(progression)
