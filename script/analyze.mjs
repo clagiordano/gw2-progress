@@ -17,15 +17,26 @@ const getUserProgression = async () => {
 	return await resp.json();
 };
 
-const progression = await getUserProgression();
-console.log('progression len', progression.length);
+const loadUserProgression = (path = 'data/progression.json') => {
+	return JSON.parse(fs.readFileSync(path));
+}
 
-fs.writeFileSync('data/progression.json', JSON.stringify(progression, null, 4), err => {
-	if (err) {
-		throw err;
-	}
-	console.log('JSON data is saved.');
-});
+const saveUserProgression = (data, path = 'data/progression.json') => {
+	fs.writeFileSync(path, JSON.stringify(data, null, 4), err => {
+		if (err) {
+			throw err;
+		}
+		console.log('Progression data saved.');
+	});
+}
+
+const oldProgression = loadUserProgression();
+const progression = await getUserProgression();
+console.log('prog', progression);
+saveUserProgression(progression);
+//console.log('progression len', progression.length);
+
+
 
 const achis = JSON.parse(fs.readFileSync('./data/achievements.json'));
 
