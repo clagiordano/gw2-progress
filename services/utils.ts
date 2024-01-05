@@ -1,11 +1,19 @@
-import fs from 'fs';
+import { promises as fs } from 'fs';
 
-export default function jsonFile() {
-	function load(path: string): any {
-		return JSON.parse(fs.readFileSync(path));
-	}
+// export default function jsonFile() {
 
-	function save(data: any, path: string): void {
-		fs.writeFileSync(path, JSON.stringify(data, null, 4));
-	}
+// }
+
+async function load(path: string) {
+	const data = await fs.readFile(path, 'utf-8');
+	return JSON.parse(path);
 }
+
+async function save(data: any, path: string) {
+	return fs.writeFile(path, JSON.stringify(data, null, 4));
+}
+
+export const jsonFile = {
+	load,
+	save
+};
