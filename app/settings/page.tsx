@@ -8,7 +8,25 @@ import { Input, Stack, IconButton } from '@chakra-ui/react';
 import { CheckIcon } from '@chakra-ui/icons';
 
 const initialState: IAccount = {
-	name: ''
+	id: '-',
+	name: '-',
+	age: 0,
+	last_modified: '-',
+	world: {
+		id: 0,
+		name: '-',
+		population: '-'
+	},
+	guilds: [],
+	guild_leader: [],
+	created: '-',
+	access: ['None'],
+	commander: false,
+	fractal_level: 0,
+    daily_ap: 0,
+    monthly_ap: 0,
+    wvw_rank: 0,
+    build_storage_slots: 0
 };
 
 export default function Page() {
