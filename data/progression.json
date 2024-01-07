@@ -25,7 +25,7 @@
     },
     {
         "id": 5,
-        "current": 719,
+        "current": 721,
         "max": 1000,
         "done": false
     },
@@ -49,7 +49,7 @@
     },
     {
         "id": 9,
-        "current": 4483,
+        "current": 4731,
         "max": 5000,
         "done": false
     },
@@ -68,13 +68,13 @@
     },
     {
         "id": 13,
-        "current": 2179,
+        "current": 2746,
         "max": 100000,
         "done": false
     },
     {
         "id": 14,
-        "current": 230,
+        "current": 236,
         "max": 800,
         "done": false
     },
@@ -92,13 +92,13 @@
     },
     {
         "id": 17,
-        "current": 860,
+        "current": 882,
         "max": 5000,
         "done": false
     },
     {
         "id": 18,
-        "current": 4300,
+        "current": 4311,
         "max": 5000,
         "done": false
     },
@@ -134,13 +134,13 @@
     },
     {
         "id": 24,
-        "current": 281,
+        "current": 284,
         "max": 1000,
         "done": false
     },
     {
         "id": 25,
-        "current": 475,
+        "current": 483,
         "max": 1000,
         "done": false
     },
@@ -158,7 +158,7 @@
     },
     {
         "id": 28,
-        "current": 224,
+        "current": 225,
         "max": 1000,
         "done": false
     },
@@ -182,7 +182,7 @@
     },
     {
         "id": 32,
-        "current": 293,
+        "current": 295,
         "max": 1000,
         "done": false
     },
@@ -194,19 +194,19 @@
     },
     {
         "id": 34,
-        "current": 271,
+        "current": 343,
         "max": 1000,
         "done": false
     },
     {
         "id": 35,
-        "current": 988,
+        "current": 1000,
         "max": 1000,
-        "done": false
+        "done": true
     },
     {
         "id": 36,
-        "current": 270,
+        "current": 277,
         "max": 1000,
         "done": false
     },
@@ -218,7 +218,7 @@
     },
     {
         "id": 38,
-        "current": 652,
+        "current": 681,
         "max": 1000,
         "done": false
     },
@@ -230,7 +230,7 @@
     },
     {
         "id": 40,
-        "current": 363,
+        "current": 365,
         "max": 1000,
         "done": false
     },
@@ -248,13 +248,13 @@
     },
     {
         "id": 43,
-        "current": 198,
+        "current": 219,
         "max": 1000,
         "done": false
     },
     {
         "id": 44,
-        "current": 489,
+        "current": 491,
         "max": 1000,
         "done": false
     },
@@ -266,7 +266,7 @@
     },
     {
         "id": 46,
-        "current": 423,
+        "current": 428,
         "max": 1000,
         "done": false
     },
@@ -296,13 +296,13 @@
     },
     {
         "id": 51,
-        "current": 153,
+        "current": 154,
         "max": 1000,
         "done": false
     },
     {
         "id": 52,
-        "current": 670,
+        "current": 674,
         "max": 1000,
         "done": false
     },
@@ -320,7 +320,7 @@
     },
     {
         "id": 55,
-        "current": 93,
+        "current": 95,
         "max": 5000,
         "done": false
     },
@@ -338,25 +338,25 @@
     },
     {
         "id": 58,
-        "current": 382,
+        "current": 538,
         "max": 5000,
         "done": false
     },
     {
         "id": 60,
-        "current": 476,
+        "current": 509,
         "max": 5000,
         "done": false
     },
     {
         "id": 61,
-        "current": 2278,
+        "current": 2300,
         "max": 5000,
         "done": false
     },
     {
         "id": 62,
-        "current": 7,
+        "current": 23,
         "max": 5000,
         "done": false
     },
@@ -702,7 +702,7 @@
     },
     {
         "id": 108,
-        "current": 267,
+        "current": 269,
         "max": 5000,
         "done": false
     },
@@ -727,16 +727,16 @@
     },
     {
         "id": 128,
-        "current": 83,
+        "current": 91,
         "max": 100,
         "done": false
     },
     {
         "id": 129,
-        "current": 147,
+        "current": 88,
         "max": 200,
         "done": false,
-        "repeated": 90
+        "repeated": 96
     },
     {
         "id": 134,
@@ -1109,7 +1109,7 @@
     },
     {
         "id": 283,
-        "current": 1554,
+        "current": 1615,
         "max": 250000,
         "done": false
     },
@@ -1121,19 +1121,19 @@
     },
     {
         "id": 285,
-        "current": 182,
+        "current": 189,
         "max": 2500,
         "done": false
     },
     {
         "id": 288,
-        "current": 413,
+        "current": 436,
         "max": 2500,
         "done": false
     },
     {
         "id": 291,
-        "current": 304,
+        "current": 323,
         "max": 2500,
         "done": false
     },
@@ -1145,25 +1145,25 @@
     },
     {
         "id": 297,
-        "current": 102,
+        "current": 111,
         "max": 2000,
         "done": false
     },
     {
         "id": 300,
-        "current": 39,
+        "current": 40,
         "max": 1000,
         "done": false
     },
     {
         "id": 303,
-        "current": 471,
+        "current": 500,
         "max": 7500,
         "done": false
     },
     {
         "id": 306,
-        "current": 1514,
+        "current": 1537,
         "max": 10000,
         "done": false
     },
@@ -1175,31 +1175,31 @@
     },
     {
         "id": 310,
-        "current": 22,
+        "current": 23,
         "max": 500,
         "done": false
     },
     {
         "id": 313,
-        "current": 13,
+        "current": 14,
         "max": 500,
         "done": false
     },
     {
         "id": 316,
-        "current": 42,
+        "current": 45,
         "max": 1000,
         "done": false
     },
     {
         "id": 319,
-        "current": 97,
+        "current": 103,
         "max": 3000,
         "done": false
     },
     {
         "id": 322,
-        "current": 20,
+        "current": 21,
         "max": 750,
         "done": false
     },
@@ -1260,7 +1260,19 @@
         "done": true
     },
     {
+        "id": 340,
+        "current": 5,
+        "max": 5,
+        "done": true
+    },
+    {
         "id": 341,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 342,
         "current": 1,
         "max": 1,
         "done": true
@@ -1302,6 +1314,12 @@
         "done": true
     },
     {
+        "id": 353,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
         "id": 355,
         "current": 1,
         "max": 1,
@@ -1321,6 +1339,12 @@
     },
     {
         "id": 367,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 373,
         "current": 1,
         "max": 1,
         "done": true
@@ -1631,7 +1655,7 @@
     },
     {
         "id": 752,
-        "current": 1,
+        "current": 2,
         "max": 6,
         "done": false
     },
@@ -1655,13 +1679,19 @@
     },
     {
         "id": 758,
-        "current": 1,
+        "current": 2,
         "max": 500,
         "done": false
     },
     {
+        "id": 759,
+        "current": 1,
+        "max": 1000,
+        "done": false
+    },
+    {
         "id": 761,
-        "current": 11,
+        "current": 21,
         "max": 2000,
         "done": false
     },
@@ -1783,6 +1813,36 @@
         "done": false
     },
     {
+        "id": 900,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 901,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 902,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 905,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 906,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
         "id": 908,
         "current": 1,
         "max": 1,
@@ -1791,9 +1851,14 @@
     {
         "id": 910,
         "bits": [
-            7
+            0,
+            2,
+            4,
+            7,
+            8,
+            9
         ],
-        "current": 1,
+        "current": 6,
         "max": 10,
         "done": false
     },
@@ -2462,6 +2527,16 @@
         "done": false
     },
     {
+        "id": 1717,
+        "bits": [
+            0
+        ],
+        "current": 1,
+        "max": 20,
+        "done": false,
+        "unlocked": true
+    },
+    {
         "id": 1718,
         "bits": [
             0
@@ -2580,9 +2655,10 @@
         "bits": [
             1,
             3,
-            4
+            4,
+            5
         ],
-        "current": 3,
+        "current": 4,
         "max": 9,
         "done": false,
         "unlocked": true
@@ -2627,9 +2703,12 @@
         "id": 1741,
         "bits": [
             0,
-            1
+            1,
+            3,
+            8,
+            9
         ],
-        "current": 2,
+        "current": 5,
         "max": 16,
         "done": false
     },
@@ -2722,9 +2801,10 @@
             15,
             16,
             17,
+            18,
             20
         ],
-        "current": 19,
+        "current": 20,
         "max": 21,
         "done": false,
         "unlocked": true
@@ -3040,10 +3120,11 @@
         "id": 2052,
         "bits": [
             2,
+            7,
             8,
             9
         ],
-        "current": 3,
+        "current": 4,
         "max": 10,
         "done": false
     },
@@ -3329,11 +3410,12 @@
         "bits": [
             0,
             2,
+            3,
             4,
             6,
             7
         ],
-        "current": 5,
+        "current": 6,
         "max": 8,
         "done": false,
         "unlocked": true
@@ -3418,6 +3500,15 @@
         "done": true
     },
     {
+        "id": 2281,
+        "bits": [
+            3
+        ],
+        "current": 1,
+        "max": 5,
+        "done": false
+    },
+    {
         "id": 2283,
         "current": 1,
         "max": 1,
@@ -3470,6 +3561,12 @@
         "done": true
     },
     {
+        "id": 2324,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
         "id": 2326,
         "current": 1,
         "max": 1,
@@ -3483,6 +3580,18 @@
     },
     {
         "id": 2339,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 2350,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 2352,
         "current": 1,
         "max": 1,
         "done": true
@@ -3623,6 +3732,12 @@
         "done": true
     },
     {
+        "id": 2426,
+        "current": 22,
+        "max": 400,
+        "done": false
+    },
+    {
         "id": 2429,
         "current": 1,
         "max": 1,
@@ -3631,10 +3746,14 @@
     {
         "id": 2431,
         "bits": [
+            1,
+            2,
             3,
-            4
+            4,
+            5,
+            6
         ],
-        "current": 2,
+        "current": 6,
         "max": 7,
         "done": false
     },
@@ -3693,6 +3812,17 @@
         "done": true
     },
     {
+        "id": 2452,
+        "bits": [
+            0,
+            7
+        ],
+        "current": 2,
+        "max": 14,
+        "done": false,
+        "unlocked": true
+    },
+    {
         "id": 2457,
         "current": 1,
         "max": 1,
@@ -3709,6 +3839,16 @@
         "current": 1,
         "max": 1,
         "done": true
+    },
+    {
+        "id": 2490,
+        "bits": [
+            0,
+            5
+        ],
+        "current": 2,
+        "max": 16,
+        "done": false
     },
     {
         "id": 2493,
@@ -3740,6 +3880,12 @@
         "done": true
     },
     {
+        "id": 2505,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
         "id": 2509,
         "bits": [
             0,
@@ -3754,6 +3900,12 @@
     },
     {
         "id": 2512,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 2514,
         "current": 1,
         "max": 1,
         "done": true
@@ -3806,13 +3958,10 @@
     },
     {
         "id": 2541,
-        "bits": [
-            2,
-            4
-        ],
-        "current": 2,
+        "bits": [],
+        "current": 9,
         "max": 9,
-        "done": false
+        "done": true
     },
     {
         "id": 2548,
@@ -3834,6 +3983,18 @@
         "bits": [],
         "current": 32,
         "max": 32,
+        "done": true
+    },
+    {
+        "id": 2552,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 2563,
+        "current": 1,
+        "max": 1,
         "done": true
     },
     {
@@ -3859,9 +4020,10 @@
         "id": 2573,
         "bits": [
             0,
-            1
+            1,
+            2
         ],
-        "current": 2,
+        "current": 3,
         "max": 5,
         "done": false
     },
@@ -3988,9 +4150,10 @@
         "id": 2650,
         "bits": [
             0,
+            3,
             13
         ],
-        "current": 2,
+        "current": 3,
         "max": 16,
         "done": false
     },
@@ -4002,7 +4165,7 @@
     },
     {
         "id": 2765,
-        "current": 2105,
+        "current": 2653,
         "max": 10000,
         "done": false
     },
@@ -4032,13 +4195,13 @@
     },
     {
         "id": 2796,
-        "current": 35,
+        "current": 91,
         "max": 500,
         "done": false
     },
     {
         "id": 2797,
-        "current": 14,
+        "current": 19,
         "max": 50,
         "done": false
     },
@@ -4054,7 +4217,7 @@
     },
     {
         "id": 2799,
-        "current": 6,
+        "current": 7,
         "max": 20,
         "done": false
     },
@@ -4087,9 +4250,21 @@
         "done": true
     },
     {
+        "id": 2810,
+        "current": 1,
+        "max": 40,
+        "done": false
+    },
+    {
         "id": 2812,
-        "current": 2,
+        "current": 4,
         "max": 10,
+        "done": false
+    },
+    {
+        "id": 2813,
+        "current": 7,
+        "max": 40,
         "done": false
     },
     {
@@ -4141,13 +4316,10 @@
     },
     {
         "id": 2994,
-        "bits": [
-            1,
-            2
-        ],
-        "current": 2,
+        "bits": [],
+        "current": 3,
         "max": 3,
-        "done": false
+        "done": true
     },
     {
         "id": 2995,
@@ -4219,7 +4391,7 @@
     },
     {
         "id": 3036,
-        "current": 2,
+        "current": 3,
         "max": 10,
         "done": false
     },
@@ -5810,9 +5982,10 @@
             14,
             15,
             17,
+            20,
             23
         ],
-        "current": 14,
+        "current": 15,
         "max": 25,
         "done": false
     },
@@ -6169,6 +6342,15 @@
         "done": false
     },
     {
+        "id": 3678,
+        "bits": [
+            1
+        ],
+        "current": 1,
+        "max": 3,
+        "done": false
+    },
+    {
         "id": 3681,
         "current": 1,
         "max": 1,
@@ -6283,9 +6465,10 @@
         "id": 3712,
         "bits": [
             0,
-            2
+            2,
+            3
         ],
-        "current": 2,
+        "current": 3,
         "max": 15,
         "done": false
     },
@@ -6303,7 +6486,7 @@
     },
     {
         "id": 3716,
-        "current": 532,
+        "current": 592,
         "max": 1000,
         "done": false
     },
@@ -6417,6 +6600,15 @@
         "done": true
     },
     {
+        "id": 3754,
+        "bits": [
+            0
+        ],
+        "current": 1,
+        "max": 3,
+        "done": false
+    },
+    {
         "id": 3755,
         "current": 1,
         "max": 1,
@@ -6524,9 +6716,10 @@
         "id": 3776,
         "bits": [
             1,
+            3,
             6
         ],
-        "current": 2,
+        "current": 3,
         "max": 9,
         "done": false
     },
@@ -6669,7 +6862,7 @@
     },
     {
         "id": 3821,
-        "current": 37,
+        "current": 38,
         "max": 100,
         "done": false
     },
@@ -7519,24 +7712,6 @@
         "done": true
     },
     {
-        "id": 4043,
-        "current": 500,
-        "max": 500,
-        "done": true
-    },
-    {
-        "id": 4045,
-        "current": 1,
-        "max": 1,
-        "done": true
-    },
-    {
-        "id": 4046,
-        "current": 3,
-        "max": 3,
-        "done": true
-    },
-    {
         "id": 4047,
         "current": 0,
         "max": 30,
@@ -7544,35 +7719,11 @@
         "repeated": 1
     },
     {
-        "id": 4048,
-        "current": 1000,
-        "max": 1000,
-        "done": true
-    },
-    {
         "id": 4049,
         "current": 0,
         "max": 3,
         "done": true,
         "repeated": 3
-    },
-    {
-        "id": 4051,
-        "current": 3,
-        "max": 3,
-        "done": true
-    },
-    {
-        "id": 4052,
-        "current": 1,
-        "max": 1,
-        "done": true
-    },
-    {
-        "id": 4055,
-        "current": 1,
-        "max": 1,
-        "done": true
     },
     {
         "id": 4056,
@@ -7596,12 +7747,6 @@
         "repeated": 2
     },
     {
-        "id": 4059,
-        "current": 5,
-        "max": 5,
-        "done": true
-    },
-    {
         "id": 4060,
         "current": 0,
         "max": 1,
@@ -7622,6 +7767,266 @@
         "current": 1,
         "max": 6,
         "done": false
+    },
+    {
+        "id": 4090,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4091,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4092,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4093,
+        "bits": [
+            0,
+            1,
+            2,
+            3,
+            8,
+            11,
+            12,
+            16,
+            17,
+            20,
+            22,
+            23,
+            24,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            43,
+            44,
+            45,
+            46
+        ],
+        "current": 25,
+        "max": 35,
+        "done": false
+    },
+    {
+        "id": 4095,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4096,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4097,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4098,
+        "bits": [
+            0
+        ],
+        "current": 1,
+        "max": 2,
+        "done": false
+    },
+    {
+        "id": 4100,
+        "bits": [],
+        "current": 8,
+        "max": 8,
+        "done": true
+    },
+    {
+        "id": 4101,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4105,
+        "bits": [
+            0
+        ],
+        "current": 1,
+        "max": 2,
+        "done": false
+    },
+    {
+        "id": 4107,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4109,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4110,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4114,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4115,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4117,
+        "bits": [],
+        "current": 5,
+        "max": 5,
+        "done": true
+    },
+    {
+        "id": 4119,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4120,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4121,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4122,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4124,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4125,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4129,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4130,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4132,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4133,
+        "bits": [
+            1
+        ],
+        "current": 1,
+        "max": 2,
+        "done": false
+    },
+    {
+        "id": 4134,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4139,
+        "bits": [
+            1,
+            4
+        ],
+        "current": 2,
+        "max": 6,
+        "done": false
+    },
+    {
+        "id": 4140,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4144,
+        "bits": [
+            0
+        ],
+        "current": 1,
+        "max": 6,
+        "done": false
+    },
+    {
+        "id": 4145,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4146,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4148,
+        "bits": [
+            6,
+            7,
+            8
+        ],
+        "current": 3,
+        "max": 10,
+        "done": false
+    },
+    {
+        "id": 4150,
+        "current": 1,
+        "max": 1,
+        "done": true
     },
     {
         "id": 4159,
@@ -7871,10 +8276,18 @@
     {
         "id": 4233,
         "bits": [
+            0,
             1,
-            5
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            9,
+            10
         ],
-        "current": 2,
+        "current": 10,
         "max": 12,
         "done": false,
         "unlocked": true
@@ -8182,6 +8595,24 @@
         "done": true
     },
     {
+        "id": 4342,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4346,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4347,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
         "id": 4349,
         "current": 1,
         "max": 15,
@@ -8190,12 +8621,26 @@
     {
         "id": 4359,
         "bits": [
+            0,
+            1,
+            2,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
             23,
             29,
             30,
-            31
+            31,
+            32,
+            33
         ],
-        "current": 4,
+        "current": 18,
         "max": 38,
         "done": false
     },
@@ -8216,6 +8661,12 @@
         "done": true
     },
     {
+        "id": 4369,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
         "id": 4371,
         "current": 1,
         "max": 1,
@@ -8223,6 +8674,12 @@
     },
     {
         "id": 4377,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4378,
         "current": 1,
         "max": 1,
         "done": true
@@ -8243,9 +8700,51 @@
         "done": false
     },
     {
+        "id": 4384,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
         "id": 4386,
         "current": 1,
         "max": 1,
+        "done": true
+    },
+    {
+        "id": 4389,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4390,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4392,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4393,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4400,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4401,
+        "current": 3,
+        "max": 3,
         "done": true
     },
     {
@@ -8280,6 +8779,18 @@
         "done": true
     },
     {
+        "id": 4424,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4425,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
         "id": 4430,
         "bits": [
             0,
@@ -8289,6 +8800,7 @@
             4,
             8,
             9,
+            12,
             21,
             22,
             26,
@@ -8298,7 +8810,7 @@
             35,
             36
         ],
-        "current": 15,
+        "current": 16,
         "max": 40,
         "done": false
     },
@@ -8441,13 +8953,6 @@
         "done": true
     },
     {
-        "id": 4490,
-        "bits": [],
-        "current": 7,
-        "max": 7,
-        "done": true
-    },
-    {
         "id": 4491,
         "current": 1,
         "max": 1,
@@ -8475,6 +8980,12 @@
         "id": 4498,
         "current": 6,
         "max": 10,
+        "done": false
+    },
+    {
+        "id": 4507,
+        "current": 1,
+        "max": 25,
         "done": false
     },
     {
@@ -8536,6 +9047,7 @@
         "bits": [
             0,
             1,
+            2,
             4,
             8,
             9,
@@ -8543,18 +9055,25 @@
             11,
             12,
             13,
+            14,
             16,
             30,
             32,
             33,
             38
         ],
-        "current": 14,
+        "current": 16,
         "max": 30,
         "done": false
     },
     {
         "id": 4550,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4553,
         "current": 1,
         "max": 1,
         "done": true
@@ -8567,6 +9086,12 @@
     },
     {
         "id": 4567,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 4569,
         "current": 1,
         "max": 1,
         "done": true
@@ -8596,23 +9121,39 @@
         "done": true
     },
     {
+        "id": 4595,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
         "id": 4601,
         "current": 1,
         "max": 1,
         "done": true
     },
     {
+        "id": 4604,
+        "current": 3,
+        "max": 10,
+        "done": false
+    },
+    {
         "id": 4605,
         "bits": [
             4,
+            5,
             6,
             9,
+            11,
+            12,
             14,
             15,
+            16,
             18,
             23
         ],
-        "current": 7,
+        "current": 11,
         "max": 24,
         "done": false
     },
@@ -8625,9 +9166,10 @@
     {
         "id": 4621,
         "bits": [
-            0
+            0,
+            1
         ],
-        "current": 1,
+        "current": 2,
         "max": 3,
         "done": false
     },
@@ -9435,7 +9977,7 @@
     },
     {
         "id": 5074,
-        "current": 772,
+        "current": 806,
         "max": 1000,
         "done": false
     },
@@ -9746,10 +10288,10 @@
     },
     {
         "id": 5198,
-        "current": 54,
+        "current": 15,
         "max": 100,
         "done": false,
-        "repeated": 15
+        "repeated": 16
     },
     {
         "id": 5200,
@@ -9796,10 +10338,10 @@
     },
     {
         "id": 5220,
-        "current": 71,
+        "current": 0,
         "max": 100,
-        "done": false,
-        "repeated": 4
+        "done": true,
+        "repeated": 5
     },
     {
         "id": 5222,
@@ -10455,11 +10997,12 @@
             9,
             10,
             12,
+            14,
             16,
             17,
             18
         ],
-        "current": 14,
+        "current": 15,
         "max": 24,
         "done": false
     },
@@ -10721,9 +11264,27 @@
         "done": true
     },
     {
+        "id": 5864,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
         "id": 5865,
         "current": 30,
         "max": 30,
+        "done": true
+    },
+    {
+        "id": 5867,
+        "current": 20,
+        "max": 20,
+        "done": true
+    },
+    {
+        "id": 5868,
+        "current": 1,
+        "max": 1,
         "done": true
     },
     {
@@ -10784,6 +11345,27 @@
         "done": true
     },
     {
+        "id": 5884,
+        "bits": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            10,
+            11,
+            12,
+            13
+        ],
+        "current": 13,
+        "max": 14,
+        "done": false
+    },
+    {
         "id": 5886,
         "bits": [
             0,
@@ -10829,21 +11411,27 @@
     },
     {
         "id": 5893,
-        "current": 24,
+        "current": 30,
         "max": 30,
-        "done": false
+        "done": true
     },
     {
         "id": 5894,
-        "current": 10,
+        "current": 20,
         "max": 20,
-        "done": false
+        "done": true
     },
     {
         "id": 5895,
         "current": 1,
         "max": 1,
         "done": true
+    },
+    {
+        "id": 5896,
+        "current": 4,
+        "max": 12,
+        "done": false
     },
     {
         "id": 5897,
@@ -10860,12 +11448,18 @@
     {
         "id": 5901,
         "bits": [
+            0,
+            1,
+            4,
+            5,
+            6,
+            7,
             9,
             10,
             11,
             12
         ],
-        "current": 4,
+        "current": 10,
         "max": 14,
         "done": false
     },
@@ -10882,6 +11476,12 @@
         "done": true
     },
     {
+        "id": 5905,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
         "id": 5906,
         "current": 30,
         "max": 30,
@@ -10889,6 +11489,18 @@
     },
     {
         "id": 5908,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 5909,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 5910,
         "current": 1,
         "max": 1,
         "done": true
@@ -10912,6 +11524,24 @@
         "done": true
     },
     {
+        "id": 5917,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 5918,
+        "current": 4,
+        "max": 4,
+        "done": true
+    },
+    {
+        "id": 5919,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
         "id": 5923,
         "current": 30,
         "max": 30,
@@ -10921,6 +11551,12 @@
         "id": 5927,
         "current": 1,
         "max": 1,
+        "done": true
+    },
+    {
+        "id": 5928,
+        "current": 30,
+        "max": 30,
         "done": true
     },
     {
@@ -10949,9 +11585,9 @@
     },
     {
         "id": 5935,
-        "current": 6,
+        "current": 30,
         "max": 30,
-        "done": false
+        "done": true
     },
     {
         "id": 5936,
@@ -10963,6 +11599,12 @@
         "id": 5937,
         "current": 20,
         "max": 20,
+        "done": true
+    },
+    {
+        "id": 5938,
+        "current": 30,
+        "max": 30,
         "done": true
     },
     {
@@ -11021,6 +11663,12 @@
         "done": true
     },
     {
+        "id": 5953,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
         "id": 5954,
         "current": 1,
         "max": 1,
@@ -11028,9 +11676,9 @@
     },
     {
         "id": 5955,
-        "current": 9,
+        "current": 20,
         "max": 20,
-        "done": false
+        "done": true
     },
     {
         "id": 5956,
@@ -11087,6 +11735,12 @@
         "done": true
     },
     {
+        "id": 5969,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
         "id": 5971,
         "current": 30,
         "max": 30,
@@ -11096,6 +11750,12 @@
         "id": 5974,
         "current": 15,
         "max": 15,
+        "done": true
+    },
+    {
+        "id": 5975,
+        "current": 1,
+        "max": 1,
         "done": true
     },
     {
@@ -11124,6 +11784,12 @@
     },
     {
         "id": 5980,
+        "current": 1,
+        "max": 1,
+        "done": true
+    },
+    {
+        "id": 5981,
         "current": 1,
         "max": 1,
         "done": true
@@ -11160,7 +11826,7 @@
     },
     {
         "id": 5988,
-        "current": 2,
+        "current": 3,
         "max": 4,
         "done": false
     },
@@ -11169,6 +11835,12 @@
         "bits": [],
         "current": 8,
         "max": 8,
+        "done": true
+    },
+    {
+        "id": 5992,
+        "current": 15,
+        "max": 15,
         "done": true
     },
     {
@@ -11264,9 +11936,9 @@
     },
     {
         "id": 6018,
-        "current": 7,
+        "current": 15,
         "max": 15,
-        "done": false
+        "done": true
     },
     {
         "id": 6019,
@@ -11288,21 +11960,10 @@
     },
     {
         "id": 6023,
-        "bits": [
-            0,
-            1,
-            2,
-            3,
-            4,
-            5,
-            7,
-            8,
-            9,
-            11
-        ],
-        "current": 10,
+        "bits": [],
+        "current": 12,
         "max": 12,
-        "done": false
+        "done": true
     },
     {
         "id": 6024,
@@ -11447,7 +12108,7 @@
     },
     {
         "id": 6082,
-        "current": 14,
+        "current": 20,
         "max": 25,
         "done": false
     },
@@ -11662,7 +12323,7 @@
     },
     {
         "id": 6131,
-        "current": 3,
+        "current": 4,
         "max": 25,
         "done": false
     },
@@ -11707,9 +12368,10 @@
         "id": 6144,
         "bits": [
             0,
-            1
+            1,
+            2
         ],
-        "current": 2,
+        "current": 3,
         "max": 5,
         "done": false
     },
@@ -11731,7 +12393,7 @@
     },
     {
         "id": 6148,
-        "current": 3,
+        "current": 4,
         "max": 25,
         "done": false
     },
@@ -11963,13 +12625,16 @@
             2,
             4,
             5,
+            6,
+            9,
             11,
+            12,
             14,
             15,
             16,
             17
         ],
-        "current": 10,
+        "current": 13,
         "max": 18,
         "done": false
     },
@@ -12189,9 +12854,9 @@
     },
     {
         "id": 6260,
-        "current": 9,
+        "current": 10,
         "max": 10,
-        "done": false
+        "done": true
     },
     {
         "id": 6262,
@@ -12539,7 +13204,7 @@
     },
     {
         "id": 6335,
-        "current": 26,
+        "current": 31,
         "max": 50,
         "done": false
     },
@@ -12926,9 +13591,14 @@
     {
         "id": 6423,
         "bits": [
-            13
+            0,
+            1,
+            2,
+            12,
+            13,
+            17
         ],
-        "current": 1,
+        "current": 6,
         "max": 20,
         "done": false
     },
@@ -12970,9 +13640,10 @@
         "bits": [
             0,
             2,
-            3
+            3,
+            4
         ],
-        "current": 3,
+        "current": 4,
         "max": 6,
         "done": false
     },
@@ -13081,12 +13752,14 @@
             1,
             6,
             8,
+            11,
             12,
+            13,
             14,
             22,
             28
         ],
-        "current": 7,
+        "current": 9,
         "max": 25,
         "done": false
     },
@@ -13100,14 +13773,22 @@
     {
         "id": 6455,
         "bits": [
+            0,
             2,
             5,
-            6
+            6,
+            8
         ],
-        "current": 3,
+        "current": 5,
         "max": 8,
         "done": false,
         "unlocked": true
+    },
+    {
+        "id": 6456,
+        "current": 1,
+        "max": 1,
+        "done": true
     },
     {
         "id": 6460,
@@ -13698,11 +14379,12 @@
             10,
             11,
             12,
+            13,
             17,
             18,
             19
         ],
-        "current": 16,
+        "current": 17,
         "max": 20,
         "done": false
     },
@@ -13722,6 +14404,12 @@
         "id": 6738,
         "current": 10,
         "max": 10,
+        "done": true
+    },
+    {
+        "id": 6739,
+        "current": 1,
+        "max": 1,
         "done": true
     },
     {
@@ -13868,6 +14556,16 @@
         "current": 6,
         "max": 6,
         "done": true
+    },
+    {
+        "id": 6863,
+        "bits": [
+            1
+        ],
+        "current": 1,
+        "max": 5,
+        "done": false,
+        "unlocked": true
     },
     {
         "id": 6864,
@@ -14759,6 +15457,12 @@
         "done": true
     },
     {
+        "id": 7062,
+        "current": 2,
+        "max": 5,
+        "done": false
+    },
+    {
         "id": 7063,
         "bits": [
             7,
@@ -14815,6 +15519,15 @@
         "current": 7,
         "max": 7,
         "done": true
+    },
+    {
+        "id": 7080,
+        "bits": [
+            0
+        ],
+        "current": 1,
+        "max": 3,
+        "done": false
     },
     {
         "id": 7081,
@@ -15516,7 +16229,7 @@
     },
     {
         "id": 7204,
-        "current": 413,
+        "current": 420,
         "max": 500,
         "done": false
     },
