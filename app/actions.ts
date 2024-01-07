@@ -45,6 +45,23 @@ export async function getAccountInfo(prevState: IAccount, formData: FormData): P
 			 */
 			data.world = await wdata.json();
 		}
+
+		const gIds = data.guilds;
+		data.guilds = [];
+		/**
+		 * Replaces guild ids with fetched objects
+		 */
+		for (const gIdx in gIds) {
+			let gdata = await fetch(`${baseURL}/guild/${gIds[gIdx]}`, options);
+
+			if (gdata.ok) {
+				/**
+				 * If the guild exists, replace the id with the full object
+				 */
+				data.guilds.push( await gdata.json());
+			}
+		};
+
 	}
 
 	return data;
