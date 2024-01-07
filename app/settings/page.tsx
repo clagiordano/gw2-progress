@@ -3,7 +3,7 @@
 import { useFormState } from 'react-dom';
 import { useFormStatus } from 'react-dom';
 import { getAccountInfo, IAccount } from '@/app/actions';
-import AccountInfo from '@/components/AccountInfo';
+import { AccountInfo } from '@/components/AccountInfo';
 import { Input, Stack, IconButton } from '@chakra-ui/react';
 import { CheckIcon } from '@chakra-ui/icons';
 
@@ -23,10 +23,10 @@ const initialState: IAccount = {
 	access: ['None'],
 	commander: false,
 	fractal_level: 0,
-    daily_ap: 0,
-    monthly_ap: 0,
-    wvw_rank: 0,
-    build_storage_slots: 0
+	daily_ap: 0,
+	monthly_ap: 0,
+	wvw_rank: 0,
+	build_storage_slots: 0
 };
 
 export default function Page() {
@@ -49,9 +49,7 @@ export default function Page() {
 				</Stack>
 			</form>
 
-			<h1>Account Name: {state?.name}</h1>
-			<AccountInfo data={state}/>
+			<AccountInfo data={state} />
 		</div>
 	);
 }
-
