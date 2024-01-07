@@ -1,6 +1,8 @@
 import { IAccount } from '@/app/actions';
 import { Card, CardHeader, CardBody, Heading, Box, Stack, StackDivider, Text } from '@chakra-ui/react';
 import { AccountInfoOwner } from '@/components/AccountInfoOwner';
+import { AccountInfoFeatures } from './AccountInfoFeatures';
+import { AccountInfoGuilds } from './AccountInfoGuilds';
 
 export const AccountInfo = ({ data }: { data: IAccount }) => {
 	return (
@@ -13,23 +15,9 @@ export const AccountInfo = ({ data }: { data: IAccount }) => {
 				<Stack divider={<StackDivider />} spacing="4">
 					<AccountInfoOwner data={data} />
 
-					<Box>
-						<Heading size="xs" textTransform="uppercase">
-							Features
-						</Heading>
-						<Text pt="2" fontSize="sm">
-							Expansion list availability
-						</Text>
-					</Box>
+					<AccountInfoFeatures data={data.access} />
 
-					<Box>
-						<Heading size="xs" textTransform="uppercase">
-							Guilds
-						</Heading>
-						<Text pt="2" fontSize="sm">
-							Guilds this account belongs to
-						</Text>
-					</Box>
+					<AccountInfoGuilds data={data.guilds} />
 
 					<Box>
 						<Heading size="xs" textTransform="uppercase">
