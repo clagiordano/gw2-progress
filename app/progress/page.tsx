@@ -1,5 +1,5 @@
 'use client';
-import ProgressBar from '@/components/progressbar';
+import ProgressBar from '@/components/ProgressBar';
 import { useState, useEffect } from 'react';
 
 export default function Test() {
