@@ -1,24 +1,41 @@
-// 'use client';
+const baseURL = 'https://api.guildwars2.com/v2';
+const baseConfig = {
+	headers: {
+		'Content-Type': 'application/json'
+	}
+};
 
-import { revalidatePath } from "next/cache";
+export default function Page() {
+	async function getAccountInfo(token: string) {
+		'use server';
 
-// import { useState } from 'react';
+		const options = { ...baseConfig, headers: { ...baseConfig.headers, Authorization: `Bearer ${token}` } };
+		const resp = await fetch(`${baseURL}/account`, options);
 
-export default function Setings() {
-	// const [accessToken, setAccessToken] = useState(null);
+		let data = await resp.json();
+
+		if (resp.ok) {
+			const wdata = await fetch(`${baseURL}/worlds/${data.world}`, options);
+			if (wdata.ok) {
+				/**
+				 * If the world exists, replace the id with the full object
+				 */
+				data.world = await wdata.json();
+			}
+		}
+
+		return data;
+	}
 
 	async function setAccessToken(formData: FormData) {
 		'use server';
 
-		const rawFormData = {
-			accessToken: formData.get('accessToken'),
-		};
-
+		const accessToken = formData.get('accessToken') as string;
 		// mutate data
 		// revalidate cache
 
-        console.log('form', rawFormData)
-        revalidatePath('/settings')
+		const info = await getAccountInfo(accessToken);
+		console.log('resp', info);
 	}
 
 	return (
