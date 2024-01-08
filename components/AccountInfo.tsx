@@ -24,7 +24,7 @@ export const AccountInfo = ({ data }: { data: IAccount }) => {
 							Basic statistics
 						</Heading>
 						<Text pt="2" fontSize="sm">
-							WvW rank, fractal, commander tag, recurring APs etc
+							WvW rank, fractal, commander tag, recurring APs, (masteries?) etc
 						</Text>
 					</Box>
 				</Stack>
