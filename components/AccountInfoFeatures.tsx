@@ -1,6 +1,7 @@
 import { IAccount } from '@/app/actions';
 import { Heading, Box, Text, Tooltip, HStack, Center } from '@chakra-ui/react';
 import { InfoOutlineIcon, CalendarIcon, AtSignIcon } from '@chakra-ui/icons';
+import { ExpansionInfo } from './ExpansionInfo';
 
 const features = {
 	hasF2P: false,
@@ -47,46 +48,40 @@ export const AccountInfoFeatures = ({ data }: { data: string[] }) => {
 				Expansion list availability
 			</Text>
 			<HStack spacing={4} direction="row">
-				<Center borderRadius="md" bg="red" color="white" px={4} h={16} w={16}>
-					<Text fontSize="lg" fontWeight={'bold'}>
-						{features.hasGW2 ? 'GW2' : 'F2P'}
-					</Text>
-				</Center>
-				<Center borderRadius="md" bg="olivedrab" color="white" px={4} h={16} w={16}>
-					<Text fontSize="lg" fontWeight={'bold'}>
-						HoT
-					</Text>
-				</Center>
-				<Center borderRadius="md" bg="darkmagenta" color="white" px={4} h={16} w={16}>
-					<Text fontSize="lg" fontWeight={'bold'}>
-						PoF
-					</Text>
-				</Center>
-				<Center borderRadius="md" bg="darkcyan" color="white" px={4} h={16} w={16}>
-					<Text fontSize="lg" fontWeight={'bold'}>
-						Eod
-					</Text>
-				</Center>
+				<ExpansionInfo
+					available={features.hasGW2}
+					text={features.hasGW2 ? 'GW2' : 'F2P'}
+					tip="Guild Wars 2"
+					bg="darkred"
+				/>
 
-				<Tooltip
-					fontSize="md"
-					label={`Guild Wars 2: Secrets of the Obscure is ${
-						features.hasSotO ? 'available' : 'not available'
-					}`}
-				>
-					<Center
-						borderRadius="md"
-						bg={features.hasSotO ? 'goldenrod' : 'darkgray'}
-						color="white"
-						px={4}
-						h={16}
-						w={16}
-					>
-						<Text fontSize="lg" fontWeight={'bold'}>
-							SotO
-						</Text>
-					</Center>
-				</Tooltip>
+				<ExpansionInfo
+					available={features.hasHoT}
+					text="HoT"
+					tip="Guild Wars 2: Heart of Thorns"
+					bg="olivedrab"
+				/>
+
+				<ExpansionInfo
+					available={features.hasPoF}
+					text="PoF"
+					tip="Guild Wars 2: Path of Fire"
+					bg="darkmagenta"
+				/>
+
+				<ExpansionInfo
+					available={features.hasEoD}
+					text="Eod"
+					tip="Guild Wars 2: End of Dragons"
+					bg="darkcyan"
+				/>
+
+				<ExpansionInfo
+					available={features.hasSotO}
+					text="SotO"
+					tip="Guild Wars 2: Secrets of the Obscure"
+					bg="goldenrod"
+				/>
 			</HStack>
 		</Box>
 	);
