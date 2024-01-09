@@ -1,6 +1,6 @@
 import { IAccount } from '@/app/actions';
 import { Card, CardHeader, CardBody, Heading, Box, Stack, StackDivider, Text } from '@chakra-ui/react';
-import { AccountInfoOwner } from '@/components/AccountInfoOwner';
+import { AccountInfoOwner } from '@/app/account/AccountInfoOwner';
 import { AccountInfoFeatures } from './AccountInfoFeatures';
 import { AccountInfoGuilds } from './AccountInfoGuilds';
 
