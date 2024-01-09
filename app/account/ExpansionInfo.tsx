@@ -4,16 +4,18 @@ export const ExpansionInfo = ({
 	available,
 	text,
 	tip,
-	bg
+	bg,
+	fg = 'white'
 }: {
 	available: boolean;
-	text: string;
+	text: string | JSX.Element;
 	tip: string;
 	bg: string;
+	fg?: string;
 }) => {
 	return (
 		<Tooltip fontSize="md" label={`${tip} is ${available ? 'available' : 'not available'}`}>
-			<Center borderRadius="md" bg={available ? bg : 'darkgray'} color="white" px={4} h={16} w={16}>
+			<Center borderRadius="md" bg={available ? bg : 'darkgray'} color={fg} px={4} h={16} w={16}>
 				<Text fontSize="lg" fontWeight={'bold'}>
 					{text}
 				</Text>

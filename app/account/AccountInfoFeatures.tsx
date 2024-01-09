@@ -1,7 +1,6 @@
-import { IAccount } from '@/app/actions';
-import { Heading, Box, Text, Tooltip, HStack, Center } from '@chakra-ui/react';
-import { InfoOutlineIcon, CalendarIcon, AtSignIcon } from '@chakra-ui/icons';
+import { Heading, Box, Text, HStack, Icon } from '@chakra-ui/react';
 import { ExpansionInfo } from './ExpansionInfo';
+import { GiThornyVine, GiFireDash, GiDoubleDragon, GiSecretBook } from "react-icons/gi";
 
 const features = {
 	hasF2P: false,
@@ -57,28 +56,28 @@ export const AccountInfoFeatures = ({ data }: { data: string[] }) => {
 
 				<ExpansionInfo
 					available={features.hasHoT}
-					text="HoT"
+					text={<Icon as={GiThornyVine} boxSize={6} />}
 					tip="Guild Wars 2: Heart of Thorns"
 					bg="olivedrab"
 				/>
 
 				<ExpansionInfo
 					available={features.hasPoF}
-					text="PoF"
+					text={<Icon as={GiFireDash} boxSize={6} />}
 					tip="Guild Wars 2: Path of Fire"
 					bg="darkmagenta"
 				/>
 
 				<ExpansionInfo
 					available={features.hasEoD}
-					text="Eod"
+					text={<Icon as={GiDoubleDragon} boxSize={6} />}
 					tip="Guild Wars 2: End of Dragons"
 					bg="darkcyan"
 				/>
 
 				<ExpansionInfo
 					available={features.hasSotO}
-					text="SotO"
+					text={<Icon as={GiSecretBook} boxSize={6} />}
 					tip="Guild Wars 2: Secrets of the Obscure"
 					bg="goldenrod"
 				/>
