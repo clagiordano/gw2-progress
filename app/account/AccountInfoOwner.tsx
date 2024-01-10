@@ -1,4 +1,4 @@
-import { IAccount } from '@/app/actions';
+import { IAccount } from '@/models/IAccount';
 import {
 	Heading,
 	Box,

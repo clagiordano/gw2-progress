@@ -1,33 +1,13 @@
 'use server';
 
+import { IAccount } from "@/models/IAccount";
+
 const baseURL = 'https://api.guildwars2.com/v2';
 const baseConfig = {
 	headers: {
 		'Content-Type': 'application/json'
 	}
 };
-
-export interface IAccount {
-	id: string;
-	age: number;
-	name: string;
-	world: {
-		id: number;
-		name: string;
-		population: string; // Low, Medium, High, VeryHigh, Full
-	};
-	guilds: any[];
-	guild_leader: any[];
-	created: string;
-	access: string[];
-	commander: boolean;
-	fractal_level: number;
-	daily_ap: number;
-	monthly_ap: number;
-	wvw_rank: number;
-	last_modified: string;
-	build_storage_slots: number;
-}
 
 export async function getAccountInfo(prevState: IAccount, formData: FormData): Promise<IAccount> {
 	const accessToken = formData.get('accessToken') as string;

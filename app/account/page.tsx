@@ -2,10 +2,11 @@
 
 import { useFormState } from 'react-dom';
 import { useFormStatus } from 'react-dom';
-import { getAccountInfo, IAccount } from '@/app/actions';
+import { getAccountInfo } from '@/app/actions';
 import { AccountInfo } from './AccountInfo';
 import { Input, Stack, IconButton } from '@chakra-ui/react';
 import { CheckIcon } from '@chakra-ui/icons';
+import { IAccount } from '@/models/IAccount';
 
 const initialState: IAccount = {
 	id: '-',
