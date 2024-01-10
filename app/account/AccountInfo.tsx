@@ -3,6 +3,7 @@ import { Card, CardHeader, CardBody, Heading, Box, Stack, StackDivider, Text } f
 import { AccountInfoOwner } from '@/app/account/AccountInfoOwner';
 import { AccountInfoFeatures } from './AccountInfoFeatures';
 import { AccountInfoGuilds } from './AccountInfoGuilds';
+import { Suspense } from 'react';
 
 export const AccountInfo = ({ data }: { data: IAccount }) => {
 	return (
@@ -11,24 +12,26 @@ export const AccountInfo = ({ data }: { data: IAccount }) => {
 				<Heading size="md">Account Information</Heading>
 			</CardHeader>
 
-			<CardBody>
-				<Stack divider={<StackDivider />} spacing="4">
-					<AccountInfoOwner data={data} />
+			<Suspense fallback="Loading...">
+				<CardBody>
+					<Stack divider={<StackDivider />} spacing="4">
+						<AccountInfoOwner data={data} />
 
-					<AccountInfoFeatures data={data.access} />
+						<AccountInfoFeatures data={data.access} />
 
-					<AccountInfoGuilds data={data.guilds} />
+						<AccountInfoGuilds data={data.guilds} />
 
-					<Box>
-						<Heading size="xs" textTransform="uppercase">
-							Basic statistics
-						</Heading>
-						<Text pt="2" fontSize="sm">
-							WvW rank, fractal, commander tag, recurring APs, (masteries?) etc
-						</Text>
-					</Box>
-				</Stack>
-			</CardBody>
+						<Box>
+							<Heading size="xs" textTransform="uppercase">
+								Basic statistics
+							</Heading>
+							<Text pt="2" fontSize="sm">
+								WvW rank, fractal, commander tag, recurring APs, (masteries?) etc
+							</Text>
+						</Box>
+					</Stack>
+				</CardBody>
+			</Suspense>
 		</Card>
 	);
 };

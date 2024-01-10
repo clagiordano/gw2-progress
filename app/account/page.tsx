@@ -43,7 +43,7 @@ export default function Page() {
 						type="submit"
 						aria-disabled={pending}
 						colorScheme="blue"
-						aria-label="Search database"
+						aria-label="Set access token"
 						icon={<CheckIcon />}
 					/>
 				</Stack>
