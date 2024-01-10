@@ -1,4 +1,4 @@
-import { jsonFile } from "./utils";
+// import { jsonFile } from "./utils";
 
 const baseURL = 'https://api.guildwars2.com/v2';
 const reqConfig = {
@@ -31,7 +31,7 @@ export default function achievements() {
             }
         }
 
-        jsonFile.save(achievements, 'data/achievements.json');
+        // jsonFile.save(achievements, 'data/achievements.json');
     }
 
     async function getGroups() {

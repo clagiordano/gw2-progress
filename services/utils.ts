@@ -1,9 +1,5 @@
 import { promises as fs } from 'fs';
 
-// export default function jsonFile() {
-
-// }
-
 async function load(path: string) {
 	const data = await fs.readFile(path, 'utf-8');
 	return JSON.parse(path);
@@ -17,3 +13,4 @@ export const jsonFile = {
 	load,
 	save
 };
+
