@@ -1,7 +1,8 @@
 'use client';
+import { Suspense } from 'react';
 import { fonts } from './fonts';
 import { Providers } from './providers';
-import { Grid, GridItem, Link } from '@chakra-ui/react';
+import { Grid, GridItem, Link, VStack } from '@chakra-ui/react';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
@@ -23,10 +24,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 							Header
 						</GridItem>
 						<GridItem pl="2" bg="pink.300" area={'nav'}>
-							<Link href="/account">Account</Link>
+							<VStack>
+								<Link href="/account">Account</Link>
+								<Link href="/progress">Progress</Link>
+							</VStack>
 						</GridItem>
-						<GridItem pl="2" bg="green.300" area={'main'}>
-							{children}
+						<GridItem pl="2" area={'main'}>
+							<Suspense>{children}</Suspense>
 						</GridItem>
 						<GridItem pl="2" bg="blue.300" area={'footer'}>
 							Footer
