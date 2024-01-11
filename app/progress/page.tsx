@@ -1,11 +1,7 @@
 'use server';
 
 import achievements from '@/data/achievements.json' assert { type: 'json' };
-import {
-	Divider,
-	ListItem,
-	UnorderedList
-} from '@chakra-ui/react';
+import { Divider } from '@chakra-ui/react';
 import { Suspense } from 'react';
 import { ProgressStats } from './ProgressStats';
 import { ProgressDetails } from './ProgressDetails';
@@ -105,7 +101,7 @@ export default async function Page() {
 	}
 
 	const getUserProgression = async () => {
-		let baseOptions = process.env.API_GW_BASE_OPTIONS;
+		let baseOptions: any = process.env.API_GW_BASE_OPTIONS || { headers: {}};
 
 		const options = {
 			...baseOptions.headers,
@@ -119,7 +115,6 @@ export default async function Page() {
 
 	// console.log(data);
 	return (
-
 		<div>
 			<Suspense fallback="Loading user progress...">
 				<ProgressStats data={data} />
@@ -129,7 +124,6 @@ export default async function Page() {
 				<ProgressDetails data={data} />
 
 				<Divider />
-
 			</Suspense>
 		</div>
 	);
