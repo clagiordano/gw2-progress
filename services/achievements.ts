@@ -1,6 +1,8 @@
 'use server';
 
 import { getToken } from '@/app/actions';
+import fsPromises from 'fs/promises';
+import path from 'path'
 
 const baseOptions = {
 	headers: {
@@ -8,6 +10,11 @@ const baseOptions = {
 	},
 	next: { revalidate: 3600 }
 };
+
+export const getLocalAchievements = async () => {
+	const achievements: any = await fsPromises.readFile(path.join(process.cwd(), 'data/achievements.json'));
+	return await JSON.parse(achievements);
+}
 
 export const getAchievements = async () => {
 	const achievements = await getAchievementsGroups();
@@ -86,7 +93,7 @@ async function getAchievementById(aId: number | string) {
 }
 
 export const analyze = async () => {
-	const achievements = (await getAchievements()) || [];
+	const achievements = (await getLocalAchievements()) || [];
 	const progression = (await getUserProgression()) || [];
 
 	let tPts = 0;
