@@ -35,7 +35,7 @@ const oldProgression = loadUserProgression();
 let progression = oldProgression;
 if (!skipFetchProgression) {
 	progression = await getUserProgression();
-	saveUserProgression(progression);
+	//saveUserProgression(progression);
 }
 //console.log('progression len', progression.length);
 

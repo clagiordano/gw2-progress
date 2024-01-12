@@ -2,7 +2,7 @@
 import { Suspense } from 'react';
 import { fonts } from './fonts';
 import { Providers } from './providers';
-import { Grid, GridItem, Link, VStack } from '@chakra-ui/react';
+import { Grid, GridItem, Link, Spinner, VStack } from '@chakra-ui/react';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (
@@ -30,7 +30,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 							</VStack>
 						</GridItem>
 						<GridItem pl="2" area={'main'}>
-							<Suspense>{children}</Suspense>
+							{/* <Suspense fallback={<Spinner size='xl' />}>{children}</Suspense> */}
+							{children}
 						</GridItem>
 						<GridItem pl="2" bg="blue.300" area={'footer'}>
 							Footer

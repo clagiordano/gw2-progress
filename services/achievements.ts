@@ -11,20 +11,22 @@ const baseOptions = {
 
 export const getAchievements = async () => {
 	const achievements = await getAchievementsGroups();
-	console.log('achievements', achievements.length, achievements);
+	// console.log('achievements', achievements.length, achievements);
 
 	for (const idx in achievements) {
-		console.log('fetching ', achievements[idx]);
+		// console.log('fetching ', achievements[idx]);
 		/**
 		 * Populate groups
 		 */
 		achievements[idx] = await getAchievementsGroupsById(achievements[idx]);
-		console.log('achievements[idx]', achievements[idx]);
+		// console.log('achievements[idx]', achievements[idx]);
 
 		/**
 		 * Populate categories
 		 */
-		achievements[idx].categories = await getAchievementsCategoryById(achievements[idx].categories.join(','));
+		if (achievements[idx].categories && achievements[idx].categories.constructor === Array) {
+			achievements[idx].categories = await getAchievementsCategoryById(achievements[idx].categories.join(','));
+		}
 
 		/**
 		 * Populate achievements
@@ -41,6 +43,7 @@ export const getAchievements = async () => {
 
 export const getUserProgression = async () => {
 	const accessToken = await getToken();
+	// console.log('getUserProgression', accessToken)
 
 	const options = {
 		...baseOptions.headers,

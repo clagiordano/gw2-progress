@@ -11,11 +11,8 @@ const baseConfig = {
 };
 
 export async function getAccountInfo(): Promise<IAccount> {
-	// const accessToken = formData.get('accessToken') as string;
-
-	//setToken(accessToken);
 	const accessToken = await getToken();
-	console.log('token', accessToken)
+	// console.log('token', accessToken)
 
 	const options = { ...baseConfig, headers: { ...baseConfig.headers, Authorization: `Bearer ${accessToken}` } };
 	const resp = await fetch(`${baseURL}/account?v=latest`, options);
@@ -53,19 +50,13 @@ export async function getAccountInfo(): Promise<IAccount> {
 }
 
 export const getToken = async () => {
-	console.log('get token')
 	const cookieStore = cookies()
-
 	const token = await cookieStore.get('accessToken')?.value ?? '';
-	console.log('get token end', token);
 
 	return token;
 }
 
 export const setToken = (value: string) => {
-	console.log('store token')
 	const cookieStore = cookies()
 	cookieStore.set('accessToken', value);
-
-	console.log('store token end')
 }
