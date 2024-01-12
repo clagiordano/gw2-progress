@@ -1,3 +1,5 @@
+'use client'
+
 import { IAccount } from '@/models/IAccount';
 import { Card, CardHeader, CardBody, Heading, Box, Stack, StackDivider, Text } from '@chakra-ui/react';
 import { AccountInfoOwner } from '@/app/account/AccountInfoOwner';

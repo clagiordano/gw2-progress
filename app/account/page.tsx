@@ -1,12 +1,9 @@
-'use client';
-
-import { useFormState } from 'react-dom';
-import { useFormStatus } from 'react-dom';
-import { getAccountInfo } from '@/app/actions';
+import { getAccountInfo, setToken } from '@/app/actions';
 import { AccountInfo } from './AccountInfo';
-import { Input, Stack, IconButton } from '@chakra-ui/react';
-import { CheckIcon } from '@chakra-ui/icons';
+import { Spinner } from '@chakra-ui/react';
 import { IAccount } from '@/models/IAccount';
+import { Suspense } from 'react';
+import { AccountForm } from './AccountForm';
 
 const initialState: IAccount = {
 	id: '-',
@@ -30,27 +27,21 @@ const initialState: IAccount = {
 	build_storage_slots: 0
 };
 
+let accountData: IAccount = initialState;
+
 export default function Page() {
-	const [state, formAction] = useFormState(getAccountInfo, initialState);
-	const { pending } = useFormStatus();
+	async function saveToken(formData: FormData) {
+	  'use server'
 
-	return (
-		<div>
-			<form action={formAction}>
-				<Stack spacing={4} direction="row">
-					<Input placeholder="Access Token" name="accessToken" autoComplete="accessToken" />
 
-					<IconButton
-						type="submit"
-						aria-disabled={pending}
-						colorScheme="blue"
-						aria-label="Set access token"
-						icon={<CheckIcon />}
-					/>
-				</Stack>
-			</form>
+	  await setToken(formData.get('accessToken') as string);
+	  accountData = await getAccountInfo();
+	}
 
-			<AccountInfo data={state} />
-		</div>
-	);
-}
+	return <form action={saveToken}>
+		<AccountForm />
+		<Suspense fallback={<Spinner size='xl' />}>
+			<AccountInfo data={accountData} />
+		</Suspense>
+	</form>
+  }
