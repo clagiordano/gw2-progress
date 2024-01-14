@@ -14,7 +14,7 @@ export const AccountInfo = ({ data }: { data: IAccount }) => {
 				<Heading size="md">Account Information</Heading>
 			</CardHeader>
 
-			<Suspense fallback="Loading...">
+			{/* <Suspense fallback="Loading..."> */}
 				<CardBody>
 					<Stack divider={<StackDivider />} spacing="4">
 						<AccountInfoOwner data={data} />
@@ -33,7 +33,7 @@ export const AccountInfo = ({ data }: { data: IAccount }) => {
 						</Box>
 					</Stack>
 				</CardBody>
-			</Suspense>
+			{/* </Suspense> */}
 		</Card>
 	);
 };

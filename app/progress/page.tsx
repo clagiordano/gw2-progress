@@ -4,19 +4,21 @@ import { Suspense } from 'react';
 import { ProgressStats } from './ProgressStats';
 import { ProgressDetails } from './ProgressDetails';
 import { analyze } from '@/services/achievements';
+import { GetStaticProps } from 'next';
 
-export default async function Page() {
-	const data: any = await analyze();
+export default async function Page(  ) {
+	const data = await analyze();
+
 	return (
 		<div>
-			<Suspense fallback="Loading user progress...">
+			<Suspense fallback="Loading stats...">
 				<ProgressStats data={data} />
+			</Suspense>
 
-				<Divider />
+			<Divider />
 
+			<Suspense fallback="Loading details...">
 				<ProgressDetails data={data} />
-
-				<Divider />
 			</Suspense>
 		</div>
 	);

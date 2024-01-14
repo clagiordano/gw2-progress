@@ -40,8 +40,8 @@ export default function Page() {
 
 	return <form action={saveToken}>
 		<AccountForm />
-		<Suspense fallback={<Spinner size='xl' />}>
+		{/* <Suspense fallback={<Spinner size='xl' />}> */}
 			<AccountInfo data={accountData} />
-		</Suspense>
+		{/* </Suspense> */}
 	</form>
   }
