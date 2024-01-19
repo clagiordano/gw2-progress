@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 import fs from 'fs';
-import {setTimeout as sleep} from 'timers/promises';
 import cliProgress from 'cli-progress'
 const bar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
 
@@ -65,7 +64,7 @@ for (const idx in achievements) {
 
 bar.stop();
 
-fs.writeFileSync('data/achievements.json', JSON.stringify(achievements, null, 4), err => {
+fs.writeFileSync('data/achievements.json', JSON.stringify(achievements), err => {
 	if (err) {
 		throw err;
 	}
