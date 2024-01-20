@@ -47,7 +47,7 @@ export const AccountInfo = () => {
     getAccountInfo().then((data) => {
       setAccount(data);
     });
-  });
+  }, []);
 
   return (
     <Card>

@@ -60,8 +60,8 @@ export default function RootLayout({
               </VStack>
             </GridItem>
             <GridItem pl="2" area={"main"}>
-              <Suspense fallback={<Spinner size='xl' />}>{children}</Suspense>
-              {/* {children} */}
+              {/* <Suspense fallback={<Spinner size='xl' />}>{children}</Suspense> */}
+              {children}
             </GridItem>
             <GridItem pl="2" bg="blue.300" area={"footer"}>
               Footer
