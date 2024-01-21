@@ -22,6 +22,16 @@ const getColor = (value: number) => {
   return "green.400";
 };
 
+
+/**
+ * ratio between AP and tiers -> easy - average - hard achivements
+ * identify achievements almost completed
+ *  - suggest achievements that can be easily completed
+ *    - extract / generate list
+ *
+ * list ordered by percentage (asc / desc)
+ */
+
 export const ProgressStats = async ({ data }: { data: any[] }) => {
   return (
     <Wrap spacing={4}>

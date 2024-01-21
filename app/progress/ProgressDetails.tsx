@@ -51,10 +51,12 @@ export const ProgressDetails = async ({ data }: { data: any[] }) => {
                                   {/* <AccordionItem key={achievement.id}> */}
                                   {/* <h4> */}
                                   {/* <AccordionButton> */}
-                                  <Box as="span" flex="1" textAlign="left">
+
+                                  {/* <Box as="span" flex="1" textAlign="left">
                                     {achievement.name} ({achievement.uaPts} /{" "}
                                     {achievement.aPts})
-                                  </Box>
+                                  </Box> */}
+
                                   {/* <AccordionIcon /> */}
                                   {/* </AccordionButton> */}
                                   {/* </h4> */}
