@@ -1,6 +1,7 @@
 'use server';
 
 import { getToken } from '@/app/actions';
+import { IAchievement, ICategory, IGroup, ITier } from '@/models/IAchievements';
 import fsPromises from 'fs/promises';
 import path from 'path'
 
@@ -100,7 +101,7 @@ export const analyze = async () => {
 	let utPts = 0;
 
 	if (achievements && achievements.constructor === Array) {
-		achievements.map((group: any) => {
+		achievements.map((group: IGroup) => {
 			// console.log(`${group.name}: `);
 			let gPts = 0;
 			let ugPts = 0;
@@ -109,7 +110,7 @@ export const analyze = async () => {
 			group.ugPts = 0;
 
 			if (group.categories && group.categories.constructor === Array) {
-				group.categories.map((cat: any) => {
+				group.categories.map((cat: ICategory) => {
 					let cPts = 0;
 					let ucPts = 0;
 
@@ -121,19 +122,19 @@ export const analyze = async () => {
 						return;
 					}
 
-					cat.achievements.map((ach: any) => {
-						let aPts = ach.tiers.reduce((aPts: number, t: any) => t.points + aPts, 0);
+					cat.achievements.map((ach: IAchievement) => {
+						let aPts = ach.tiers.reduce((aPts: number, t: ITier) => t.points + aPts, 0);
 						let uaPts = 0;
 
 						if (progression && progression.constructor === Array) {
-							let fIdx = progression.findIndex((a: any) => a.id == ach.id);
+							let fIdx = progression.findIndex((a: IAchievement) => a.id == ach.id);
 							if (fIdx !== -1) {
 								// console.log('fIdx', fIdx);
 								let uach = progression[fIdx];
 								progression.splice(fIdx, 1);
 								uaPts = ach.tiers
-									.filter((t: any) => t.count <= uach.current)
-									.reduce((uaPts: number, t: any) => t.points + uaPts, 0);
+									.filter((t: ITier) => t.count <= uach.current)
+									.reduce((uaPts: number, t: ITier) => t.points + uaPts, 0);
 
 								if (uach.repeated) {
 									/** Include repeated times */
