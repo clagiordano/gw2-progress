@@ -23,15 +23,17 @@ export interface ICategory {
 
 export interface IAchievement {
     id: number;
+    icon?: string;
     name: string;
     description: string;
     requirement: string;
     locked_text: string;
-    type: string;
+    type: string; // default or itemset -> collections
     flags: string[];
     tiers: ITier[];
+    prerequisites: number[];
     rewards?: IReward[]
-    bits?: IBits[]
+    bits?: IBit[]
     aPtsPercent: number;
     uaPts: number;
     aPts: number;
@@ -49,7 +51,7 @@ export interface IReward {
     id: number
 }
 
-export interface IBits {
+export interface IBit {
     type: string,
     text: string,
 }
