@@ -1,6 +1,12 @@
 "use client";
 
-import { IAchievement, ICategory, IGroup } from "@/models/IAchievements";
+import {
+  IAchievement,
+  IBit,
+  ICategory,
+  IGroup,
+  ITier,
+} from "@/models/IAchievements";
 import { getColor } from "@/services/utils";
 
 import {
@@ -11,7 +17,7 @@ import {
   AccordionPanel,
   Box,
   Progress,
-  Image
+  Image,
 } from "@chakra-ui/react";
 
 export const ProgressDetails = ({ data }: { data: IGroup[] }) => {
@@ -52,8 +58,8 @@ export const ProgressDetails = ({ data }: { data: IGroup[] }) => {
                             <AccordionIcon />
 
                             <Image
-                              borderRadius='full'
-                              boxSize='32px'
+                              borderRadius="full"
+                              boxSize="32px"
                               src={category.icon}
                               alt={category.name}
                             />
@@ -71,24 +77,69 @@ export const ProgressDetails = ({ data }: { data: IGroup[] }) => {
 
                         <AccordionPanel pb={4}>
                           <Accordion allowToggle>
-                            {category.achievements.map((achievement: IAchievement) => {
-                              return (
-                                <div key={achievement.id}>
-                                  <AccordionItem key={achievement.id}>
-                                  {/* <h4> */}
-                                  <AccordionButton>
-                                  <AccordionIcon />
-                                  <Box as="span" flex="1" textAlign="left">
-                                    {achievement.name} ({achievement.uaPts} /{" "}
-                                    {achievement.aPts})
-                                  </Box>
+                            {category.achievements.map(
+                              (achievement: IAchievement) => {
+                                return (
+                                  <div key={achievement.id}>
+                                    <AccordionItem key={achievement.id}>
+                                      {/* <h4> */}
+                                      <AccordionButton>
+                                        <AccordionIcon />
 
-                                  </AccordionButton>
-                                  {/* </h4> */}
-                                  </AccordionItem>
-                                </div>
-                              );
-                            })}
+                                        {/* <Image
+                                          borderRadius="full"
+                                          boxSize="32px"
+                                          src={achievement.icon}
+                                          alt={achievement.name}
+                                        /> */}
+
+                                        <Box
+                                          as="span"
+                                          flex="1"
+                                          textAlign="left"
+                                        >
+                                          {achievement.name} (
+                                          {achievement.uaPts} /{" "}
+                                          {achievement.aPts})
+                                        </Box>
+                                      </AccordionButton>
+                                      {/* </h4> */}
+                                      <AccordionPanel pb={4}>
+                                        <Accordion allowToggle>
+                                          {achievement?.bits &&
+                                            achievement?.bits.length > 0 && (
+                                              <h5>Objectives:</h5>
+                                            )}
+                                          <ul>
+                                            {achievement?.bits?.map(
+                                              (bit: IBit, idx) => {
+                                                return <li key={idx}>{bit.text}</li>;
+                                              }
+                                            )}
+                                          </ul>
+
+                                          {achievement?.tiers.length > 0 && (
+                                            <h5>Tiers:</h5>
+                                          )}
+
+                                          <ul>
+                                          {achievement?.tiers?.map(
+                                            (tier: ITier, idx) => {
+                                              return (
+                                                <li key={idx}>
+                                                  Tier: {idx + 1} - {tier.count}:{" objectives, points "}{tier.points}
+                                                </li>
+                                              );
+                                            }
+                                          )}
+                                          </ul>
+                                        </Accordion>
+                                      </AccordionPanel>
+                                    </AccordionItem>
+                                  </div>
+                                );
+                              }
+                            )}
                           </Accordion>
                         </AccordionPanel>
                       </AccordionItem>
