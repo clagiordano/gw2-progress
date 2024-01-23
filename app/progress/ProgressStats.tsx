@@ -1,4 +1,6 @@
 "use client";
+import { IGroup } from "@/models/IAchievements";
+import { getColor } from "@/services/utils";
 import {
   CircularProgress,
   CircularProgressLabel,
@@ -10,19 +12,6 @@ import {
   WrapItem,
 } from "@chakra-ui/react";
 
-const getColor = (value: number) => {
-  if (value <= 25) {
-    return "red.400";
-  }
-
-  if (value > 25 && value <= 75) {
-    return "yellow.400";
-  }
-
-  return "green.400";
-};
-
-
 /**
  * ratio between AP and tiers -> easy - average - hard achivements
  * identify achievements almost completed
@@ -32,10 +21,10 @@ const getColor = (value: number) => {
  * list ordered by percentage (asc / desc)
  */
 
-export const ProgressStats = async ({ data }: { data: any[] }) => {
+export const ProgressStats = ({ data }: { data: IGroup[] }) => {
   return (
     <Wrap spacing={4}>
-      {data.map((group: any) => {
+      {data.map((group: IGroup) => {
         return (
           <WrapItem key={group.id}>
             <Card h={150} w={220}>

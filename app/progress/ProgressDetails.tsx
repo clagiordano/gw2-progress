@@ -1,5 +1,8 @@
 "use client";
 
+import { IAchievement, ICategory, IGroup } from "@/models/IAchievements";
+import { getColor } from "@/services/utils";
+
 import {
   Accordion,
   AccordionButton,
@@ -7,60 +10,82 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
+  Progress,
+  Image
 } from "@chakra-ui/react";
-import { Suspense } from "react";
 
-export const ProgressDetails = async ({ data }: { data: any[] }) => {
+export const ProgressDetails = ({ data }: { data: IGroup[] }) => {
   return (
-	<div>
-	{/* <Suspense fallback="loading details component"> */}
+    <div>
+      {/* <Suspense fallback="loading details component"> */}
       <Accordion allowToggle>
-        {data.map((group: any) => {
+        {data.map((group: IGroup) => {
           return (
             <AccordionItem key={group.id}>
+              {/* {({ isExpanded }) => (
+                  <> */}
               <h2>
                 <AccordionButton>
+                  <AccordionIcon />
+
+                  {/* <AccordionIcon as={isExpanded ? MinusIcon : AddIcon} /> */}
                   <Box as="span" flex="1" textAlign="left">
+                    {/* {group.name} {group.gPtsPercent}% ({group.ugPts} /{" "}
+                    {group.gPts}) */}
                     {group.name} {group.gPtsPercent}% ({group.ugPts} /{" "}
                     {group.gPts})
+                    <Progress
+                      value={group.gPtsPercent}
+                      colorScheme={getColor(group.gPtsPercent)}
+                    />
                   </Box>
-                  <AccordionIcon />
                 </AccordionButton>
               </h2>
 
               <AccordionPanel pb={4}>
                 <Accordion allowToggle>
-                  {group.categories.map((category: any) => {
+                  {group.categories.map((category: ICategory) => {
                     return (
                       <AccordionItem key={category.id}>
                         <h3>
                           <AccordionButton>
+                            <AccordionIcon />
+
+                            <Image
+                              borderRadius='full'
+                              boxSize='32px'
+                              src={category.icon}
+                              alt={category.name}
+                            />
+
                             <Box as="span" flex="1" textAlign="left">
                               {category.name} {category.cPtsPercent}% (
                               {category.ucPts} / {category.cPts})
+                              <Progress
+                                value={category.cPtsPercent}
+                                colorScheme={getColor(category.cPtsPercent)}
+                              />
                             </Box>
-                            <AccordionIcon />
                           </AccordionButton>
                         </h3>
 
                         <AccordionPanel pb={4}>
                           <Accordion allowToggle>
-                            {category.achievements.map((achievement: any) => {
+                            {category.achievements.map((achievement: IAchievement) => {
                               return (
                                 <div key={achievement.id}>
-                                  {/* <AccordionItem key={achievement.id}> */}
+                                  <AccordionItem key={achievement.id}>
                                   {/* <h4> */}
-                                  {/* <AccordionButton> */}
-
-                                  {/* <Box as="span" flex="1" textAlign="left">
+                                  <AccordionButton>
+                                  <AccordionIcon />
+                                  <Box as="span" flex="1" textAlign="left">
                                     {achievement.name} ({achievement.uaPts} /{" "}
                                     {achievement.aPts})
-                                  </Box> */}
+                                  </Box>
 
-                                  {/* <AccordionIcon /> */}
-                                  {/* </AccordionButton> */}
+                                  </AccordionButton>
                                   {/* </h4> */}
-                                  {/* </AccordionItem> */}
+                                  </AccordionItem>
                                 </div>
                               );
                             })}
@@ -71,11 +96,13 @@ export const ProgressDetails = async ({ data }: { data: any[] }) => {
                   })}
                 </Accordion>
               </AccordionPanel>
+              {/* </>
+              )} */}
             </AccordionItem>
           );
         })}
       </Accordion>
-	  {/* </Suspense> */}
-	  </div>
+      {/* </Suspense> */}
+    </div>
   );
 };
