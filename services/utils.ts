@@ -20,21 +20,29 @@ export const getColor = (value: number) => {
    * 	| "teal" | "blue" | "cyan" | "purple" | "pink" | "linkedin"
    * 	| "facebook" | "messenger" | "whatsapp" | "twitter" | "telegram"
    */
-  if (value <= 25) {
+  if (value <= 17) {
     return "red";
   }
 
-  if (value > 25 && value <= 65) {
+  if (value > 17 && value <= 34) {
     return "purple";
   }
 
-  if (value > 65 && value <= 85) {
+  if (value > 34 && value <= 51) {
+    return "blue";
+  }
+
+  if (value > 51 && value <= 68) {
     return "teal";
   }
 
-  if (value > 85 && value < 100) {
+  if (value > 68 && value <= 85) {
+    return "cyan";
+  }
+
+  if (value > 85 && value <= 99) {
     return "green";
   }
 
-  return "blue";
+  return "whatsapp";
 };
