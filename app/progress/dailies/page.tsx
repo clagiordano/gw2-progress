@@ -20,7 +20,7 @@ export default function Dailies() {
     gPts: 0,
   });
   const [categories, setCategories] = useState<ICategory[]>([]);
-  const [achievements, setAchievements] = useState([]);
+  const [achievements, setAchievements] = useState<object>({});
 
   useEffect(() => {
     // console.log("group init");
@@ -37,7 +37,7 @@ export default function Dailies() {
 
     if (group.categories.length > 0) {
       getAchievementsCategoryById(group.categories.join(",")).then((data) => {
-        console.log('fetched categories', group.categories.join(","), data);
+        // console.log('fetched categories', group.categories.join(","), data);
         setCategories(data);
       });
     }
@@ -50,27 +50,43 @@ export default function Dailies() {
         if (cat.achievements.length > 0) {
           getAchievementById(cat.achievements.join(",")).then((data) => {
             console.log("fetched achievements", data);
-            cat.achievements = data;
+            // cat.achievements = data;
+            // setCategories(categories);
+
+            // setCategories([...categories, {...cat, achievements: data}])
+
+            // setAchievements({...achievements, [cat.id]: data});
+
+            setAchievements((act: any) => ({...act, [cat.id]: data}))
           });
         }
       });
   }, [categories]);
 
+  useEffect(() => {
+    console.log("achievements changed", achievements);
+
+  }, [achievements]);
+
   return (
     <div>
-      <h2>
-        <Suspense fallback="Loading...">
+      <Suspense fallback="Loading...">
+        <h2>
           {group.name}: {group.description}
-          {categories.map((cat: ICategory) => (
-            <div key={cat.id}>-- CAT: {cat.name}
-              {cat.achievements.map((achi: IAchievement) => {
-                return (<div key={achi.id}> -- + ACHI: {achi.name}</div>)
-              })}
-            </div>
-          ))}
+        </h2>
 
-        </Suspense>
-      </h2>
+        {categories.map((cat: ICategory, cid) => (
+          <ul key={cid}>
+            -- CAT: {cat.name}
+            {achievements[cat.id]?.map((achi: IAchievement, aid: number) => (
+
+                <li key={aid}> -- + ACHI: {achi.name}</li>
+              ))
+
+            }
+          </ul>
+        ))}
+      </Suspense>
     </div>
   );
 }
