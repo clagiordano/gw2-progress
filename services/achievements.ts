@@ -2,8 +2,6 @@
 
 import { getToken } from '@/app/actions';
 import { IAchievement, ICategory, IGroup, ITier } from '@/models/IAchievements';
-import fsPromises from 'fs/promises';
-import path from 'path'
 
 const baseOptions = {
 	headers: {
@@ -12,10 +10,21 @@ const baseOptions = {
 	next: { revalidate: 3600 }
 };
 
-export const getLocalAchievements = async () => {
-	const achievements: any = await fsPromises.readFile(path.join(process.cwd(), 'data/achievements.json'));
-	return await JSON.parse(achievements);
-}
+// export const getLocalAchievements = async () => {
+// 	const achievements: any = await fsPromises.readFile(path.join(process.cwd(), 'data/achievements.json'));
+// 	return await JSON.parse(achievements);
+// }
+
+import fsPromises from 'fs/promises';
+import path from 'path'
+export async function getLocalAchievements() {
+	const filePath = path.join(process.cwd(), 'data/achievements.json');
+	const jsonData: any = await fsPromises.readFile(filePath);
+	const objectData = JSON.parse(jsonData);
+
+	console.log('completed getLocalAchievements');
+	return objectData
+  }
 
 export const getAchievements = async () => {
 	const achievements = await getAchievementsGroups();
@@ -64,25 +73,28 @@ export const getUserProgression = async () => {
 		return [];
 	}
 
-	return await resp.json();
+	const data = await resp.json();
+	console.log("completed fetch user progression", data.length)
+
+	return data;
 };
 
-async function getAchievementsGroups() {
+export async function getAchievementsGroups() {
 	const resp = await fetch(`${process.env.API_GW_BASE_URL}/achievements/groups`, baseOptions);
 	return await resp.json();
 }
 
-async function getAchievementsGroupsById(groupId: number | string) {
+export async function getAchievementsGroupsById(groupId: number | string) {
 	const resp = await fetch(`${process.env.API_GW_BASE_URL}/achievements/groups/${groupId}`, baseOptions);
 	return await resp.json();
 }
 
-async function getAchievementsCategoryById(cId: number | string) {
+export async function getAchievementsCategoryById(cId: number | string) {
 	const resp = await fetch(`${process.env.API_GW_BASE_URL}/achievements/categories?ids=${cId}`, baseOptions);
 	return await resp.json();
 }
 
-async function getAchievementById(aId: number | string) {
+export async function getAchievementById(aId: number | string) {
 	if (!aId) {
 		/**
 		 * On emprty aId directly returns an empty array to avoid useless api calls
@@ -93,9 +105,9 @@ async function getAchievementById(aId: number | string) {
 	return await resp.json();
 }
 
-export const analyze = async () => {
+export const analyze = async (progression: any) => {
 	const achievements = (await getLocalAchievements()) || [];
-	const progression = (await getUserProgression()) || [];
+	//const progression = (await getUserProgression()) || [];
 
 	let tPts = 0;
 	let utPts = 0;
@@ -187,6 +199,8 @@ export const analyze = async () => {
 			group.gPtsPercent = Math.round((ugPts / (gPts || 1)) * 100);
 		});
 	}
+
+	console.log("completed data analysis for progress detection", achievements.length)
 
 	return achievements;
 };

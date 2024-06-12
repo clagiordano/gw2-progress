@@ -54,4 +54,5 @@ export interface IReward {
 export interface IBit {
     type: string,
     text: string,
+    // image?: string,
 }

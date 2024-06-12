@@ -113,7 +113,11 @@ export const ProgressDetails = ({ data }: { data: IGroup[] }) => {
                                           <ul>
                                             {achievement?.bits?.map(
                                               (bit: IBit, idx) => {
-                                                return <li key={idx}>{bit.text}</li>;
+                                                //console.log(bit.text)
+                                                return <li key={idx}>
+
+                                                  {bit.text}
+                                                  </li>;
                                               }
                                             )}
                                           </ul>
