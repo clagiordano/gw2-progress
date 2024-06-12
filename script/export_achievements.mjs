@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 
 import fs from 'fs';
-import {setTimeout as sleep} from 'timers/promises';
 import cliProgress from 'cli-progress'
-const bar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
+const bar = new cliProgress.SingleBar({
+	format: 'progress [{bar}] {percentage}% | ETA: {eta}s | {value}/{total} | Speed: {speed}',
+
+}, cliProgress.Presets.shades_classic);
 
 const baseURL = 'https://api.guildwars2.com/v2';
 const reqConfig = {
@@ -42,30 +44,40 @@ const achievements = await getAchievementsGroups();
 // console.log('achievements', achievements.length, achievements);
 
 bar.start(achievements.length, 0);
+// bar.setTotal(achievements.length);
 for (const idx in achievements) {
 	/**
 	 * Populate groups
 	 */
 	achievements[idx] = await getAchievementsGroupById(achievements[idx]);
+	// console.log('bar total', bar.getTotal());
+	// console.log('fetched groups data new total (categories)', achievements[idx].categories.length);
+	// console.log('new bar total', (bar.getTotal() + achievements[idx].categories.length));
+	bar.setTotal(bar.getTotal() + achievements[idx].categories.length);
+	bar.increment();
 
 	/**
 	 * Populate categories
 	 */
 	achievements[idx].categories = await getAchievementsCategoryById(achievements[idx].categories.join(','));
+	bar.increment(achievements[idx].categories.length);
 
 	/**
 	 * Populate achievements
 	 */
 	for (const cId in achievements[idx].categories) {
+		// console.log('fetched achis new total', bar.getTotal() + achievements[idx].categories[cId].achievements.length);
+		bar.setTotal(bar.getTotal() + achievements[idx].categories[cId].achievements.length);
 		achievements[idx].categories[cId].achievements = await getAchievementById(achievements[idx].categories[cId].achievements.join(','));
+		bar.increment(achievements[idx].categories[cId].achievements.length);
 	}
 
-	bar.increment()
+	// bar.increment()
 }
 
 bar.stop();
 
-fs.writeFileSync('data/achievements.json', JSON.stringify(achievements, null, 4), err => {
+fs.writeFileSync('data/achievements.json', JSON.stringify(achievements), err => {
 	if (err) {
 		throw err;
 	}

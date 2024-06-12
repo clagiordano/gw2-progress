@@ -3,6 +3,7 @@
 import fs from 'fs';
 import {sprintf} from 'sprintf-js';
 import 'dotenv/config';
+const skipFetchProgression = process.argv[2] ?? false;
 
 const baseURL = 'https://api.guildwars2.com/v2';
 const reqConfig = {
@@ -31,8 +32,11 @@ const saveUserProgression = (data, path = 'data/progression.json') => {
 }
 
 const oldProgression = loadUserProgression();
-const progression = await getUserProgression();
-saveUserProgression(progression);
+let progression = oldProgression;
+if (!skipFetchProgression) {
+	progression = await getUserProgression();
+	//saveUserProgression(progression);
+}
 //console.log('progression len', progression.length);
 
 
