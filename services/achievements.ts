@@ -74,7 +74,7 @@ export const getUserProgression = async () => {
 	}
 
 	const data = await resp.json();
-	console.log("completed fetch user progression", data.length)
+	// console.log("completed fetch user progression", data.length)
 
 	return data;
 };
