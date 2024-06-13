@@ -4,14 +4,23 @@ import { Divider } from '@chakra-ui/react';
 import { Suspense, useEffect, useState } from 'react';
 import { ProgressStats } from './ProgressStats';
 import { ProgressDetails } from './ProgressDetails';
-import { analyze } from '@/services/achievements';
+import { analyze, getLocalAchievements, getUserProgression } from '@/services/achievements';
 
 export default function Progress(  ) {
 	const [progress, setProgress] = useState([]);
+	const [progression, setProgression] = useState([]);
 
 	useEffect(() => {
-		analyze().then((data) => setProgress(data));
+		getUserProgression().then((data) => setProgression(data));
 	}, []);
+
+	// useEffect(() => {
+	// 	console.log('triggered by progression change', progression)
+	// }, [progression]);
+
+	useEffect(() => {
+		analyze(progression).then((data) => setProgress(data));
+	}, [progression]);
 
 	return (
 		<div>

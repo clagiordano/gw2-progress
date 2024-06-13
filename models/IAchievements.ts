@@ -38,6 +38,7 @@ export interface IAchievement {
     uaPts: number;
     aPts: number;
     point_cap: number;
+    done?: boolean;
 }
 
 export interface ITier {
@@ -54,4 +55,19 @@ export interface IReward {
 export interface IBit {
     type: string,
     text: string,
+    // image?: string,
+}
+
+export interface IProgress {
+    id: number,
+    bits?: IBit[],
+    current?: number,
+    max?: number,
+    done: boolean,
+    repeated?: number,
+    unlocked?: boolean
+}
+
+export interface IAchievements {
+    [key: number]: IAchievement[]
 }
