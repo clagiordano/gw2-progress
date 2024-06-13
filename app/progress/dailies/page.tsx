@@ -9,6 +9,7 @@ import {
 } from "@/services/achievements";
 import {
   IAchievement,
+  IAchievements,
   ICategory,
   IGroup,
   IProgress,
@@ -28,7 +29,7 @@ export default function Dailies() {
     gPts: 0,
   });
   const [categories, setCategories] = useState<ICategory[]>([]);
-  const [achievements, setAchievements] = useState<object>({});
+  const [achievements, setAchievements] = useState<IAchievements>({});
   const [progression, setProgression] = useState<[]>();
 
   useEffect(() => {
@@ -45,16 +46,7 @@ export default function Dailies() {
     // console.log("progress init");
     getUserProgression().then((data) => {
       // console.log("fetched progression data", data);
-      setProgression(
-        data.concat([
-          {
-            id: 6775,
-            current: 1,
-            max: 1,
-            done: true,
-          },
-        ])
-      );
+      setProgression(data);
     });
   }, []);
 
@@ -92,7 +84,7 @@ export default function Dailies() {
 
       achis.map((ach: IAchievement) => {
         // console.log('ach.id', ach.id)
-        let found: IProgress = progression?.find((pro: IProgress) => pro.id === ach.id);
+        let found: IProgress|undefined = progression?.find((pro: IProgress|undefined) => pro?.id === ach.id);
         if (found) {
           // console.log("found", found);
           ach.done = found.done;
@@ -117,7 +109,7 @@ export default function Dailies() {
           </Text>
 
           <UnorderedList key={cid}>
-            {achievements[cat.id]?.map((achi: IAchievement, aid: string) => (
+            {achievements[cat.id]?.map((achi: IAchievement, aid: number) => (
               <ListItem key={aid}>
                 <ListIcon as={CheckCircleIcon} color={`${achi.done ? 'green' : 'gray'}.500`} />
                 ({achi.id}) {achi.name}: {achi.description}
