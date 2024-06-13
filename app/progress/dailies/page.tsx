@@ -85,9 +85,8 @@ export default function Dailies() {
       achis.map((ach: IAchievement) => {
         // console.log('ach.id', ach.id)
         let found: IProgress|undefined = progression?.find((pro: IProgress|undefined) => pro?.id === ach.id);
-        if (found) {
-          // console.log("found", found);
-          ach.done = found.done;
+        if (found !== undefined) {
+          ach.done = found.done ? true : false;
         }
       });
 
