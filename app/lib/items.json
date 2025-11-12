@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "name": "Spada del Drago",
+    "type": "arma",
+    "rarity": "epica",
+    "bonuses": ["forza", "fuoco"]
+  },
+  {
+    "id": 2,
+    "name": "Scudo di Ferro",
+    "type": "difesa",
+    "rarity": "rara",
+    "bonuses": ["difesa", "resistenza"]
+  },
+  {
+    "id": 3,
+    "name": "Pozione di Cura",
+    "type": "consumabile",
+    "rarity": "comune",
+    "bonuses": ["cura"]
+  }
+]
