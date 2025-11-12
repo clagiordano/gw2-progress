@@ -10,7 +10,7 @@ const reqConfig = {
   },
 };
 
-const OUTPUT_PATH = path.join(process.cwd(), "app/lib", "items.json");
+const OUTPUT_PATH = path.join(process.cwd(), "data", "items.json");
 
 // Configurazione
 const BATCH_SIZE = 200;          // max IDs per batch
@@ -53,12 +53,13 @@ async function fetchBatch(ids) {
   return fetchWithRetry(url);
 }
 
-// Pool limit di batch paralleli
+// Async pool con indice corretto
 async function asyncPool(poolLimit, array, iteratorFn) {
   const results = [];
   const executing = [];
-  for (const item of array) {
-    const p = Promise.resolve().then(() => iteratorFn(item));
+  for (let i = 0; i < array.length; i++) {
+    const item = array[i];
+    const p = Promise.resolve().then(() => iteratorFn(item, i));
     results.push(p);
 
     const e = p.then(() => executing.splice(executing.indexOf(e), 1));
@@ -82,10 +83,9 @@ async function updateItems() {
   const batches = chunkArray(itemIds, BATCH_SIZE);
   console.log(`[updateItems] 🔹 ${batches.length} batch da ${BATCH_SIZE} items`);
 
-  // Array finale per tutti i dati
   const allItems = [];
 
-  // Fetch batch con limite di concorrenza
+  // Fetch batch con pool limit e log con indice corretto
   const batchResults = await asyncPool(CONCURRENT_LIMIT, batches, async (batch, index) => {
     console.log(`[updateItems] 🔹 Fetch batch ${index + 1}/${batches.length}`);
     const items = await fetchBatch(batch);
@@ -93,7 +93,7 @@ async function updateItems() {
     return items;
   });
 
-  // Flatten
+  // Flatten array dei batch
   batchResults.forEach(items => allItems.push(...items));
 
   console.log(`[updateItems] 🔹 Salvando ${allItems.length} items su file...`);
