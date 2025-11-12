@@ -1,5 +1,5 @@
 import { AccountInfo } from "./AccountInfo";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense } from "react";
 
 export default function Account() {
   return (

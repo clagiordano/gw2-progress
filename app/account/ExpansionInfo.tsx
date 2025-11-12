@@ -1,4 +1,5 @@
 import { Center, Tooltip, Text } from '@chakra-ui/react';
+import { ReactNode } from 'react';
 
 export const ExpansionInfo = ({
 	available,
@@ -8,7 +9,7 @@ export const ExpansionInfo = ({
 	fg = 'white'
 }: {
 	available: boolean;
-	text: string | JSX.Element;
+	text: string | ReactNode;
 	tip: string;
 	bg: string;
 	fg?: string;

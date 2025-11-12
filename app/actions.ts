@@ -1,6 +1,6 @@
 'use server';
 
-import { cookies, type UnsafeUnwrappedCookies } from 'next/headers';
+import { cookies } from 'next/headers';
 import { IAccount } from "@/models/IAccount";
 
 const baseURL = 'https://api.guildwars2.com/v2';
@@ -56,7 +56,7 @@ export const getToken = async () => {
 	return token;
 }
 
-export const setToken = (value: string) => {
-	const cookieStore = (cookies() as unknown as UnsafeUnwrappedCookies)
-	cookieStore.set('accessToken', value);
+export const setToken = async (value: string) => {
+	const cookieStore = await cookies();
+	await cookieStore.set('accessToken', value);
 }
