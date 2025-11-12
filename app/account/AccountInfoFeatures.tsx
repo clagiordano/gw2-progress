@@ -1,6 +1,6 @@
 import { Heading, Box, Text, HStack, Icon } from '@chakra-ui/react';
 import { ExpansionInfo } from './ExpansionInfo';
-import { GiThornyVine, GiFireDash, GiDoubleDragon, GiSecretBook } from "react-icons/gi";
+import { GiThornyVine, GiFireDash, GiDoubleDragon, GiSecretBook, GiSaberTooth, GiNightVision } from "react-icons/gi";
 
 const features = {
 	hasF2P: false,
@@ -8,7 +8,9 @@ const features = {
 	hasHoT: false,
 	hasPoF: false,
 	hasEoD: false,
-	hasSotO: false
+	hasSotO: false,
+	hasJW: false,
+	hasVoE: false
 };
 const parseFeatures = (data: string[]) => {
 	/**
@@ -33,6 +35,21 @@ const parseFeatures = (data: string[]) => {
 	if (data.includes('EndOfDragons')) {
 		features.hasGW2 = true;
 		features.hasEoD = true;
+	}
+
+	if (data.includes('SecretsOfTheObscure')) {
+		features.hasGW2 = true;
+		features.hasSotO = true;
+	}
+
+	if (data.includes('JanthirWilds')) {
+		features.hasGW2 = true;
+		features.hasJW = true;
+	}
+
+	if (data.includes('VisionsOfEternity')) {
+		features.hasGW2 = true;
+		features.hasVoE = true;
 	}
 };
 
@@ -80,6 +97,20 @@ export const AccountInfoFeatures = ({ data }: { data: string[] }) => {
 					text={<Icon as={GiSecretBook} boxSize={6} />}
 					tip="Guild Wars 2: Secrets of the Obscure"
 					bg="goldenrod"
+				/>
+
+				<ExpansionInfo
+					available={features.hasJW}
+					text={<Icon as={GiSaberTooth} boxSize={6} />}
+					tip="Guild Wars 2: Janthir Wilds"
+					bg="darkblue"
+				/>
+
+				<ExpansionInfo
+					available={features.hasVoE}
+					text={<Icon as={GiNightVision} boxSize={6} />}
+					tip="Guild Wars 2: Visions of Eternity"
+					bg="darkblue"
 				/>
 			</HStack>
 		</Box>
