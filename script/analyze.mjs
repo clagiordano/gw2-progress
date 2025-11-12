@@ -9,7 +9,7 @@ const baseURL = 'https://api.guildwars2.com/v2';
 const reqConfig = {
 	headers: {
 		'Content-Type': 'application/json',
-		Authorization: `Bearer ${process.env.ACCESS_TOKEN}`
+		Authorization: `Bearer ${process.env.ANET_ACCESS_TOKEN}`
 	}
 };
 

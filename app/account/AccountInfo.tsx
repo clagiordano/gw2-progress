@@ -45,7 +45,10 @@ export const AccountInfo = () => {
 
   useEffect(() => {
     getAccountInfo().then((data) => {
+      console.log("account data", data);
       setAccount(data);
+    }).catch((err) => {
+      console.error('Error fetching account info:', err);
     });
   }, []);
 

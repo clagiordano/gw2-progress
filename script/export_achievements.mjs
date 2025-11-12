@@ -37,22 +37,25 @@ const getAchievementById = async aId => {
 		return []
 	}
 	const resp = await fetch(`${baseURL}/achievements?ids=${aId}`, reqConfig);
+	if (!resp) {
+		console.error(`invalid response on: ${baseURL}/achievements?ids=${aId}`)
+		return []
+	}
+
 	return await resp.json();
 };
 
+/**
+ * Fetch achievements groups
+ */
 const achievements = await getAchievementsGroups();
-// console.log('achievements', achievements.length, achievements);
 
 bar.start(achievements.length, 0);
-// bar.setTotal(achievements.length);
 for (const idx in achievements) {
 	/**
 	 * Populate groups
 	 */
 	achievements[idx] = await getAchievementsGroupById(achievements[idx]);
-	// console.log('bar total', bar.getTotal());
-	// console.log('fetched groups data new total (categories)', achievements[idx].categories.length);
-	// console.log('new bar total', (bar.getTotal() + achievements[idx].categories.length));
 	bar.setTotal(bar.getTotal() + achievements[idx].categories.length);
 	bar.increment();
 
@@ -66,13 +69,36 @@ for (const idx in achievements) {
 	 * Populate achievements
 	 */
 	for (const cId in achievements[idx].categories) {
-		// console.log('fetched achis new total', bar.getTotal() + achievements[idx].categories[cId].achievements.length);
 		bar.setTotal(bar.getTotal() + achievements[idx].categories[cId].achievements.length);
 		achievements[idx].categories[cId].achievements = await getAchievementById(achievements[idx].categories[cId].achievements.join(','));
 		bar.increment(achievements[idx].categories[cId].achievements.length);
-	}
 
-	// bar.increment()
+		/**
+		 * fetch bits
+		 */
+		// for (const achi in achievements[idx].categories[cId].achievements) {
+		// 	if (achievements[idx].categories[cId].achievements[achi].bits) {
+		// 		//console.log('achi', achievements[idx].categories[cId].achievements[achi].bits);
+
+		// 		let bitIds = [];
+		// 		for (const bit in achievements[idx].categories[cId].achievements[achi].bits) {
+		// 			//console.log('bit', achievements[idx].categories[cId].achievements[achi].bits);
+
+		// 			if (achievements[idx].categories[cId].achievements[achi].bits[bit].id) {
+		// 				bitIds.push(achievements[idx].categories[cId].achievements[achi].bits[bit].id)
+		// 			}
+		// 		}
+
+		// 		if (bitIds.length > 0) {
+		// 			console.log('bitids', bitIds);
+		// 			var resp = await fetch(`${baseURL}/items?ids=${bitIds.join(',')}`, reqConfig);
+		// 			achievements[idx].categories[cId].achievements[achi].bits = await resp.json()
+
+		// 			console.log('new bits', achievements[idx].categories[cId].achievements[achi].bits);
+		// 		}
+		// 	}
+		// }
+	}
 }
 
 bar.stop();
