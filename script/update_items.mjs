@@ -10,7 +10,7 @@ const reqConfig = {
   },
 };
 
-const OUTPUT_PATH = path.join(process.cwd(), "data", "items.json");
+const OUTPUT_PATH = path.join(process.cwd(), "app/lib", "items.json");
 
 // Configurazione
 const BATCH_SIZE = 200;          // max IDs per batch
