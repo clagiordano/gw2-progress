@@ -57,6 +57,7 @@ export default function RootLayout({
               <VStack>
                 <Link href="/account" as={NextLink} >Account</Link>
                 <Link href="/progress" as={NextLink}>Progress</Link>
+                <Link href="/progress/dailies" as={NextLink}>Dailies</Link>
               </VStack>
             </GridItem>
             <GridItem pl="2" area={"main"}>
