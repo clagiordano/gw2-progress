@@ -97,7 +97,7 @@ async function updateItems() {
   batchResults.forEach(items => allItems.push(...items));
 
   console.log(`[updateItems] 🔹 Salvando ${allItems.length} items su file...`);
-  await fs.writeFile(OUTPUT_PATH, JSON.stringify(allItems, null, 2));
+  await fs.writeFile(OUTPUT_PATH, JSON.stringify(allItems));
   console.log("[updateItems] 🎉 Aggiornamento completato!");
 }
 
