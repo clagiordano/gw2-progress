@@ -11,20 +11,32 @@ import {
   VStack,
   Button,
   useToast,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
 } from "@chakra-ui/react";
 
 // Funzione per colore rarità GW2
 function rarityColor(rarity: string) {
   switch (rarity.toLowerCase()) {
-    case "junk": return "#AAAAAA";
-    case "basic": return "#000000";
-    case "fine": return "#62A4DA";
-    case "masterwork": return "#1a9306";
-    case "rare": return "#fcd00b";
-    case "exotic": return "#ffa405";
-    case "ascended": return "#fb3e8d";
-    case "legendary": return "#4C139D";
-    default: return "#000000";
+    case "junk":
+      return "#AAAAAA";
+    case "basic":
+      return "#000000";
+    case "fine":
+      return "#62A4DA";
+    case "masterwork":
+      return "#1a9306";
+    case "rare":
+      return "#fcd00b";
+    case "exotic":
+      return "#ffa405";
+    case "ascended":
+      return "#fb3e8d";
+    case "legendary":
+      return "#4C139D";
+    default:
+      return "#000000";
   }
 }
 
@@ -147,11 +159,11 @@ export default function ItemsExplorer() {
                     {item.name}
                   </Text>
                   <Box textAlign="right">
-                    {(
+                    {
                       <Text fontSize="sm" color="gray.500">
                         Lvl {item.level ?? "N/A"}
                       </Text>
-                    )}
+                    }
                     {item.chat_link && (
                       <Button
                         mt={1}
@@ -165,9 +177,20 @@ export default function ItemsExplorer() {
                 </Flex>
 
                 <Flex gap={2} mt={1}>
-                  <Tag>{item.type}</Tag>
-                  {item.details?.type && <Tag>{item.details.type}</Tag>}
+                  {/* <Tag>{item.type}</Tag>
+                  {item.details?.type && <Tag>{item.details.type}</Tag>} */}
+				  <Breadcrumb fontSize="sm" separator=">">
+                  <BreadcrumbItem>
+                    <BreadcrumbLink>{item.type}</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  {item.details?.type && (
+                    <BreadcrumbItem>
+                      <BreadcrumbLink>{item.details.type}</BreadcrumbLink>
+                    </BreadcrumbItem>
+                  )}
+                </Breadcrumb>
                 </Flex>
+
               </Box>
             </Flex>
           ))}
