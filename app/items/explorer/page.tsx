@@ -46,6 +46,7 @@ export default function ItemsExplorer() {
   const [category, setCategory] = useState("");
   const [subtype, setSubtype] = useState("");
   const [rarity, setRarity] = useState("");
+  const [bonuses, setBonuses] = useState("");
   const [results, setResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -59,6 +60,7 @@ export default function ItemsExplorer() {
       if (category) params.append("category", category);
       if (subtype) params.append("subtype", subtype);
       if (rarity) params.append("rarity", rarity);
+      if (bonuses) params.append("bonuses", bonuses);
 
       if (params.toString() === "") {
         setResults([]);
@@ -73,7 +75,7 @@ export default function ItemsExplorer() {
     }, 300);
 
     return () => clearTimeout(handler);
-  }, [query, category, subtype, rarity]);
+  }, [query, category, subtype, rarity, bonuses]);
 
   // Copia chat_link nella clipboard con toast
   const handleCopy = (link: string) => {
@@ -132,6 +134,14 @@ export default function ItemsExplorer() {
             <option value="legendary">Legendary</option>
           </Select>
         </Box>
+
+        <Box flex="1">
+          <Input
+            value={bonuses}
+            onChange={(e) => setBonuses(e.target.value)}
+            placeholder="Bonuses"
+          />
+        </Box>
       </Flex>
 
       {loading && <Spinner />}
@@ -161,9 +171,17 @@ export default function ItemsExplorer() {
 
               <Box flex="1">
                 <Flex justify="space-between" align="flex-start" mb={1}>
-                  <Text fontWeight="semibold" color={rarityColor(item.data?.rarity)}>
-                    {item.data.name}
-                  </Text>
+                  <Box>
+                    <Text fontWeight="semibold" color={rarityColor(item.data?.rarity)}>
+                      {item.data.name}
+                    </Text>
+                    {item.data.details?.bonuses && (
+                      <Text as="span" fontSize="xs" color="gray.600">
+                        ({item.data.details.bonuses.join(", ")})
+                      </Text>
+                    )}
+                  </Box>
+
                   <Box textAlign="right">
                     {
                       <Text fontSize="sm" color="gray.500">

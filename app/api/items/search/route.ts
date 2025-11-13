@@ -11,6 +11,7 @@ export async function GET(req: Request) {
   const category = searchParams.get("category")?.toLowerCase() || "";
   const subtype = searchParams.get("subtype")?.toLowerCase() || "";
   const rarity = searchParams.get("rarity")?.toLowerCase() || "";
+  const bonuses = searchParams.get("bonuses")?.toLowerCase() || "";
   //   const bonus = searchParams.get("bonus")?.toLowerCase() || "";
 
   // const results = items.filter(item => {
@@ -45,8 +46,9 @@ export async function GET(req: Request) {
   let query = supabase.from("items").select("*").limit(200);
   if (q) query = query.ilike("data->>name", `%${q}%`);
   if (category) query = query.ilike("data->>type", `%${category}%`);
-  if (subtype) query = query.ilike("data->>details->>type", `%${subtype}%`);
+  if (subtype) query = query.ilike("data->details->>type", `%${subtype}%`);
   if (rarity) query = query.ilike("data->>rarity", `%${rarity}%`);
+  if (bonuses) query = query.ilike("data->details->>bonuses", `%${bonuses}%`);
 
   const { data, error } = await query;
 
