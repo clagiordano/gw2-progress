@@ -5,7 +5,6 @@ import {
   Flex,
   Box,
   Text,
-  Tag,
   Image as ChakraImage,
   Spinner,
   VStack,
@@ -14,6 +13,8 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
+  Input,
+  Select
 } from "@chakra-ui/react";
 
 // Funzione per colore rarità GW2
@@ -95,36 +96,41 @@ export default function ItemsExplorer() {
       {/* Input Fields */}
       <Flex wrap="wrap" gap={4} mb={4}>
         <Box flex="1">
-          <input
+          <Input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Name"
-            className="border p-2 rounded w-full"
           />
         </Box>
         <Box flex="1">
-          <input
+          <Input
             value={category}
             onChange={(e) => setCategory(e.target.value)}
             placeholder="Category"
-            className="border p-2 rounded w-full"
           />
         </Box>
         <Box flex="1">
-          <input
+          <Input
             value={subtype}
             onChange={(e) => setSubtype(e.target.value)}
             placeholder="Type"
-            className="border p-2 rounded w-full"
           />
         </Box>
         <Box flex="1">
-          <input
+          <Select
             value={rarity}
             onChange={(e) => setRarity(e.target.value)}
-            placeholder="Rarity"
-            className="border p-2 rounded w-full"
-          />
+            placeholder="All Rarities"
+          >
+            <option value="junk">Junk</option>
+            <option value="basic">Basic</option>
+            <option value="fine">Fine</option>
+            <option value="masterwork">Masterwork</option>
+            <option value="rare">Rare</option>
+            <option value="exotic">Exotic</option>
+            <option value="ascended">Ascended</option>
+            <option value="legendary">Legendary</option>
+          </Select>
         </Box>
       </Flex>
 
@@ -179,18 +185,17 @@ export default function ItemsExplorer() {
                 <Flex gap={2} mt={1}>
                   {/* <Tag>{item.type}</Tag>
                   {item.details?.type && <Tag>{item.details.type}</Tag>} */}
-				  <Breadcrumb fontSize="sm" separator=">">
-                  <BreadcrumbItem>
-                    <BreadcrumbLink>{item.type}</BreadcrumbLink>
-                  </BreadcrumbItem>
-                  {item.details?.type && (
+                  <Breadcrumb fontSize="sm" separator=">">
                     <BreadcrumbItem>
-                      <BreadcrumbLink>{item.details.type}</BreadcrumbLink>
+                      <BreadcrumbLink>{item.type}</BreadcrumbLink>
                     </BreadcrumbItem>
-                  )}
-                </Breadcrumb>
+                    {item.details?.type && (
+                      <BreadcrumbItem>
+                        <BreadcrumbLink>{item.details.type}</BreadcrumbLink>
+                      </BreadcrumbItem>
+                    )}
+                  </Breadcrumb>
                 </Flex>
-
               </Box>
             </Flex>
           ))}
