@@ -5,47 +5,19 @@ import {
   Flex,
   Box,
   Text,
-  Image as ChakraImage,
   Spinner,
   VStack,
-  Button,
-  useToast,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
   Input,
   Select,
   Popover,
   PopoverTrigger,
   PopoverContent,
   PopoverArrow,
-  PopoverHeader,
   PopoverBody,
 } from "@chakra-ui/react";
 
-// Funzione per colore rarità GW2
-function rarityColor(rarity: string) {
-  switch (rarity.toLowerCase()) {
-    case "junk":
-      return "#AAAAAA";
-    case "basic":
-      return "#000000";
-    case "fine":
-      return "#62A4DA";
-    case "masterwork":
-      return "#1a9306";
-    case "rare":
-      return "#fcd00b";
-    case "exotic":
-      return "#ffa405";
-    case "ascended":
-      return "#fb3e8d";
-    case "legendary":
-      return "#4C139D";
-    default:
-      return "#000000";
-  }
-}
+import ItemPopover from "@/components/ItemPopover";
+import ItemCard from "@/components/ItemCard";
 
 export default function ItemsExplorer() {
   const [query, setQuery] = useState("");
@@ -55,8 +27,6 @@ export default function ItemsExplorer() {
   const [bonuses, setBonuses] = useState("");
   const [results, setResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
-
-  const toast = useToast();
 
   // Debounce + fetch API
   useEffect(() => {
@@ -83,17 +53,6 @@ export default function ItemsExplorer() {
     return () => clearTimeout(handler);
   }, [query, category, subtype, rarity, bonuses]);
 
-  // Copia chat_link nella clipboard con toast
-  const handleCopy = (link: string) => {
-    navigator.clipboard.writeText(link);
-    toast({
-      title: "Copied!",
-      description: "Chat link copied to clipboard.",
-      status: "success",
-      duration: 2000,
-      isClosable: true,
-    });
-  };
 
   return (
     <Box p={6}>
@@ -156,106 +115,9 @@ export default function ItemsExplorer() {
       <Suspense fallback={<Spinner />}>
         <VStack spacing={4} align="stretch">
           {results.map((item) => (
-            <Popover key={item.data.id} trigger="hover" placement="top-start">
-              <PopoverTrigger>
-                <Flex
-                  key={item.data.id}
-                  p={4}
-                  borderWidth="1px"
-                  borderRadius="lg"
-                  bg="white"
-                  _hover={{ shadow: "lg" }}
-                  align="center"
-                  gap={4}
-                >
-                  {item.data.icon && (
-                    <ChakraImage
-                      src={item.data.icon}
-                      alt={item.data.name}
-                      boxSize="48px"
-                      borderRadius="md"
-                    />
-                  )}
-
-                  <Box flex="1">
-                    <Flex justify="space-between" align="flex-start" mb={1}>
-                      <Box>
-                        <Text
-                          fontWeight="semibold"
-                          color={rarityColor(item.data?.rarity)}
-                        >
-                          {item.data.name}
-                        </Text>
-                        {item.data.details?.bonuses && (
-                          <Text as="span" fontSize="xs" color="gray.600">
-                            ({item.data.details.bonuses.join(", ")})
-                          </Text>
-                        )}
-                      </Box>
-
-                      <Box textAlign="right">
-                        {
-                          <Text fontSize="sm" color="gray.500">
-                            Lvl {item.data.level ?? "N/A"}
-                          </Text>
-                        }
-                        {item.data.chat_link && (
-                          <Button
-                            mt={1}
-                            size="xs"
-                            onClick={() => handleCopy(item.data.chat_link)}
-                          >
-                            Copy
-                          </Button>
-                        )}
-                      </Box>
-                    </Flex>
-
-                    <Flex gap={2} mt={1}>
-                      {/* <Tag>{item.data.type}</Tag>
-                      {item.data.details?.type && <Tag>{item.data.details.type}</Tag>} */}
-                      <Breadcrumb fontSize="sm" separator=">">
-                        <BreadcrumbItem>
-                          <BreadcrumbLink>{item.data.type}</BreadcrumbLink>
-                        </BreadcrumbItem>
-                        {item.data.details?.type && (
-                          <BreadcrumbItem>
-                            <BreadcrumbLink>
-                              {item.data.details.type}
-                            </BreadcrumbLink>
-                          </BreadcrumbItem>
-                        )}
-                      </Breadcrumb>
-                    </Flex>
-                  </Box>
-                </Flex>
-              </PopoverTrigger>
-
-              <PopoverContent w="auto" maxW="sm">
-                <PopoverArrow />
-                <PopoverBody>
-                  <VStack align="start" spacing={2}>
-                    <Text fontWeight="bold">{item.data.name}</Text>
-                    <Text>Type: {item.data.type}</Text>
-                    {item.data.details?.type && (
-                      <Text>Subtype: {item.data.details.type}</Text>
-                    )}
-                    {item.data.details?.bonuses && (
-                      <Box>
-                        <Text fontWeight="bold">Bonuses:</Text>
-                        <VStack align="start" spacing={0}>
-                          {item.data.details.bonuses.map((b: string, i: number) => (
-                            <Text key={i} fontSize="sm">
-                              {b}
-                            </Text>
-                          ))}
-                        </VStack>
-                      </Box>
-                    )}
-                  </VStack>
-                </PopoverBody>
-              </PopoverContent>
-            </Popover>
+             <ItemPopover key={item.data.id} item={item.data}>
+                <ItemCard key={item.id} data={item.data} />
+              </ItemPopover>
           ))}
         </VStack>
       </Suspense>

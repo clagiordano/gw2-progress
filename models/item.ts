@@ -23,4 +23,5 @@ export interface ItemDetails {
     stat_choices?: number[];
     attribute_adjustment?: number;
     secondary_suffix_item_id?: string;
+    bonuses?: string[];
 }
