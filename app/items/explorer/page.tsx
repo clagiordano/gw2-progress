@@ -6,12 +6,15 @@ import { Flex, Box, Text, Tag, Image as ChakraImage, Spinner, VStack } from "@ch
 // Funzione helper per colore della rarità
 function rarityColor(rarity: string) {
   switch (rarity.toLowerCase()) {
-    case "common": return "gray.800";
-    case "uncommon": return "green.500";
-    case "rare": return "blue.500";
-    case "epic": return "purple.500";
-    case "legendary": return "yellow.400";
-    default: return "gray.800";
+    case "junk": return "#AAAAAA";        // grigio chiaro
+    case "basic": return "#000000";       // nero
+    case "fine": return "#62A4DA";        // blu chiaro
+    case "masterwork": return "#1a9306";  // verde
+    case "rare": return "#fcd00b";        // giallo
+    case "exotic": return "#ffa405";      // arancione
+    case "ascended": return "#fb3e8d";    // rosa/fucsia
+    case "legendary": return "#4C139D";   // viola scuro
+    default: return "#000000";            // fallback nero
   }
 }
 
