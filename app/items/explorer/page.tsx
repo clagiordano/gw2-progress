@@ -14,7 +14,13 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   Input,
-  Select
+  Select,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+  PopoverHeader,
+  PopoverBody,
 } from "@chakra-ui/react";
 
 // Funzione per colore rarità GW2
@@ -150,72 +156,106 @@ export default function ItemsExplorer() {
       <Suspense fallback={<Spinner />}>
         <VStack spacing={4} align="stretch">
           {results.map((item) => (
-            <Flex
-              key={item.data.id}
-              p={4}
-              borderWidth="1px"
-              borderRadius="lg"
-              bg="white"
-              _hover={{ shadow: "lg" }}
-              align="center"
-              gap={4}
-            >
-              {item.data.icon && (
-                <ChakraImage
-                  src={item.data.icon}
-                  alt={item.data.name}
-                  boxSize="48px"
-                  borderRadius="md"
-                />
-              )}
+            <Popover key={item.data.id} trigger="hover" placement="top-start">
+              <PopoverTrigger>
+                <Flex
+                  key={item.data.id}
+                  p={4}
+                  borderWidth="1px"
+                  borderRadius="lg"
+                  bg="white"
+                  _hover={{ shadow: "lg" }}
+                  align="center"
+                  gap={4}
+                >
+                  {item.data.icon && (
+                    <ChakraImage
+                      src={item.data.icon}
+                      alt={item.data.name}
+                      boxSize="48px"
+                      borderRadius="md"
+                    />
+                  )}
 
-              <Box flex="1">
-                <Flex justify="space-between" align="flex-start" mb={1}>
-                  <Box>
-                    <Text fontWeight="semibold" color={rarityColor(item.data?.rarity)}>
-                      {item.data.name}
-                    </Text>
-                    {item.data.details?.bonuses && (
-                      <Text as="span" fontSize="xs" color="gray.600">
-                        ({item.data.details.bonuses.join(", ")})
-                      </Text>
-                    )}
-                  </Box>
+                  <Box flex="1">
+                    <Flex justify="space-between" align="flex-start" mb={1}>
+                      <Box>
+                        <Text
+                          fontWeight="semibold"
+                          color={rarityColor(item.data?.rarity)}
+                        >
+                          {item.data.name}
+                        </Text>
+                        {item.data.details?.bonuses && (
+                          <Text as="span" fontSize="xs" color="gray.600">
+                            ({item.data.details.bonuses.join(", ")})
+                          </Text>
+                        )}
+                      </Box>
 
-                  <Box textAlign="right">
-                    {
-                      <Text fontSize="sm" color="gray.500">
-                        Lvl {item.data.level ?? "N/A"}
-                      </Text>
-                    }
-                    {item.data.chat_link && (
-                      <Button
-                        mt={1}
-                        size="xs"
-                        onClick={() => handleCopy(item.data.chat_link)}
-                      >
-                        Copy
-                      </Button>
-                    )}
+                      <Box textAlign="right">
+                        {
+                          <Text fontSize="sm" color="gray.500">
+                            Lvl {item.data.level ?? "N/A"}
+                          </Text>
+                        }
+                        {item.data.chat_link && (
+                          <Button
+                            mt={1}
+                            size="xs"
+                            onClick={() => handleCopy(item.data.chat_link)}
+                          >
+                            Copy
+                          </Button>
+                        )}
+                      </Box>
+                    </Flex>
+
+                    <Flex gap={2} mt={1}>
+                      {/* <Tag>{item.data.type}</Tag>
+                      {item.data.details?.type && <Tag>{item.data.details.type}</Tag>} */}
+                      <Breadcrumb fontSize="sm" separator=">">
+                        <BreadcrumbItem>
+                          <BreadcrumbLink>{item.data.type}</BreadcrumbLink>
+                        </BreadcrumbItem>
+                        {item.data.details?.type && (
+                          <BreadcrumbItem>
+                            <BreadcrumbLink>
+                              {item.data.details.type}
+                            </BreadcrumbLink>
+                          </BreadcrumbItem>
+                        )}
+                      </Breadcrumb>
+                    </Flex>
                   </Box>
                 </Flex>
+              </PopoverTrigger>
 
-                <Flex gap={2} mt={1}>
-                  {/* <Tag>{item.data.type}</Tag>
-                  {item.data.details?.type && <Tag>{item.data.details.type}</Tag>} */}
-                  <Breadcrumb fontSize="sm" separator=">">
-                    <BreadcrumbItem>
-                      <BreadcrumbLink>{item.data.type}</BreadcrumbLink>
-                    </BreadcrumbItem>
+              <PopoverContent w="auto" maxW="sm">
+                <PopoverArrow />
+                <PopoverBody>
+                  <VStack align="start" spacing={2}>
+                    <Text fontWeight="bold">{item.data.name}</Text>
+                    <Text>Type: {item.data.type}</Text>
                     {item.data.details?.type && (
-                      <BreadcrumbItem>
-                        <BreadcrumbLink>{item.data.details.type}</BreadcrumbLink>
-                      </BreadcrumbItem>
+                      <Text>Subtype: {item.data.details.type}</Text>
                     )}
-                  </Breadcrumb>
-                </Flex>
-              </Box>
-            </Flex>
+                    {item.data.details?.bonuses && (
+                      <Box>
+                        <Text fontWeight="bold">Bonuses:</Text>
+                        <VStack align="start" spacing={0}>
+                          {item.data.details.bonuses.map((b: string, i: number) => (
+                            <Text key={i} fontSize="sm">
+                              {b}
+                            </Text>
+                          ))}
+                        </VStack>
+                      </Box>
+                    )}
+                  </VStack>
+                </PopoverBody>
+              </PopoverContent>
+            </Popover>
           ))}
         </VStack>
       </Suspense>
