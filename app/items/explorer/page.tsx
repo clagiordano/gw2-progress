@@ -141,7 +141,7 @@ export default function ItemsExplorer() {
         <VStack spacing={4} align="stretch">
           {results.map((item) => (
             <Flex
-              key={item.id}
+              key={item.data.id}
               p={4}
               borderWidth="1px"
               borderRadius="lg"
@@ -150,10 +150,10 @@ export default function ItemsExplorer() {
               align="center"
               gap={4}
             >
-              {item.icon && (
+              {item.data.icon && (
                 <ChakraImage
-                  src={item.icon}
-                  alt={item.name}
+                  src={item.data.icon}
+                  alt={item.data.name}
                   boxSize="48px"
                   borderRadius="md"
                 />
@@ -161,20 +161,20 @@ export default function ItemsExplorer() {
 
               <Box flex="1">
                 <Flex justify="space-between" align="flex-start" mb={1}>
-                  <Text fontWeight="semibold" color={rarityColor(item.rarity)}>
-                    {item.name}
+                  <Text fontWeight="semibold" color={rarityColor(item.data?.rarity)}>
+                    {item.data.name}
                   </Text>
                   <Box textAlign="right">
                     {
                       <Text fontSize="sm" color="gray.500">
-                        Lvl {item.level ?? "N/A"}
+                        Lvl {item.data.level ?? "N/A"}
                       </Text>
                     }
-                    {item.chat_link && (
+                    {item.data.chat_link && (
                       <Button
                         mt={1}
                         size="xs"
-                        onClick={() => handleCopy(item.chat_link)}
+                        onClick={() => handleCopy(item.data.chat_link)}
                       >
                         Copy
                       </Button>
@@ -183,15 +183,15 @@ export default function ItemsExplorer() {
                 </Flex>
 
                 <Flex gap={2} mt={1}>
-                  {/* <Tag>{item.type}</Tag>
-                  {item.details?.type && <Tag>{item.details.type}</Tag>} */}
+                  {/* <Tag>{item.data.type}</Tag>
+                  {item.data.details?.type && <Tag>{item.data.details.type}</Tag>} */}
                   <Breadcrumb fontSize="sm" separator=">">
                     <BreadcrumbItem>
-                      <BreadcrumbLink>{item.type}</BreadcrumbLink>
+                      <BreadcrumbLink>{item.data.type}</BreadcrumbLink>
                     </BreadcrumbItem>
-                    {item.details?.type && (
+                    {item.data.details?.type && (
                       <BreadcrumbItem>
-                        <BreadcrumbLink>{item.details.type}</BreadcrumbLink>
+                        <BreadcrumbLink>{item.data.details.type}</BreadcrumbLink>
                       </BreadcrumbItem>
                     )}
                   </Breadcrumb>
