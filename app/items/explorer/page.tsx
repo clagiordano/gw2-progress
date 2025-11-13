@@ -1,16 +1,29 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
+import { Flex, Box, Text, Tag, Image as ChakraImage, Spinner, VStack } from "@chakra-ui/react";
+
+// Funzione helper per colore della rarità
+function rarityColor(rarity: string) {
+  switch (rarity.toLowerCase()) {
+    case "common": return "gray.800";
+    case "uncommon": return "green.500";
+    case "rare": return "blue.500";
+    case "epic": return "purple.500";
+    case "legendary": return "yellow.400";
+    default: return "gray.800";
+  }
+}
 
 export default function ItemsExplorer() {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("");
   const [subtype, setSubtype] = useState("");
   const [rarity, setRarity] = useState("");
-  const [bonus, setBonus] = useState("");
   const [results, setResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
+  // Debounce e fetch API
   useEffect(() => {
     const handler = setTimeout(() => {
       const params = new URLSearchParams();
@@ -18,7 +31,6 @@ export default function ItemsExplorer() {
       if (category) params.append("category", category);
       if (subtype) params.append("subtype", subtype);
       if (rarity) params.append("rarity", rarity);
-      if (bonus) params.append("bonus", bonus);
 
       if (params.toString() === "") {
         setResults([]);
@@ -32,58 +44,82 @@ export default function ItemsExplorer() {
         .finally(() => setLoading(false));
     }, 300); // debounce 300ms
 
-    return () => clearTimeout(handler); // cancella il timeout se uno stato cambia prima
-  }, [query, category, subtype,rarity, bonus]);
+    return () => clearTimeout(handler);
+  }, [query, category, subtype, rarity]);
 
   return (
-    <div className="p-6 space-y-4">
-      <h1 className="text-2xl font-bold">Item Explorer</h1>
+    <Box p={6}>
+      <Text fontSize="2xl" fontWeight="bold" mb={4}>Item Explorer</Text>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <input
-          value={query}
-          onChange={e => setQuery(e.target.value)}
-          placeholder="Name"
-          className="border p-2 rounded"
-        />
-        <input
-          value={category}
-          onChange={e => setCategory(e.target.value)}
-          placeholder="Item Category"
-          className="border p-2 rounded"
-        />
+      {/* Input Fields */}
+      <Flex wrap="wrap" gap={4} mb={4}>
+        <Box flex="1">
+          <input
+            value={query}
+            onChange={e => setQuery(e.target.value)}
+            placeholder="Name"
+            className="border p-2 rounded w-full"
+          />
+        </Box>
+        <Box flex="1">
+          <input
+            value={category}
+            onChange={e => setCategory(e.target.value)}
+            placeholder="Category"
+            className="border p-2 rounded w-full"
+          />
+        </Box>
+        <Box flex="1">
+          <input
+            value={subtype}
+            onChange={e => setSubtype(e.target.value)}
+            placeholder="Type"
+            className="border p-2 rounded w-full"
+          />
+        </Box>
+        <Box flex="1">
+          <input
+            value={rarity}
+            onChange={e => setRarity(e.target.value)}
+            placeholder="Rarity"
+            className="border p-2 rounded w-full"
+          />
+        </Box>
+      </Flex>
 
-        <input
-          value={subtype}
-          onChange={e => setSubtype(e.target.value)}
-          placeholder="Item Type"
-          className="border p-2 rounded"
-        />
-        <input
-          value={rarity}
-          onChange={e => setRarity(e.target.value)}
-          placeholder="Rarity"
-          className="border p-2 rounded"
-        />
-        {/* <input
-          value={bonus}
-          onChange={e => setBonus(e.target.value)}
-          placeholder="Bonus"
-          className="border p-2 rounded"
-        /> */}
-      </div>
+      {loading && <Spinner />}
 
-      {loading && <p>Loading...</p>}
-
-      <ul className="space-y-2">
-        {results.map(item => (
-          <li key={item.id} className="border p-2 rounded bg-gray-50">
-            <strong>{item.name}</strong> — {item.type}, {item.rarity}
-            <br />
-            {/* <small>Bonus: {item.bonuses?.join(", ")}</small> */}
-          </li>
-        ))}
-      </ul>
-    </div>
+      {/* Cards one per row */}
+      <Suspense fallback={<Spinner />}>
+        <VStack spacing={4} align="stretch">
+          {results.map(item => (
+            <Flex
+              key={item.id}
+              p={4}
+              borderWidth="1px"
+              borderRadius="lg"
+              bg="white"
+              _hover={{ shadow: "lg" }}
+              align="center"
+              gap={4}
+            >
+              {item.icon && (
+                <ChakraImage src={item.icon} alt={item.name} boxSize="48px" borderRadius="md" />
+              )}
+              <Box flex="1">
+                <Flex justify="space-between" align="center">
+                  <Text fontWeight="semibold" color={rarityColor(item.rarity)}>{item.name}</Text>
+                  {item.level && <Text fontSize="sm" color="gray.500">Lvl {item.level}</Text>}
+                </Flex>
+                <Flex gap={2} mt={1}>
+                  <Tag>{item.type}</Tag>
+                  {item.details?.type && <Tag>{item.details.type}</Tag>}
+                </Flex>
+              </Box>
+            </Flex>
+          ))}
+        </VStack>
+      </Suspense>
+    </Box>
   );
 }
