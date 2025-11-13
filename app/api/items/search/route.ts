@@ -45,7 +45,7 @@ export async function GET(req: Request) {
   let query = supabase.from("items").select("*").limit(200);
   if (q) query = query.ilike("data->>name", `%${q}%`);
   if (category) query = query.ilike("data->>type", `%${category}%`);
-  if (subtype) query = query.ilike("data->>details->type", `%${subtype}%`);
+  if (subtype) query = query.ilike("data->>details->>type", `%${subtype}%`);
   if (rarity) query = query.ilike("data->>rarity", `%${rarity}%`);
 
   const { data, error } = await query;

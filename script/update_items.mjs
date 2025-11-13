@@ -1,6 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
 import "dotenv/config";
+import { createClient } from "@supabase/supabase-js";
 
 const baseURL = "https://api.guildwars2.com/v2";
 const reqConfig = {
@@ -9,6 +10,11 @@ const reqConfig = {
     Authorization: `Bearer ${process.env.ANET_ACCESS_TOKEN}`,
   },
 };
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY
+);
 
 const OUTPUT_PATH = path.join(process.cwd(), "app/lib", "items.json");
 
@@ -72,6 +78,19 @@ async function asyncPool(poolLimit, array, iteratorFn) {
   return Promise.all(results);
 }
 
+async function upsertItemsToSupabase(items) {
+  const payload = items.map(item => ({
+    id: item.id,
+    data: item,
+  }));
+
+  const { error } = await supabase
+    .from("items")
+    .upsert(payload, { onConflict: ["id"] });
+
+  if (error) throw error;
+}
+
 async function updateItems() {
   console.log("[updateItems] 🚀 Fetch lista ID...");
   const res = await fetch(`${baseURL}/items`, reqConfig);
@@ -90,6 +109,9 @@ async function updateItems() {
     console.log(`[updateItems] 🔹 Fetch batch ${index + 1}/${batches.length}`);
     const items = await fetchBatch(batch);
     console.log(`[updateItems] ✅ Batch ${index + 1} completato, ${items.length} items`);
+
+    await upsertItemsToSupabase(items);
+
     return items;
   });
 
