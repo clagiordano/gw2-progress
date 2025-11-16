@@ -1,27 +1,27 @@
-import { Heading, Box, Text, Tooltip, HStack, List, ListIcon, ListItem, Badge } from '@chakra-ui/react';
-import { InfoOutlineIcon, CalendarIcon, AtSignIcon, CheckCircleIcon } from '@chakra-ui/icons';
+"use client";
 
-export const AccountInfoGuilds = ({ data }: { data: any[] }) => {
-	return (
-		<Box>
-			<Heading size="xs" textTransform="uppercase">
-				Guilds
-			</Heading>
-			<Text pt="2" fontSize="sm">
-				Guilds this account belongs to
-			</Text>
+import { Heading, Box, Text, List, ListItem, Badge } from "@chakra-ui/react";
+import { useAccount } from "../context/AccountContext";
 
-			<List spacing={3}>
-				{data.map((guild: any) => {
-					return (
-						<ListItem key={guild.id}>
-							{/* <ListIcon as={CheckCircleIcon} /> */}
-							<Badge variant="solid">{guild.tag}</Badge> {guild.name} - lvl {guild.level} - members{' '}
-							{guild.member_count} / {guild.member_capacity}
-						</ListItem>
-					);
-				})}
-			</List>
-		</Box>
-	);
+export const AccountInfoGuilds = () => {
+  const { account } = useAccount();
+
+  return (
+    <Box>
+      <Heading size="xs" textTransform="uppercase">
+        Guilds
+      </Heading>
+      <Text pt="2" fontSize="sm">
+        Guilds this account belongs to
+      </Text>
+
+      <List spacing={3}>
+        {account.guilds.map((guild: any) => (
+          <ListItem key={guild.id}>
+            <Badge>{guild.tag}</Badge> {guild.name} - lvl {guild.level} - members {guild.member_count} / {guild.member_capacity}
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  );
 };

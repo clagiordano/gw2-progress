@@ -8,27 +8,15 @@ import {
   Box,
   Stack,
   StackDivider,
-  Text,
+  Skeleton,
 } from "@chakra-ui/react";
-import { AccountInfoOwner } from "@/app/account/AccountInfoOwner";
+import { AccountInfoOwner } from "./AccountInfoOwner";
 import { AccountInfoFeatures } from "./AccountInfoFeatures";
 import { AccountInfoGuilds } from "./AccountInfoGuilds";
-import { useEffect, useState } from "react";
-
-import { getAccountInfo, setToken } from "@/app/actions";
-import { initialAccountState } from "@/app/lib/defaults/account";
+import { useAccount } from "../context/AccountContext";
 
 export const AccountInfo = () => {
-  const [account, setAccount] = useState(initialAccountState);
-
-  useEffect(() => {
-    getAccountInfo().then((data) => {
-      console.log("account data", data);
-      setAccount(data);
-    }).catch((err) => {
-      console.error('Error fetching account info:', err);
-    });
-  }, []);
+  const { account, loading } = useAccount();
 
   return (
     <Card>
@@ -36,26 +24,32 @@ export const AccountInfo = () => {
         <Heading size="md">Account Information</Heading>
       </CardHeader>
 
-      {/* <Suspense fallback="Loading..."> */}
       <CardBody>
         <Stack divider={<StackDivider />} spacing="4">
-          <AccountInfoOwner data={account} />
+          <Skeleton isLoaded={!loading}>
+            <AccountInfoOwner />
+          </Skeleton>
 
-          <AccountInfoFeatures data={account.access} />
+          <Skeleton isLoaded={!loading}>
+            <AccountInfoFeatures />
+          </Skeleton>
 
-          <AccountInfoGuilds data={account.guilds} />
+          <Skeleton isLoaded={!loading}>
+            <AccountInfoGuilds />
+          </Skeleton>
 
           <Box>
             <Heading size="xs" textTransform="uppercase">
               Basic statistics
             </Heading>
-            <Text pt="2" fontSize="sm">
-              WvW rank, fractal, commander tag, recurring APs, (masteries?) etc
-            </Text>
+            <Skeleton isLoaded={!loading}>
+              <Box pt="2" fontSize="sm">
+                WvW rank, fractal, commander tag, recurring APs, (masteries?) etc
+              </Box>
+            </Skeleton>
           </Box>
         </Stack>
       </CardBody>
-      {/* </Suspense> */}
     </Card>
   );
 };

@@ -1,10 +1,10 @@
 "use client";
+
 import { Suspense } from "react";
 import { fonts } from "./fonts";
 import { Providers } from "./providers";
 import {
   Box,
-  Button,
   ButtonGroup,
   Flex,
   Grid,
@@ -15,59 +15,101 @@ import {
   Spacer,
   Spinner,
   VStack,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { SettingsIcon } from "@chakra-ui/icons";
-import NextLink  from 'next/link';
+import NextLink from "next/link";
+import { usePathname } from "next/navigation";
+import { AccountProvider } from "./context/AccountContext";
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const path = usePathname();
+  const navBg = useColorModeValue("gray.50", "gray.900");
+  const headerBg = useColorModeValue("white", "gray.800");
+  const footerBg = useColorModeValue("gray.100", "gray.900");
+
+  const links = [
+    { href: "/account", label: "Account" },
+    { href: "/progress", label: "Progress" },
+    { href: "/progress/dailies", label: "Dailies" },
+  ];
+
   return (
     <html lang="en" className={fonts.rubik.variable}>
       <body>
         <Providers>
-          <Grid
-            templateAreas={`"header header"
-							"nav main"
-							"nav footer"`}
-            gridTemplateRows={"50px 1fr 30px"}
-            gridTemplateColumns={"150px 1fr"}
-            h="100vh"
-            gap="1"
-            // color="blackAlpha.700"
-            // fontWeight="bold"
-          >
-            <GridItem pl="2" bg="orange.300" area={"header"}>
-              <Flex minWidth="max-content" alignItems="center" pt={1} pr={1} gap="1">
-                <Box p="2">
+          <AccountProvider>
+            <Grid
+              templateAreas={`"header header"
+                            "nav main"
+                            "nav footer"`}
+              gridTemplateRows={"50px 1fr 30px"}
+              gridTemplateColumns={"150px 1fr"}
+              h="100vh"
+              gap="1"
+            >
+              {/* Header */}
+              <GridItem pl={4} pr={4} bg={headerBg} area={"header"} shadow="sm">
+                <Flex alignItems="center" h="100%">
                   <Heading size="md">GW2 Progress</Heading>
-                </Box>
-                <Spacer />
-                <ButtonGroup gap="1">
-                  <Link href="/settings" as={NextLink}>
-                    <IconButton aria-label="settings" icon={<SettingsIcon />} />
-                  </Link>
-                </ButtonGroup>
-              </Flex>
-            </GridItem>
+                  <Spacer />
+                  <ButtonGroup>
+                    <Link href="/settings" as={NextLink}>
+                      <IconButton
+                        aria-label="Settings"
+                        icon={<SettingsIcon />}
+                      />
+                    </Link>
+                  </ButtonGroup>
+                </Flex>
+              </GridItem>
 
-            <GridItem pl="2" bg="pink.300" area={"nav"}>
-              <VStack>
-                <Link href="/account" as={NextLink} >Account</Link>
-                <Link href="/progress" as={NextLink}>Progress</Link>
-                <Link href="/progress/dailies" as={NextLink}>Dailies</Link>
-              </VStack>
-            </GridItem>
-            <GridItem pl="2" area={"main"}>
-              {/* <Suspense fallback={<Spinner size='xl' />}>{children}</Suspense> */}
-              {children}
-            </GridItem>
-            <GridItem pl="2" bg="blue.300" area={"footer"}>
-              Footer
-            </GridItem>
-          </Grid>
+              {/* Sidebar */}
+              <GridItem pl={4} pr={2} bg={navBg} area={"nav"} shadow="sm">
+                <VStack align="stretch" spacing={3} mt={4}>
+                  {links.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      as={NextLink}
+                      fontWeight={path === link.href ? "bold" : "normal"}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </VStack>
+              </GridItem>
+
+              {/* Main content */}
+              <GridItem
+                pl={4}
+                pr={4}
+                pt={4}
+                pb={4}
+                area={"main"}
+                overflowY="auto"
+              >
+                <Suspense fallback={<Spinner size="xl" />}>{children}</Suspense>
+              </GridItem>
+
+              {/* Footer */}
+              <GridItem
+                pl={4}
+                pr={4}
+                bg={footerBg}
+                area={"footer"}
+                shadow="inner"
+              >
+                <Flex h="100%" align="center" justify="center">
+                  Footer content
+                </Flex>
+              </GridItem>
+            </Grid>
+          </AccountProvider>
         </Providers>
       </body>
     </html>
