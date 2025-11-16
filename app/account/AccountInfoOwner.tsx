@@ -1,4 +1,4 @@
-import { IAccount } from '@/models/IAccount';
+import { Account } from '@/models/account';
 import {
 	Heading,
 	Box,
@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react';
 import { InfoOutlineIcon, CalendarIcon, AtSignIcon } from '@chakra-ui/icons';
 
-export const AccountInfoOwner = ({ data }: { data: IAccount }) => {
+export const AccountInfoOwner = ({ data }: { data: Account }) => {
 	return (
 		<Box>
 			<Heading size="xs" textTransform="uppercase">
@@ -19,10 +19,10 @@ export const AccountInfoOwner = ({ data }: { data: IAccount }) => {
 			</Text>
 
 			<HStack spacing={3}>
-				<Tooltip label={`ID: ${data.id}`} aria-label="info icon" fontSize="md">
+				<Tooltip label={`ID: ${data?.id}`} aria-label="info icon" fontSize="md">
 					<InfoOutlineIcon />
 				</Tooltip>
-				<Text fontSize="lg">{data.name}</Text>
+				<Text fontSize="lg">{data?.name}</Text>
 			</HStack>
 
 			{/* // Wrong response from API - disbled */}
@@ -32,21 +32,21 @@ export const AccountInfoOwner = ({ data }: { data: IAccount }) => {
 				<Tooltip label="Account creation date" aria-label="info icon" fontSize="md">
 					<CalendarIcon />
 				</Tooltip>
-				<Text fontSize="lg">{data.created}</Text>
+				<Text fontSize="lg">{data?.created}</Text>
 			</HStack>
 
 			<HStack spacing={3}>
 				<Tooltip label="Account last modification date" aria-label="info icon" fontSize="md">
 					<CalendarIcon />
 				</Tooltip>
-				<Text fontSize="lg">{data.last_modified}</Text>
+				<Text fontSize="lg">{data?.last_modified}</Text>
 			</HStack>
 
 			<HStack spacing={3}>
-				<Tooltip label={`Current world: ${data.world.id}`} aria-label="info icon" fontSize="md">
+				<Tooltip label={`Current world: ${data?.world?.id}`} aria-label="info icon" fontSize="md">
 					<AtSignIcon />
 				</Tooltip>
-				<Text fontSize="lg">{data.world.name}</Text>
+				<Text fontSize="lg">{data?.world?.name}</Text>
 			</HStack>
 		</Box>
 	);
