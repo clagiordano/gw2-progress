@@ -58,12 +58,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const path = usePathname();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const navBg = useColorModeValue("gray.50", "gray.900");
-  const headerBg = useColorModeValue("white", "gray.800");
-  const footerBg = useColorModeValue("gray.100", "gray.900");
-
   const links = [
     { href: "/account", label: "Account" },
+    { href: "/items/explorer", label: "Explore Items" },
     { href: "/progress", label: "Progress" },
     { href: "/progress/dailies", label: "Dailies" },
   ];
