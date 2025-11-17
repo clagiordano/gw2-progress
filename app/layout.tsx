@@ -2,7 +2,9 @@
 
 import { Suspense } from "react";
 import { fonts } from "./fonts";
-import { Providers } from "./providers";
+import { ChakraProvider, ColorModeScript, useColorModeValue } from "@chakra-ui/react";
+import { theme } from "./theme";
+import { AccountProvider } from "./context/AccountContext";
 import {
   Box,
   ButtonGroup,
@@ -15,19 +17,46 @@ import {
   Spacer,
   Spinner,
   VStack,
-  useColorModeValue,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  DrawerBody,
+  useDisclosure,
 } from "@chakra-ui/react";
-import { SettingsIcon } from "@chakra-ui/icons";
+import { SettingsIcon, HamburgerIcon } from "@chakra-ui/icons";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
-import { AccountProvider } from "./context/AccountContext";
 
-export default function RootLayout({
-  children,
+// SidebarLinks fuori dal componente principale
+const SidebarLinks = ({
+  links,
+  currentPath,
+  onClickLink,
 }: {
-  children: React.ReactNode;
-}) {
+  links: { href: string; label: string }[];
+  currentPath: string;
+  onClickLink?: () => void;
+}) => (
+  <VStack align="stretch" spacing={3} mt={4}>
+    {links.map((link) => (
+      <Link
+        key={link.href}
+        href={link.href}
+        as={NextLink}
+        fontWeight={currentPath === link.href ? "bold" : "normal"}
+        onClick={onClickLink}
+      >
+        {link.label}
+      </Link>
+    ))}
+  </VStack>
+);
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   const path = usePathname();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const navBg = useColorModeValue("gray.50", "gray.900");
   const headerBg = useColorModeValue("white", "gray.800");
   const footerBg = useColorModeValue("gray.100", "gray.900");
@@ -40,48 +69,54 @@ export default function RootLayout({
 
   return (
     <html lang="en" className={fonts.rubik.variable}>
+      <head>
+        {/* ColorModeScript qui, prima di qualsiasi client component */}
+        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+      </head>
       <body>
-        <Providers>
+        <ChakraProvider theme={theme}>
           <AccountProvider>
             <Grid
-              templateAreas={`"header header"
-                            "nav main"
-                            "nav footer"`}
-              gridTemplateRows={"50px 1fr 30px"}
-              gridTemplateColumns={"150px 1fr"}
+              templateAreas={{
+                base: `"header header" "main main" "footer footer"`,
+                md: `"header header" "nav main" "nav footer"`,
+              }}
+              gridTemplateRows={{ base: "60px 1fr 40px", md: "60px 1fr 40px" }}
+              gridTemplateColumns={{ base: "1fr", md: "180px 1fr" }}
               h="100vh"
-              gap="1"
+              gap={1}
             >
               {/* Header */}
               <GridItem pl={4} pr={4} bg={headerBg} area={"header"} shadow="sm">
                 <Flex alignItems="center" h="100%">
                   <Heading size="md">GW2 Progress</Heading>
                   <Spacer />
-                  <ButtonGroup>
+                  {/* Hamburger solo mobile */}
+                  <IconButton
+                    aria-label="Open menu"
+                    icon={<HamburgerIcon />}
+                    display={{ base: "flex", md: "none" }}
+                    onClick={onOpen}
+                    mr={2}
+                  />
+                  <ButtonGroup display={{ base: "none", md: "flex" }}>
                     <Link href="/settings" as={NextLink}>
-                      <IconButton
-                        aria-label="Settings"
-                        icon={<SettingsIcon />}
-                      />
+                      <IconButton aria-label="Settings" icon={<SettingsIcon />} />
                     </Link>
                   </ButtonGroup>
                 </Flex>
               </GridItem>
 
-              {/* Sidebar */}
-              <GridItem pl={4} pr={2} bg={navBg} area={"nav"} shadow="sm">
-                <VStack align="stretch" spacing={3} mt={4}>
-                  {links.map((link) => (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      as={NextLink}
-                      fontWeight={path === link.href ? "bold" : "normal"}
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
-                </VStack>
+              {/* Sidebar Desktop */}
+              <GridItem
+                pl={4}
+                pr={2}
+                bg={navBg}
+                area={"nav"}
+                shadow="sm"
+                display={{ base: "none", md: "block" }}
+              >
+                <SidebarLinks links={links} currentPath={path} />
               </GridItem>
 
               {/* Main content */}
@@ -108,9 +143,24 @@ export default function RootLayout({
                   Footer content
                 </Flex>
               </GridItem>
+
+              {/* Drawer mobile */}
+              <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
+                <DrawerOverlay />
+                <DrawerContent>
+                  <DrawerCloseButton />
+                  <DrawerBody>
+                    <SidebarLinks
+                      links={links}
+                      currentPath={path}
+                      onClickLink={onClose}
+                    />
+                  </DrawerBody>
+                </DrawerContent>
+              </Drawer>
             </Grid>
           </AccountProvider>
-        </Providers>
+        </ChakraProvider>
       </body>
     </html>
   );

@@ -1,56 +1,64 @@
-import { extendTheme } from "@chakra-ui/react";
+// app/theme.ts
+import { extendTheme, type ThemeConfig } from "@chakra-ui/react";
+
+// Config per il color mode iniziale
+const config: ThemeConfig = {
+  initialColorMode: "light",
+  useSystemColorMode: true,
+};
+
+// Palette colori personalizzata
+const colors = {
+  brand: {
+    50: "#ffe6e6",
+    100: "#ffb3b3",
+    200: "#ff8080",
+    300: "#ff4d4d",
+    400: "#ff1a1a",
+    500: "#e60000",
+    600: "#b30000",
+    700: "#800000",
+    800: "#4d0000",
+    900: "#1a0000",
+  },
+  sidebarBg: {
+    light: "gray.50",
+    dark: "gray.900",
+  },
+  headerBg: {
+    light: "white",
+    dark: "gray.800",
+  },
+  footerBg: {
+    light: "gray.100",
+    dark: "gray.900",
+  },
+};
 
 export const theme = extendTheme({
+  config,
+  colors,
   fonts: {
-    heading: 'var(--font-rubik)',
-    body: 'var(--font-rubik)',
+    heading: "var(--font-rubik)",
+    body: "var(--font-rubik)",
   },
-
   styles: {
-    global: {
+    global: (props: any) => ({
       body: {
-        bg: "gray.50",
-        color: "gray.800",
+        bg: props.colorMode === "light" ? "gray.50" : "gray.900",
+        color: props.colorMode === "light" ? "gray.800" : "whiteAlpha.900",
       },
-    },
+      a: {
+        _hover: {
+          textDecoration: "none",
+        },
+      },
+    }),
   },
-
-  colors: {
-    brand: {
-      50: "#ffece6",
-      100: "#ffd6bf",
-      200: "#ffb08a",
-      300: "#ff8a55",
-      400: "#ff6420",
-      500: "#e64b07",
-      600: "#b93903",
-      700: "#8c2701",
-      800: "#5f1600",
-      900: "#330700",
-    },
-  },
-
   components: {
     Button: {
       baseStyle: {
-        borderRadius: "lg",
-      },
-      variants: {
-        solid: {
-          bg: "brand.500",
-          color: "white",
-          _hover: {
-            bg: "brand.600",
-          },
-        },
-      },
-    },
-
-    Card: {
-      baseStyle: {
-        borderRadius: "xl",
-        shadow: "md",
-        p: 4,
+        borderRadius: "md",
       },
     },
   },
