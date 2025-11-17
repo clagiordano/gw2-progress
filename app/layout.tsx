@@ -27,6 +27,7 @@ import {
 import { SettingsIcon, HamburgerIcon } from "@chakra-ui/icons";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
+import { ColorAwareGridItem } from "@/components/ColorAwareGridItem";
 
 // SidebarLinks fuori dal componente principale
 const SidebarLinks = ({
@@ -87,7 +88,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               gap={1}
             >
               {/* Header */}
-              <GridItem pl={4} pr={4} bg={headerBg} area={"header"} shadow="sm">
+              <ColorAwareGridItem area={"header"} pl={4} pr={4} shadow="sm">
                 <Flex alignItems="center" h="100%">
                   <Heading size="md">GW2 Progress</Heading>
                   <Spacer />
@@ -105,44 +106,42 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     </Link>
                   </ButtonGroup>
                 </Flex>
-              </GridItem>
+              </ColorAwareGridItem>
 
               {/* Sidebar Desktop */}
-              <GridItem
+              <ColorAwareGridItem
+                area={"nav"}
                 pl={4}
                 pr={2}
-                bg={navBg}
-                area={"nav"}
                 shadow="sm"
                 display={{ base: "none", md: "block" }}
               >
                 <SidebarLinks links={links} currentPath={path} />
-              </GridItem>
+              </ColorAwareGridItem>
 
               {/* Main content */}
-              <GridItem
+              <ColorAwareGridItem
+                area={"main"}
                 pl={4}
                 pr={4}
                 pt={4}
                 pb={4}
-                area={"main"}
                 overflowY="auto"
               >
                 <Suspense fallback={<Spinner size="xl" />}>{children}</Suspense>
-              </GridItem>
+              </ColorAwareGridItem>
 
               {/* Footer */}
-              <GridItem
+              <ColorAwareGridItem
+                area={"footer"}
                 pl={4}
                 pr={4}
-                bg={footerBg}
-                area={"footer"}
                 shadow="inner"
               >
                 <Flex h="100%" align="center" justify="center">
                   Footer content
                 </Flex>
-              </GridItem>
+              </ColorAwareGridItem>
 
               {/* Drawer mobile */}
               <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
