@@ -23,15 +23,27 @@ const colors = {
   },
   sidebarBg: {
     light: "gray.50",
-    dark: "gray.900",
+    dark: "gray.800",
   },
   headerBg: {
     light: "white",
-    dark: "gray.800",
+    dark: "gray.900",
   },
   footerBg: {
     light: "gray.100",
+    dark: "gray.800",
+  },
+  mainBg: {
+    light: "gray.50",
     dark: "gray.900",
+  },
+  text: {
+    light: "gray.800",
+    dark: "whiteAlpha.900",
+  },
+  link: {
+    light: "blue.600",
+    dark: "blue.300",
   },
 };
 
@@ -39,18 +51,19 @@ export const theme = extendTheme({
   config,
   colors,
   fonts: {
-    heading: "var(--font-rubik)",
-    body: "var(--font-rubik)",
+    heading: "var(--font-rubik), sans-serif",
+    body: "var(--font-rubik), sans-serif",
   },
   styles: {
     global: (props: any) => ({
       body: {
-        bg: props.colorMode === "light" ? "gray.50" : "gray.900",
-        color: props.colorMode === "light" ? "gray.800" : "whiteAlpha.900",
+        bg: props.colorMode === "light" ? colors.mainBg.light : colors.mainBg.dark,
+        color: props.colorMode === "light" ? colors.text.light : colors.text.dark,
       },
       a: {
+        color: props.colorMode === "light" ? colors.link.light : colors.link.dark,
         _hover: {
-          textDecoration: "none",
+          textDecoration: "underline",
         },
       },
     }),
@@ -59,6 +72,11 @@ export const theme = extendTheme({
     Button: {
       baseStyle: {
         borderRadius: "md",
+      },
+    },
+    Heading: {
+      baseStyle: {
+        color: (props: any) => (props.colorMode === "light" ? colors.text.light : colors.text.dark),
       },
     },
   },
