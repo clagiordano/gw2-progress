@@ -20,16 +20,20 @@ import {
 
 import ItemPopover from "@/components/ItemPopover";
 import ItemCard from "@/components/ItemCard";
-import { Item, ItemResult, TypeGroup } from "@/models/item";
+import { ItemResult, TypeGroup } from "@/models/item";
 
 export default function ItemsExplorer() {
   const [query, setQuery] = useState("");
+  const [bonuses, setBonuses] = useState("");
+
+  const [debouncedQuery, setDebouncedQuery] = useState(query);
+  const [debouncedBonuses, setDebouncedBonuses] = useState(bonuses);
+
   const [category, setCategory] = useState("");
   const [subtype, setSubtype] = useState("");
   const [rarity, setRarity] = useState("");
-  const [bonuses, setBonuses] = useState("");
-  const [results, setResults] = useState<ItemResult[]>([]);
 
+  const [results, setResults] = useState<ItemResult[]>([]);
   const [loading, setLoading] = useState(false);
 
   const [categories, setCategories] = useState<string[]>([]);
@@ -40,68 +44,67 @@ export default function ItemsExplorer() {
     if (!category) return [];
     const catData = statsData.find((t) => t.type === category);
     return (
-      catData?.subtypes
-        ?.filter((s: any) => s.subtype)
-        .map((s: any) => s.subtype) || []
+      catData?.subtypes?.filter((s: any) => s.subtype).map((s: any) => s.subtype) || []
     );
   }, [category, statsData]);
 
-  const fetchResults = useCallback(
-    async (params?: { immediate?: boolean }) => {
-      const urlParams = new URLSearchParams();
-      if (query) urlParams.append("q", query);
-      if (category) urlParams.append("category", category);
-      if (subtype) urlParams.append("subtype", subtype);
-      if (rarity) urlParams.append("rarity", rarity);
-      if (bonuses) urlParams.append("bonuses", bonuses);
+  // Debounce query
+  useEffect(() => {
+    const handler = setTimeout(() => setDebouncedQuery(query), 1000);
+    return () => clearTimeout(handler);
+  }, [query]);
 
-      if (urlParams.toString() === "") {
-        setResults([]);
-        return;
-      }
+  useEffect(() => {
+    const handler = setTimeout(() => setDebouncedBonuses(bonuses), 1000);
+    return () => clearTimeout(handler);
+  }, [bonuses]);
 
-      setLoading(true);
-      try {
-        const res = await fetch(`/api/items/search?${urlParams.toString()}`);
-        const data = await res.json();
-        setResults(data);
-      } catch (err) {
-        console.error(err);
-        setResults([]);
-      } finally {
-        setLoading(false);
-      }
-    },
-    [query, category, subtype, rarity, bonuses]
-  );
-
-  // Fetch categories and store stats
+  // Fetch categories and stats
   useEffect(() => {
     fetch("/api/items/stats")
       .then((res) => res.json())
       .then((data: TypeGroup[]) => {
-        setStatsData(data); // <-- save the entire object
-        const cats = data.map((t) => t.type);
-        setCategories(cats);
+        setStatsData(data);
+        setCategories(data.map((t) => t.type));
       });
   }, []);
 
+  // Reset subtype when category changes
   useEffect(() => {
     startTransition(() => setSubtype(""));
   }, [category]);
 
-  // Debounce + fetch API
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      fetchResults();
-    }, 1000);
+  // Fetch results
+  const fetchResults = useCallback(async () => {
+    const params = new URLSearchParams();
+    if (debouncedQuery) params.append("q", debouncedQuery);
+    if (category) params.append("category", category);
+    if (subtype) params.append("subtype", subtype);
+    if (rarity) params.append("rarity", rarity);
+    if (debouncedBonuses) params.append("bonuses", debouncedBonuses);
 
-    return () => clearTimeout(handler);
-  }, [query, bonuses, fetchResults]); // only for text search fields
+    if (params.toString() === "") {
+      setResults([]);
+      return;
+    }
 
+    setLoading(true);
+    try {
+      const res = await fetch(`/api/items/search?${params.toString()}`);
+      const data = await res.json();
+      setResults(data);
+    } catch (err) {
+      console.error(err);
+      setResults([]);
+    } finally {
+      setLoading(false);
+    }
+  }, [debouncedQuery, debouncedBonuses, category, subtype, rarity]);
+
+  // Trigger fetch on debounced text inputs or immediate dropdowns
   useEffect(() => {
     fetchResults();
-  }, [category, subtype, rarity, fetchResults]);
+  }, [fetchResults]);
 
   return (
     <Box p={6}>
@@ -119,7 +122,6 @@ export default function ItemsExplorer() {
           />
         </Box>
 
-        {/* Category Dropdown */}
         <Box flex="1">
           <Select
             value={category}
@@ -127,9 +129,7 @@ export default function ItemsExplorer() {
             placeholder="All Categories"
           >
             {categories.map((c) => (
-              <option key={c} value={c}>
-                {c}
-              </option>
+              <option key={c} value={c}>{c}</option>
             ))}
           </Select>
         </Box>
@@ -144,9 +144,7 @@ export default function ItemsExplorer() {
               isDisabled={subtypes.length === 0}
             >
               {subtypes.map((s) => (
-                <option key={s} value={s}>
-                  {s}
-                </option>
+                <option key={s} value={s}>{s}</option>
               ))}
             </Select>
           </Box>
