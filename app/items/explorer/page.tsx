@@ -23,6 +23,18 @@ export default function ItemsExplorer() {
   const [results, setResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
+  const [categories, setCategories] = useState<string[]>([]);
+
+  // Fetch categories from stats
+  useEffect(() => {
+    fetch("/api/items/stats")
+      .then((res) => res.json())
+      .then((data) => {
+        const cats = data.map((t: any) => t.type);
+        setCategories(cats);
+      });
+  }, []);
+
   // Debounce + fetch API
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -64,13 +76,22 @@ export default function ItemsExplorer() {
             placeholder="Name"
           />
         </Box>
+
+        {/* Category Dropdown */}
         <Box flex="1">
-          <Input
+          <Select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            placeholder="Category"
-          />
+            placeholder="All Categories"
+          >
+            {categories.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </Select>
         </Box>
+
         <Box flex="1">
           <Input
             value={subtype}
