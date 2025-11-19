@@ -9,11 +9,6 @@ import {
   VStack,
   Input,
   Select,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverArrow,
-  PopoverBody,
 } from "@chakra-ui/react";
 
 import ItemPopover from "@/components/ItemPopover";
@@ -48,7 +43,7 @@ export default function ItemsExplorer() {
         .then((res) => res.json())
         .then(setResults)
         .finally(() => setLoading(false));
-    }, 300);
+    }, 1000);
 
     return () => clearTimeout(handler);
   }, [query, category, subtype, rarity, bonuses]);
