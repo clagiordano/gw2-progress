@@ -46,28 +46,35 @@ export default function ItemsExplorer() {
     );
   }, [category, statsData]);
 
-  const fetchResults = useCallback(async () => {
-    const params = new URLSearchParams();
-    if (query) params.append("q", query);
-    if (category) params.append("category", category);
-    if (subtype) params.append("subtype", subtype);
-    if (rarity) params.append("rarity", rarity);
-    if (bonuses) params.append("bonuses", bonuses);
+  const fetchResults = useCallback(
+    async (params?: { immediate?: boolean }) => {
+      const urlParams = new URLSearchParams();
+      if (query) urlParams.append("q", query);
+      if (category) urlParams.append("category", category);
+      if (subtype) urlParams.append("subtype", subtype);
+      if (rarity) urlParams.append("rarity", rarity);
+      if (bonuses) urlParams.append("bonuses", bonuses);
 
-    if (params.toString() === "") {
-      setResults([]);
-      return;
-    }
+      if (urlParams.toString() === "") {
+        setResults([]);
+        return;
+      }
 
-    setLoading(true);
-    try {
-      const res = await fetch(`/api/items/search?${params.toString()}`);
-      const data = await res.json();
-      setResults(data);
-    } finally {
-      setLoading(false);
-    }
-  }, [query, category, subtype, rarity, bonuses]);
+      setLoading(true);
+      try {
+        const res = await fetch(`/api/items/search?${urlParams.toString()}`);
+        const data = await res.json();
+        setResults(data);
+      } catch (err) {
+        console.error(err);
+        setResults([]);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [query, category, subtype, rarity, bonuses]
+  );
+
   // Fetch categories and store stats
   useEffect(() => {
     fetch("/api/items/stats")
@@ -90,7 +97,11 @@ export default function ItemsExplorer() {
     }, 1000);
 
     return () => clearTimeout(handler);
-  }, [fetchResults]);
+  }, [query, bonuses, fetchResults]); // only for text search fields
+
+  useEffect(() => {
+    fetchResults();
+  }, [category, subtype, rarity, fetchResults]);
 
   return (
     <Box p={6}>
@@ -125,18 +136,18 @@ export default function ItemsExplorer() {
 
         {category && (
           <Box flex="1">
+            {isPending && <Spinner size="sm" />}
             <Select
               value={subtype}
               onChange={(e) => setSubtype(e.target.value)}
               placeholder="All Subtypes"
               isDisabled={subtypes.length === 0}
             >
-              {subtypes &&
-                subtypes.map((s: string) => (
-                  <option key={s} value={s}>
-                    {s}
-                  </option>
-                ))}
+              {subtypes.map((s) => (
+                <option key={s} value={s}>
+                  {s}
+                </option>
+              ))}
             </Select>
           </Box>
         )}
@@ -167,7 +178,7 @@ export default function ItemsExplorer() {
         </Box>
       </Flex>
 
-      {loading && <Spinner />}
+      {(loading || isPending) && <Spinner />}
 
       {/* Cards */}
       <Suspense fallback={<Spinner />}>
