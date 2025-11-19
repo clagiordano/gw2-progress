@@ -136,7 +136,6 @@ export default function ItemsExplorer() {
 
         {category && (
           <Box flex="1">
-            {isPending && <Spinner size="sm" />}
             <Select
               value={subtype}
               onChange={(e) => setSubtype(e.target.value)}
