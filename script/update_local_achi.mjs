@@ -1,6 +1,11 @@
-const { default: items } = await import('../data/items.json', {
+const { default: items } = await import('../app/lib/items.json', {
   with: { type: 'json' }
 });
+
+const { default: skins } = await import('../app/lib/skins.json', {
+  with: { type: 'json' }
+});
+
 
 const { default: achievements } = await import('../data/achievements.json', {
   with: { type: 'json' }
@@ -15,10 +20,18 @@ for (const aIdx in achievements) {
       if (achi.bits) {
         for (const bitIdx in achi.bits) {
           const bit = achi.bits[bitIdx];
+
           if (bit.type === 'Item') {
             const item = items.find(i => i.id === bit.id);
             if (item) {
               achi.bits[bitIdx]["item"] = item;
+            }
+          }
+
+          if (bit.type === 'Skin') {
+            const skin = skins.find(i => i.id === bit.id);
+            if (skin) {
+              achi.bits[bitIdx]["skin"] = skin;
             }
           }
         }
