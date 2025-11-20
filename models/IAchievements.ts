@@ -1,3 +1,5 @@
+import { Item } from "./item";
+
 export interface IGroup {
     id: string;
     name: string;
@@ -52,10 +54,15 @@ export interface IReward {
     id: number
 }
 
+/**
+ * bits (array of objects, optional) - Contains a number of objects,
+ * each corresponding to a bitmask value that can give further information on the progress towards the achievement.
+ */
 export interface IBit {
-    type: string,
-    text: string,
-    // image?: string,
+    type: "Text" | "Item" | "Minipet" | "Skin",
+    id?: number
+    text?: string,
+    item?: Item,
 }
 
 export interface IProgress {
