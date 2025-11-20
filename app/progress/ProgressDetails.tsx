@@ -113,11 +113,27 @@ export const ProgressDetails = ({ data }: { data: IGroup[] }) => {
                                           <ul>
                                             {achievement?.bits?.map(
                                               (bit: IBit, idx) => {
-                                                //console.log(bit.text)
-                                                return <li key={idx}>
+                                                if (bit.text) {
+                                                  return (
+                                                    <li key={idx}>{bit.text}</li>
+                                                  );
+                                                }
 
-                                                  {bit.text}
-                                                  </li>;
+                                                if (bit.type === "Item") {
+                                                  return (
+                                                    <li key={idx}>
+                                                      <>
+                                                      <Image
+                                                        src={bit?.item?.icon}
+                                                        alt={bit?.item?.name}
+                                                        boxSize="24px"
+                                                        borderRadius="sm"
+                                                      />
+                                                      {bit?.item?.name}
+                                                      </>
+                                                    </li>
+                                                  );
+                                                }
                                               }
                                             )}
                                           </ul>
@@ -127,15 +143,18 @@ export const ProgressDetails = ({ data }: { data: IGroup[] }) => {
                                           )}
 
                                           <ul>
-                                          {achievement?.tiers?.map(
-                                            (tier: ITier, idx) => {
-                                              return (
-                                                <li key={idx}>
-                                                  Tier: {idx + 1} - {tier.count}:{" objectives, points "}{tier.points}
-                                                </li>
-                                              );
-                                            }
-                                          )}
+                                            {achievement?.tiers?.map(
+                                              (tier: ITier, idx) => {
+                                                return (
+                                                  <li key={idx}>
+                                                    Tier: {idx + 1} -{" "}
+                                                    {tier.count}:
+                                                    {" objectives, points "}
+                                                    {tier.points}
+                                                  </li>
+                                                );
+                                              }
+                                            )}
                                           </ul>
                                         </Accordion>
                                       </AccordionPanel>
