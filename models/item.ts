@@ -1,4 +1,3 @@
-// stile moderno / consigliato
 export interface Item {
     name: string;
     type: string;

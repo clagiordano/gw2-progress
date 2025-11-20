@@ -1,4 +1,5 @@
 import { Item } from "./item";
+import Skin from "./skin";
 
 export interface IGroup {
     id: string;
@@ -63,6 +64,7 @@ export interface IBit {
     id?: number
     text?: string,
     item?: Item,
+    skin?: Skin,
 }
 
 export interface IProgress {
