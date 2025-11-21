@@ -1,5 +1,6 @@
 "use client";
 
+import { BitItem } from "@/components/BitItem";
 import {
   IAchievement,
   IBit,
@@ -18,6 +19,7 @@ import {
   Box,
   Progress,
   Image,
+  Text
 } from "@chakra-ui/react";
 
 export const ProgressDetails = ({ data }: { data: IGroup[] }) => {
@@ -105,58 +107,64 @@ export const ProgressDetails = ({ data }: { data: IGroup[] }) => {
                                       </AccordionButton>
                                       {/* </h4> */}
                                       <AccordionPanel pb={4}>
-                                        <Accordion allowToggle>
-                                          {achievement?.bits &&
-                                            achievement?.bits.length > 0 && (
-                                              <h5>Objectives:</h5>
-                                            )}
-                                          <ul>
-                                            {achievement?.bits?.map(
-                                              (bit: IBit, idx) => {
-                                                if (bit.text) {
-                                                  return (
-                                                    <li key={idx}>{bit.text}</li>
-                                                  );
-                                                }
+                                        {achievement?.bits && (
+                                          <Box
+                                            mb={4}
+                                            p={2}
+                                            borderRadius="md"
+                                            bg="gray.50"
+                                          >
+                                            <Text fontWeight="bold" mb={2}>
+                                              Objectives:
+                                            </Text>
+                                            <Box
+                                              display="flex"
+                                              flexDirection="column"
+                                              gap={2}
+                                            >
+                                              {achievement?.bits?.map(
+                                                (bit, idx) => (
+                                                  <BitItem
+                                                    key={idx}
+                                                    bit={bit}
+                                                  />
+                                                )
+                                              )}
+                                            </Box>
+                                          </Box>
+                                        )}
 
-                                                if (bit.type === "Item") {
-                                                  return (
-                                                    <li key={idx}>
-                                                      <>
-                                                      <Image
-                                                        src={bit?.item?.icon}
-                                                        alt={bit?.item?.name}
-                                                        boxSize="24px"
-                                                        borderRadius="sm"
-                                                      />
-                                                      {bit?.item?.name}
-                                                      </>
-                                                    </li>
-                                                  );
-                                                }
-                                              }
-                                            )}
-                                          </ul>
-
-                                          {achievement?.tiers.length > 0 && (
-                                            <h5>Tiers:</h5>
-                                          )}
-
-                                          <ul>
-                                            {achievement?.tiers?.map(
-                                              (tier: ITier, idx) => {
-                                                return (
-                                                  <li key={idx}>
-                                                    Tier: {idx + 1} -{" "}
-                                                    {tier.count}:
-                                                    {" objectives, points "}
-                                                    {tier.points}
-                                                  </li>
-                                                );
-                                              }
-                                            )}
-                                          </ul>
-                                        </Accordion>
+                                        {achievement.tiers?.length > 0 && (
+                                          <Box
+                                            p={2}
+                                            borderRadius="md"
+                                            bg="gray.50"
+                                          >
+                                            <Text fontWeight="bold" mb={2}>
+                                              Tiers:
+                                            </Text>
+                                            <Box
+                                              display="flex"
+                                              flexDirection="column"
+                                              gap={2}
+                                            >
+                                              {achievement.tiers.map(
+                                                (tier, idx) => (
+                                                  <Box
+                                                    key={idx}
+                                                    p={2}
+                                                    borderRadius="md"
+                                                    bg="gray.100"
+                                                  >
+                                                    Tier {idx + 1} —{" "}
+                                                    {tier.count} objectives —{" "}
+                                                    {tier.points} points
+                                                  </Box>
+                                                )
+                                              )}
+                                            </Box>
+                                          </Box>
+                                        )}
                                       </AccordionPanel>
                                     </AccordionItem>
                                   </div>

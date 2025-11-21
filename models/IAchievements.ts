@@ -65,6 +65,16 @@ export interface IBit {
     text?: string,
     item?: Item,
     skin?: Skin,
+    minipet?: Minipet
+}
+
+export interface Minipet {
+    id: number,
+    name: string,
+    unlock: string
+    icon: string
+    order: number
+    item_id: number
 }
 
 export interface IProgress {

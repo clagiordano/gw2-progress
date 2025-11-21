@@ -18,11 +18,13 @@ const baseOptions = {
 import fsPromises from "fs/promises";
 import path from "path";
 export async function getLocalAchievements() {
-  const filePath = path.join(process.cwd(), "data/achievements.json");
+  console.log("started getLocalAchievements");
+  const start = Math.floor(Date.now() / 1000);
+  const filePath = path.join(process.cwd(), "data/achievements_detailed.json");
   const jsonData: any = await fsPromises.readFile(filePath);
   const objectData = JSON.parse(jsonData);
 
-  console.log("completed getLocalAchievements");
+  console.log("completed getLocalAchievements in ", Math.floor(Date.now() / 1000) - start);
   return objectData;
 }
 

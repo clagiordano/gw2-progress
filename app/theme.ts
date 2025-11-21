@@ -4,7 +4,7 @@ import { extendTheme, type ThemeConfig } from "@chakra-ui/react";
 // Config per il color mode iniziale
 const config: ThemeConfig = {
   initialColorMode: "dark",
-  useSystemColorMode: false,
+  useSystemColorMode: true,
 };
 
 // Palette colori personalizzata

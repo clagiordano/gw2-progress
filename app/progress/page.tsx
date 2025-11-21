@@ -1,38 +1,60 @@
-'use client';
+"use client";
 
-import { Divider } from '@chakra-ui/react';
-import { Suspense, useEffect, useState } from 'react';
-import { ProgressStats } from './ProgressStats';
-import { ProgressDetails } from './ProgressDetails';
-import { analyze, getLocalAchievements, getUserProgression } from '@/services/achievements';
+import { Divider, Image, Box, Progress as ProgressBar } from "@chakra-ui/react";
+import { Suspense, useEffect, useState } from "react";
+import { ProgressStats } from "./ProgressStats";
+import { ProgressDetails } from "./ProgressDetails";
+import {
+  AnalizedProgress,
+  analyze,
+  getLocalAchievements,
+  getUserProgression,
+} from "@/services/achievements";
+import { IGroup } from "@/models/IAchievements";
+import { getColor } from "@/services/utils";
 
-export default function Progress(  ) {
-	const [progress, setProgress] = useState([]);
-	const [progression, setProgression] = useState([]);
+export default function Progress() {
+  const [progress, setProgress] = useState([] as IGroup[]);
+  const [progression, setProgression] = useState([]);
+  const [overallProgression, setOverallProgression] = useState(
+    {} as AnalizedProgress
+  );
 
-	useEffect(() => {
-		getUserProgression().then((data) => setProgression(data));
-	}, []);
+  useEffect(() => {
+    getUserProgression().then((data) => {
+      setProgression(data);
+      console.log("set fetched progression data");
+    });
+  }, []);
 
-	// useEffect(() => {
-	// 	console.log('triggered by progression change', progression)
-	// }, [progression]);
+  useEffect(() => {
+    analyze(progression).then((data: AnalizedProgress) => {
+      setProgress(data.achievements);
+      setOverallProgression(data);
+      console.log("set analyzed progress data");
+    });
+  }, [progression]);
 
-	useEffect(() => {
-		analyze(progression).then((data) => setProgress(data));
-	}, [progression]);
+  return (
+    <div>
+      <>
+        <Box as="span" flex="1" textAlign="left">
+          Overall Completion Stats {overallProgression.totalPercent}% (
+          {overallProgression.userTotalPoints} /{" "}
+          {overallProgression.totalPoints})
+          <ProgressBar
+            value={overallProgression.totalPercent}
+            colorScheme={getColor(overallProgression.totalPercent)}
+          />
+        </Box>
+      </>
 
-	return (
-		<div>
-			<Suspense fallback="Loading stats...">
-				<ProgressStats data={progress} />
-			</Suspense>
+      <Divider />
 
-			<Divider />
-
-			<Suspense fallback="Loading details...">
-				<ProgressDetails data={progress} />
-			</Suspense>
-		</div>
-	);
+      {/* <ProgressDetails data={progress} /> */}
+      {/* <Suspense fallback="Loading details...">
+        <ProgressDetails data={progress} />
+      </Suspense> */}
+    </div>
+  );
 }
