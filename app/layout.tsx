@@ -62,7 +62,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     { href: "/account", label: "Account" },
     { href: "/items/explorer", label: "Explore Items" },
     { href: "/progress", label: "Progress" },
-    { href: "/progress/dailies", label: "Dailies" },
+    // { href: "/progress/dailies", label: "Dailies" },
   ];
 
   return (

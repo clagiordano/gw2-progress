@@ -1,12 +1,12 @@
 "use client";
 
 import { Suspense, useEffect, useState } from "react";
-import {
-  getAchievementById,
-  getAchievementsCategoryById,
-  getAchievementsGroupsById,
-  getUserProgression,
-} from "@/services/achievements";
+// import {
+//   getAchievementById,
+//   getAchievementsCategoryById,
+//   getAchievementsGroupsById,
+//   getUserProgression,
+// } from "@/services/achievements";
 import {
   Achievement,
   Achievements,
@@ -32,47 +32,47 @@ export default function Dailies() {
   const [achievements, setAchievements] = useState<Achievements>({});
   const [progression, setProgression] = useState<Progress[]>();
 
-  useEffect(() => {
-    // console.log("group init");
-    getAchievementsGroupsById("18DB115A-8637-4290-A636-821362A3C4A8").then(
-      (data) => {
-        // console.log('fetched group data', data);
-        setGroup(data);
-      }
-    );
-  }, []);
+  // useEffect(() => {
+  //   // console.log("group init");
+  //   getAchievementsGroupsById("18DB115A-8637-4290-A636-821362A3C4A8").then(
+  //     (data) => {
+  //       // console.log('fetched group data', data);
+  //       setGroup(data);
+  //     }
+  //   );
+  // }, []);
 
-  useEffect(() => {
-    // console.log("progress init");
-    getUserProgression().then((data) => {
-      // console.log("fetched progression data", data);
-      setProgression(data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   // console.log("progress init");
+  //   getUserProgression().then((data) => {
+  //     // console.log("fetched progression data", data);
+  //     setProgression(data);
+  //   });
+  // }, []);
 
-  useEffect(() => {
-    // console.log("group changed", group);
+  // useEffect(() => {
+  //   // console.log("group changed", group);
 
-    if (group.categories.length > 0) {
-      getAchievementsCategoryById(group.categories.join(",")).then((data) => {
-        // console.log('fetched categories', group.categories.join(","), data);
-        setCategories(data);
-      });
-    }
-  }, [group]);
+  //   if (group.categories.length > 0) {
+  //     getAchievementsCategoryById(group.categories.join(",")).then((data) => {
+  //       // console.log('fetched categories', group.categories.join(","), data);
+  //       setCategories(data);
+  //     });
+  //   }
+  // }, [group]);
 
-  useEffect(() => {
-    // console.log("categories changed", categories);
+  // useEffect(() => {
+  //   // console.log("categories changed", categories);
 
-    categories.map((cat: Category) => {
-      if (cat.achievements.length > 0) {
-        getAchievementById(cat.achievements.join(",")).then((data) => {
-          // console.log("fetched achievements", data);
-          setAchievements((act: any) => ({ ...act, [cat.id]: data }));
-        });
-      }
-    });
-  }, [categories]);
+  //   categories.map((cat: Category) => {
+  //     if (cat.achievements.length > 0) {
+  //       getAchievementById(cat.achievements.join(",")).then((data) => {
+  //         // console.log("fetched achievements", data);
+  //         setAchievements((act: any) => ({ ...act, [cat.id]: data }));
+  //       });
+  //     }
+  //   });
+  // }, [categories]);
 
   useEffect(() => {
     // console.log("progression changed", progression);
