@@ -28,8 +28,14 @@ import { SettingsIcon, HamburgerIcon } from "@chakra-ui/icons";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import { ColorAwareGridItem } from "@/components/ColorAwareGridItem";
-import { FaUser, FaBoxOpen, FaSearch, FaChartPie, FaTasks } from "react-icons/fa";
-
+import { FaUser, FaBoxOpen, FaSearch, FaChartPie, FaTasks, FaIdBadge } from "react-icons/fa";
+import { GiAchievement, GiChest, GiCompass, GiMagnifyingGlass } from "react-icons/gi";
+import {
+  HiOutlineUser,
+  HiOutlineMagnifyingGlass,
+  HiOutlineChartBar,
+  HiOutlineTrophy,
+} from "react-icons/hi2";
 
 const SidebarLinks = ({
   groups,
@@ -53,18 +59,15 @@ const SidebarLinks = ({
               key={link.href}
               href={link.href}
               as={NextLink}
+              fontWeight={currentPath === link.href ? "bold" : "normal"}
               onClick={onClickLink}
-              _hover={{ textDecoration: "none", opacity: 0.85 }}
+              display="flex"
+              alignItems="center"
+              gap={2}
+              fontSize="sm"
             >
-              <Flex
-                align="center"
-                gap={3}
-                fontWeight={currentPath === link.href ? "bold" : "normal"}
-                pl={1}
-              >
-                <Box as={link.icon} boxSize={4} opacity={0.8} />
-                {link.label}
-              </Flex>
+              <link.icon size={18} />
+              {link.label}
             </Link>
           ))}
         </VStack>
@@ -81,21 +84,20 @@ const groupedLinks = [
   {
     label: "Account",
     links: [
-      { href: "/account", label: "Account", icon: FaUser },
+      { href: "/account", label: "Account", icon: HiOutlineUser },
     ],
   },
   {
     label: "Items",
     links: [
-      { href: "/items/explorer", label: "Explore Items", icon: FaSearch },
-      { href: "/items/stats", label: "Items Overview", icon: FaBoxOpen },
+      { href: "/items/explorer", label: "Explore Items", icon: HiOutlineMagnifyingGlass },
+      { href: "/items/stats", label: "Items Overview", icon: HiOutlineChartBar },
     ],
   },
   {
     label: "Progression",
     links: [
-      { href: "/progress", label: "Progress", icon: FaChartPie },
-      // { href: "/progress/dailies", label: "Dailies", icon: FaTasks },
+      { href: "/progress", label: "Progress", icon: HiOutlineTrophy },
     ],
   },
 ];

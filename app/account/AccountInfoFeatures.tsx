@@ -1,8 +1,16 @@
 "use client";
 
-import { Heading, Box, Text, HStack, Icon } from "@chakra-ui/react";
+import { Heading, Box, HStack, Icon } from "@chakra-ui/react";
 import { ExpansionInfo } from "./ExpansionInfo";
-import { GiThornyVine, GiFireDash, GiDoubleDragon, GiSecretBook, GiSaberTooth, GiNightVision } from "react-icons/gi";
+import {
+  GiThornyVine,
+  GiFireDash,
+  GiDoubleDragon,
+  GiSecretBook,
+  GiSaberTooth,
+  GiIsland,
+  GiGamepad,
+} from "react-icons/gi";
 import { useAccount } from "../context/AccountContext";
 
 export const AccountInfoFeatures = () => {
@@ -21,30 +29,112 @@ export const AccountInfoFeatures = () => {
 
   account.access.forEach((acc) => {
     if (acc === "None") return;
-    if (acc.includes("HeartOfThorns")) { features.hasGW2 = true; features.hasHoT = true; }
-    if (acc.includes("PathOfFire")) { features.hasGW2 = true; features.hasPoF = true; }
-    if (acc.includes("EndOfDragons")) { features.hasGW2 = true; features.hasEoD = true; }
-    if (acc.includes("SecretsOfTheObscure")) { features.hasGW2 = true; features.hasSotO = true; }
-    if (acc.includes("JanthirWilds")) { features.hasGW2 = true; features.hasJW = true; }
-    if (acc.includes("VisionsOfEternity")) { features.hasGW2 = true; features.hasVoE = true; }
+    if (acc.includes("PlayForFree")) features.hasF2P = true;
+    if (acc.includes("GuildWars2")) features.hasGW2 = true;
+    if (acc.includes("HeartOfThorns")) {
+      features.hasGW2 = true;
+      features.hasHoT = true;
+    }
+    if (acc.includes("PathOfFire")) {
+      features.hasGW2 = true;
+      features.hasPoF = true;
+      features.hasHoT = true;
+    }
+    if (acc.includes("EndOfDragons")) {
+      features.hasGW2 = true;
+      features.hasEoD = true;
+    }
+    if (acc.includes("SecretsOfTheObscure")) {
+      features.hasGW2 = true;
+      features.hasSotO = true;
+    }
+    if (acc.includes("JanthirWilds")) {
+      features.hasGW2 = true;
+      features.hasJW = true;
+    }
+    if (acc.includes("VisionsOfEternity")) {
+      features.hasGW2 = true;
+      features.hasVoE = true;
+    }
   });
+
+  const expansions = [
+    {
+      key: "hasF2P",
+      available: features.hasF2P && !features.hasGW2,
+      text: "F2P",
+      tip: "Play For Free",
+      bg: "gray",
+    },
+    {
+      key: "hasGW2",
+      available: features.hasGW2,
+      text: <Icon as={GiGamepad} boxSize={6} />,
+      tip: "Guild Wars 2 Base",
+      bg: "darkred",
+    },
+    {
+      key: "hasHoT",
+      available: features.hasHoT,
+      text: <Icon as={GiThornyVine} boxSize={6} />,
+      tip: "Heart of Thorns",
+      bg: "olivedrab",
+    },
+    {
+      key: "hasPoF",
+      available: features.hasPoF,
+      text: <Icon as={GiFireDash} boxSize={6} />,
+      tip: "Path of Fire",
+      bg: "darkmagenta",
+    },
+    {
+      key: "hasEoD",
+      available: features.hasEoD,
+      text: <Icon as={GiDoubleDragon} boxSize={6} />,
+      tip: "End of Dragons",
+      bg: "darkcyan",
+    },
+    {
+      key: "hasSotO",
+      available: features.hasSotO,
+      text: <Icon as={GiSecretBook} boxSize={6} />,
+      tip: "Secrets of the Obscure",
+      bg: "goldenrod",
+    },
+    {
+      key: "hasJW",
+      available: features.hasJW,
+      text: <Icon as={GiSaberTooth} boxSize={6} />,
+      tip: "Janthir Wilds",
+      bg: "darkblue",
+    },
+    {
+      key: "hasVoE",
+      available: features.hasVoE,
+      text: <Icon as={GiIsland} boxSize={6} />,
+      tip: "Visions of Eternity",
+      bg: "teal",
+    },
+  ];
 
   return (
     <Box>
       <Heading size="xs" textTransform="uppercase">
         Features
       </Heading>
-      <Text pt="2" fontSize="sm">
-        Expansion list availability
-      </Text>
-      <HStack spacing={4}>
-        <ExpansionInfo available={features.hasGW2} text={features.hasGW2 ? "GW2" : "F2P"} tip="Guild Wars 2" bg="darkred" />
-        <ExpansionInfo available={features.hasHoT} text={<Icon as={GiThornyVine} boxSize={6} />} tip="Heart of Thorns" bg="olivedrab" />
-        <ExpansionInfo available={features.hasPoF} text={<Icon as={GiFireDash} boxSize={6} />} tip="Path of Fire" bg="darkmagenta" />
-        <ExpansionInfo available={features.hasEoD} text={<Icon as={GiDoubleDragon} boxSize={6} />} tip="End of Dragons" bg="darkcyan" />
-        <ExpansionInfo available={features.hasSotO} text={<Icon as={GiSecretBook} boxSize={6} />} tip="Secrets of the Obscure" bg="goldenrod" />
-        <ExpansionInfo available={features.hasJW} text={<Icon as={GiSaberTooth} boxSize={6} />} tip="Janthir Wilds" bg="darkblue" />
-        <ExpansionInfo available={features.hasVoE} text={<Icon as={GiNightVision} boxSize={6} />} tip="Visions of Eternity" bg="darkblue" />
+      <HStack spacing={4} mt={2}>
+        {expansions.map(
+          (exp) =>
+            exp.available && (
+              <ExpansionInfo
+                key={exp.key}
+                available={exp.available}
+                text={exp.text}
+                tip={exp.tip}
+                bg={exp.bg}
+              />
+            )
+        )}
       </HStack>
     </Box>
   );
