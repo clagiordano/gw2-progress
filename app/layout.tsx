@@ -68,8 +68,6 @@ export default function RootLayout({
     },
   ];
 
-  const headingColor = useColorModeValue(theme.colors.text.light, theme.colors.text.dark);
-
   return (
     <html lang="en" className={fonts.rubik.variable}>
       <head>
