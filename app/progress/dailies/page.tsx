@@ -8,17 +8,17 @@ import {
   getUserProgression,
 } from "@/services/achievements";
 import {
-  IAchievement,
-  IAchievements,
-  ICategory,
-  IGroup,
-  IProgress,
-} from "@/models/IAchievements";
+  Achievement,
+  Achievements,
+  Category,
+  Group,
+  Progress,
+} from "@/models/achievement";
 import { ListItem, UnorderedList, Text, ListIcon } from "@chakra-ui/react";
 import { CheckCircleIcon } from "@chakra-ui/icons";
 
 export default function Dailies() {
-  const [group, setGroup] = useState<IGroup>({
+  const [group, setGroup] = useState<Group>({
     id: "",
     name: "",
     description: "",
@@ -28,9 +28,9 @@ export default function Dailies() {
     ugPts: 0,
     gPts: 0,
   });
-  const [categories, setCategories] = useState<ICategory[]>([]);
-  const [achievements, setAchievements] = useState<IAchievements>({});
-  const [progression, setProgression] = useState<[]>();
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [achievements, setAchievements] = useState<Achievements>({});
+  const [progression, setProgression] = useState<Progress[]>();
 
   useEffect(() => {
     // console.log("group init");
@@ -64,7 +64,7 @@ export default function Dailies() {
   useEffect(() => {
     // console.log("categories changed", categories);
 
-    categories.map((cat: ICategory) => {
+    categories.map((cat: Category) => {
       if (cat.achievements.length > 0) {
         getAchievementById(cat.achievements.join(",")).then((data) => {
           // console.log("fetched achievements", data);
@@ -82,9 +82,9 @@ export default function Dailies() {
       // console.log('cid', cid);
       // console.log('achis', achis);
 
-      achis.map((ach: IAchievement) => {
+      achis.map((ach: Achievement) => {
         // console.log('ach.id', ach.id)
-        let found: any = progression?.find((pro: IProgress) => pro.id === ach.id);
+        let found: any = progression?.find((pro: Progress) => pro.id === ach.id);
         if (found) {
           ach.done = found?.done !== undefined ? found.done : false;
         }
@@ -101,14 +101,14 @@ export default function Dailies() {
         {group.name}: {group.description}
       </h2>
 
-      {categories.map((cat: ICategory, cid) => (
+      {categories.map((cat: Category, cid) => (
         <div key={`cont_${cid}`}>
           <Text fontSize="2xl">
             {cat.name}: {cat.description}
           </Text>
 
           <UnorderedList key={cid}>
-            {achievements[cat.id]?.map((achi: IAchievement, aid: number) => (
+            {achievements[cat.id]?.map((achi: Achievement, aid: number) => (
               <ListItem key={aid}>
                 <ListIcon as={CheckCircleIcon} color={`${achi.done ? 'green' : 'gray'}.500`} />
                 ({achi.id}) {achi.name}: {achi.description}
