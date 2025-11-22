@@ -136,7 +136,7 @@ export const AchievementGroupWithDrawer = ({ data }: { data: Group[] }) => {
           <DrawerBody>
             {selected && (
               <>
-                {selected?.bits?.length > 0 && (
+                {selected?.bits && selected.bits.length > 0 && (
                   <>
                     <Text fontWeight="bold" mb={2}>
                       Objectives
