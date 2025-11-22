@@ -1,143 +1,154 @@
 "use server";
 
-import { getToken } from "@/app/actions";
+// import { getToken } from "@/app/actions";
 import { Achievement, AnalizedProgress, Category, Group, Progress, Tier } from "@/models/achievement";
+import { unstable_cache } from "next/cache";
 
-const baseOptions = {
-  headers: {
-    "Content-Type": "application/json",
-  },
-  next: { revalidate: 3600 },
-};
+// const baseOptions = {
+//   headers: {
+//     "Content-Type": "application/json",
+//   },
+//   next: { revalidate: 3600 },
+// };
 
 // export const getLocalAchievements = async () => {
 // 	const achievements: any = await fsPromises.readFile(path.join(process.cwd(), 'data/achievements.json'));
 // 	return await JSON.parse(achievements);
 // }
 
-import fsPromises from "fs/promises";
-import path from "path";
-export async function getLocalAchievements() {
-  console.log("started getLocalAchievements");
-  const start = Math.floor(Date.now() / 1000);
-  const filePath = path.join(process.cwd(), "data/achievements_detailed.json");
-  const jsonData: any = await fsPromises.readFile(filePath);
-  const objectData = JSON.parse(jsonData);
+// import fsPromises from "fs/promises";
+// import path from "path";
+// export async function getLocalAchievements() {
+//   console.log("started getLocalAchievements");
+//   const start = Math.floor(Date.now() / 1000);
+//   const filePath = path.join(process.cwd(), "data/achievements_detailed.json");
+//   const jsonData: any = await fsPromises.readFile(filePath);
+//   const objectData = JSON.parse(jsonData);
 
-  console.log("completed getLocalAchievements in ", Math.floor(Date.now() / 1000) - start);
-  return objectData;
-}
+//   console.log("completed getLocalAchievements in ", Math.floor(Date.now() / 1000) - start);
+//   return objectData;
+// }
 
-export const getAchievements = async () => {
-  const achievements = await getAchievementsGroups();
-  // console.log('achievements', achievements.length, achievements);
+// export const getAchievements = async () => {
+//   const achievements = await getAchievementsGroups();
+//   // console.log('achievements', achievements.length, achievements);
 
-  for (const idx in achievements) {
-    // console.log('fetching ', achievements[idx]);
-    /**
-     * Populate groups
-     */
-    achievements[idx] = await getAchievementsGroupsById(achievements[idx]);
-    // console.log('achievements[idx]', achievements[idx]);
+//   for (const idx in achievements) {
+//     // console.log('fetching ', achievements[idx]);
+//     /**
+//      * Populate groups
+//      */
+//     achievements[idx] = await getAchievementsGroupsById(achievements[idx]);
+//     // console.log('achievements[idx]', achievements[idx]);
 
-    /**
-     * Populate categories
-     */
-    if (
-      achievements[idx].categories &&
-      achievements[idx].categories.constructor === Array
-    ) {
-      achievements[idx].categories = await getAchievementsCategoryById(
-        achievements[idx].categories.join(",")
-      );
-    }
+//     /**
+//      * Populate categories
+//      */
+//     if (
+//       achievements[idx].categories &&
+//       achievements[idx].categories.constructor === Array
+//     ) {
+//       achievements[idx].categories = await getAchievementsCategoryById(
+//         achievements[idx].categories.join(",")
+//       );
+//     }
 
-    /**
-     * Populate achievements
-     */
-    for (const cId in achievements[idx].categories) {
-      achievements[idx].categories[cId].achievements = await getAchievementById(
-        achievements[idx].categories[cId].achievements.join(",")
-      );
-    }
-  }
+//     /**
+//      * Populate achievements
+//      */
+//     for (const cId in achievements[idx].categories) {
+//       achievements[idx].categories[cId].achievements = await getAchievementById(
+//         achievements[idx].categories[cId].achievements.join(",")
+//       );
+//     }
+//   }
 
-  return achievements;
-};
+//   return achievements;
+// };
 
-export const getUserProgression = async () => {
-  const accessToken = await getToken();
-  // console.log('getUserProgression', accessToken)
-  let start = Math.floor(Date.now() / 1000);
-  console.log("started fetch user progression");
+// export const getUserProgression = async () => {
+//   const accessToken = await getToken();
+//   // console.log('getUserProgression', accessToken)
+//   let start = Math.floor(Date.now() / 1000);
+//   console.log("started fetch user progression");
 
-  const options = {
-    ...baseOptions.headers,
-    headers: { ...baseOptions.headers, Authorization: `Bearer ${accessToken}` },
-  };
-  const resp = await fetch(
-    `${process.env.API_GW_BASE_URL}/account/achievements`,
-    options
-  );
+//   const options = {
+//     ...baseOptions.headers,
+//     headers: { ...baseOptions.headers, Authorization: `Bearer ${accessToken}` },
+//   };
+//   const resp = await fetch(
+//     `${process.env.API_GW_BASE_URL}/account/achievements`,
+//     options
+//   );
 
-  if (!resp.ok) {
-    console.error(
-      "Failed to fetch user progression",
-      resp.ok,
-      resp.status,
-      resp.statusText
-    );
-    return [];
-  }
+//   if (!resp.ok) {
+//     console.error(
+//       "Failed to fetch user progression",
+//       resp.ok,
+//       resp.status,
+//       resp.statusText
+//     );
+//     return [];
+//   }
 
-  const data = await resp.json();
-  console.log(
-    `completed fetch user progression in ${
-      Math.floor(Date.now() / 1000) - start
-    }`,
-    data.length
-  );
+//   const data = await resp.json();
+//   console.log(
+//     `completed fetch user progression in ${
+//       Math.floor(Date.now() / 1000) - start
+//     }`,
+//     data.length
+//   );
 
-  return data;
-};
+//   return data;
+// };
 
-export async function getAchievementsGroups() {
-  const resp = await fetch(
-    `${process.env.API_GW_BASE_URL}/achievements/groups`,
-    baseOptions
-  );
-  return await resp.json();
-}
+// export async function getAchievementsGroups() {
+//   const resp = await fetch(
+//     `${process.env.API_GW_BASE_URL}/achievements/groups`,
+//     baseOptions
+//   );
+//   return await resp.json();
+// }
 
-export async function getAchievementsGroupsById(groupId: number | string) {
-  const resp = await fetch(
-    `${process.env.API_GW_BASE_URL}/achievements/groups/${groupId}`,
-    baseOptions
-  );
-  return await resp.json();
-}
+// export async function getAchievementsGroupsById(groupId: number | string) {
+//   const resp = await fetch(
+//     `${process.env.API_GW_BASE_URL}/achievements/groups/${groupId}`,
+//     baseOptions
+//   );
+//   return await resp.json();
+// }
 
-export async function getAchievementsCategoryById(cId: number | string) {
-  const resp = await fetch(
-    `${process.env.API_GW_BASE_URL}/achievements/categories?ids=${cId}`,
-    baseOptions
-  );
-  return await resp.json();
-}
+// export async function getAchievementsCategoryById(cId: number | string) {
+//   const resp = await fetch(
+//     `${process.env.API_GW_BASE_URL}/achievements/categories?ids=${cId}`,
+//     baseOptions
+//   );
+//   return await resp.json();
+// }
 
-export async function getAchievementById(aId: number | string) {
-  if (!aId) {
-    /**
-     * On emprty aId directly returns an empty array to avoid useless api calls
-     */
-    return [];
-  }
-  const resp = await fetch(
-    `${process.env.API_GW_BASE_URL}/achievements?ids=${aId}`,
-    baseOptions
-  );
-  return await resp.json();
-}
+// export async function getAchievementById(aId: number | string) {
+//   if (!aId) {
+//     /**
+//      * On emprty aId directly returns an empty array to avoid useless api calls
+//      */
+//     return [];
+//   }
+//   const resp = await fetch(
+//     `${process.env.API_GW_BASE_URL}/achievements?ids=${aId}`,
+//     baseOptions
+//   );
+//   return await resp.json();
+// }
+
+// Memoized function
+export const getAchievements = unstable_cache(
+  async () => {
+    const achievementsModule = await import("@/app/lib/achievements_detailed.json");
+    return achievementsModule.default as Group[];
+  },
+  ["achievements"],          // Cache key
+  { tags: ["achievements"] } // Allow revalidation by tag
+);
 
 export const analyze = async (achievements: Group[], progression: Progress[]): Promise<AnalizedProgress> => {
   console.log("started analyze achievements");

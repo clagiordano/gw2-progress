@@ -1,46 +1,42 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { analyze } from "@/services/achievements";
-import { Group, Progress } from "@/models/achievement";
+import { Group, AnalizedProgress } from "@/models/achievement";
 import { AchievementGroupWithDrawer } from "@/components/AchievementGroupWithDrawer";
 
 export default function ProgressPage() {
-  const [achievementGroups, setAchievementGroups] = useState<Group[]>([]);
+  const [rawAchievementGroups, setRawAchievementGroups] = useState<Group[]>([]);
+  const [analyzed, setAnalyzed] = useState<AnalizedProgress | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // Load raw achievements first (instant thanks to server cache)
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-
-      try {
-        // Fetch achievements and user progression in parallel
-        const [rawAchievements, userProgression] = await Promise.all([
-          fetch("/api/achievements").then(res => res.json()),
-          fetch("/api/user/progression").then(res => res.json())
-        ]);
-
-        console.log("Fetched raw achievements and user progression");
-
-        // Client-side analysis
-        const analyzed = await analyze(rawAchievements, userProgression);
-
-        setAchievementGroups(analyzed.achievements);
-        console.log("Analyzed achievement groups with user progression");
-      } catch (err) {
-        console.error("Error fetching or analyzing achievements:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
+    fetch("/api/achievements")
+      .then(res => res.json())
+      .then(data => {
+        setRawAchievementGroups(data);
+        console.log("Fetched raw achievement groups");
+      });
   }, []);
+
+  // Load analyzed progression (can take some seconds server-side)
+  useEffect(() => {
+    fetch("/api/user/progression")
+      .then(res => res.json())
+      .then(data => {
+        setAnalyzed(data);
+        console.log("Fetched analyzed progression");
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  // Render raw first, then replace with analyzed
+  const dataToRender = analyzed?.achievements ?? rawAchievementGroups;
 
   return (
     <div>
-      {loading && <p>Loading achievements...</p>}
-      <AchievementGroupWithDrawer data={achievementGroups} />
+      {loading && <p>Loading...</p>}
+      <AchievementGroupWithDrawer data={dataToRender} />
     </div>
   );
 }

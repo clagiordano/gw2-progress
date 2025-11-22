@@ -1,16 +1,6 @@
 import { NextResponse } from "next/server";
-import { Group } from "@/models/achievement";
-import { unstable_cache } from "next/cache";
+import { getAchievements } from "@/services/achievements";
 
-// Memoized function
-const getAchievements = unstable_cache(
-  async () => {
-    const achievementsModule = await import("@/app/lib/achievements_detailed.json");
-    return achievementsModule.default as Group[];
-  },
-  ["achievements"],          // Cache key
-  { tags: ["achievements"] } // Allow revalidation by tag
-);
 
 export async function GET() {
   try {
