@@ -1,6 +1,6 @@
 "use client";
 
-import { Heading, Box, HStack, Icon } from "@chakra-ui/react";
+import { Heading, Box, HStack, Icon, Text } from "@chakra-ui/react";
 import { ExpansionInfo } from "./ExpansionInfo";
 import {
   GiThornyVine,
@@ -13,9 +13,11 @@ import {
 } from "react-icons/gi";
 import { useAccount } from "../context/AccountContext";
 import { ReactNode } from "react";
+import { useColorModeValue } from "@chakra-ui/react";
 
 export const AccountInfoFeatures = () => {
   const { account } = useAccount();
+const secondaryText = useColorModeValue("gray.600", "gray.400");
 
   const features = {
     hasF2P: false,
@@ -53,7 +55,7 @@ export const AccountInfoFeatures = () => {
       features.hasGW2 = true;
       features.hasJW = true;
     }
-    // Non impostiamo features.hasVoE perché l'API non lo fornisce
+    // No API access flag for VoE yet
   });
 
   const expansions: {
@@ -130,6 +132,11 @@ export const AccountInfoFeatures = () => {
       <Heading size="xs" textTransform="uppercase">
         Features
       </Heading>
+
+      <Text pt="2" fontSize="sm" color={secondaryText}>
+        Game access & expansions owned
+      </Text>
+
       <HStack spacing={4} mt={2}>
         {expansions.map((exp) => (
           <ExpansionInfo
