@@ -1,7 +1,7 @@
 "use server";
 
 import { getToken } from "@/app/actions";
-import { IAchievement, ICategory, IGroup, ITier } from "@/models/IAchievements";
+import { Achievement, AnalizedProgress, Category, Group, Progress, Tier } from "@/models/achievement";
 
 const baseOptions = {
   headers: {
@@ -139,18 +139,12 @@ export async function getAchievementById(aId: number | string) {
   return await resp.json();
 }
 
-export interface AnalizedProgress {
-  achievements: IGroup[];
-  totalPoints: number;
-  userTotalPoints: number;
-  totalPercent: number;
-}
-
-export const analyze = async (progression: any): Promise<AnalizedProgress> => {
+export const analyze = async (achievements: Group[], progression: Progress[]): Promise<AnalizedProgress> => {
   console.log("started analyze achievements");
+  // console.dir(achievements);
   let start = Math.floor(Date.now() / 1000);
-  const achievements = (await getLocalAchievements()) || [];
-  //const progression = (await getUserProgression()) || [];
+  // const achievements: Group[] = (await getLocalAchievements()) || [];
+  // const progression: Progress[] = (await getUserProgression()) || [];
   console.log(
     `completed fetch local achievements in ${
       Math.floor(Date.now() / 1000) - start
@@ -163,7 +157,7 @@ export const analyze = async (progression: any): Promise<AnalizedProgress> => {
   start = Math.floor(Date.now() / 1000);
   console.log("analyzing achievements progress");
   if (achievements && achievements.constructor === Array) {
-    achievements.map((group: IGroup) => {
+    achievements.map((group: Group) => {
       // console.log(`${group.name}: `);
       let gPts = 0;
       let ugPts = 0;
@@ -172,7 +166,7 @@ export const analyze = async (progression: any): Promise<AnalizedProgress> => {
       group.ugPts = 0;
 
       if (group.categories && group.categories.constructor === Array) {
-        group.categories.map((cat: ICategory) => {
+        group.categories.map((cat: Category) => {
           let cPts = 0;
           let ucPts = 0;
 
@@ -186,24 +180,24 @@ export const analyze = async (progression: any): Promise<AnalizedProgress> => {
             return;
           }
 
-          cat.achievements.map((ach: IAchievement) => {
+          cat.achievements.map((ach: Achievement) => {
             let aPts = ach.tiers.reduce(
-              (aPts: number, t: ITier) => t.points + aPts,
+              (aPts: number, t: Tier) => t.points + aPts,
               0
             );
             let uaPts = 0;
 
             if (progression && progression.constructor === Array) {
               let fIdx = progression.findIndex(
-                (a: IAchievement) => a.id == ach.id
+                (a: Achievement) => a.id == ach.id
               );
               if (fIdx !== -1) {
                 // console.log('fIdx', fIdx);
                 let uach = progression[fIdx];
                 progression.splice(fIdx, 1);
                 uaPts = ach.tiers
-                  .filter((t: ITier) => t.count <= uach.current)
-                  .reduce((uaPts: number, t: ITier) => t.points + uaPts, 0);
+                  .filter((t: Tier) => t.count <= uach.current)
+                  .reduce((uaPts: number, t: Tier) => t.points + uaPts, 0);
 
                 if (uach.repeated) {
                   /** Include repeated times */
@@ -261,8 +255,12 @@ export const analyze = async (progression: any): Promise<AnalizedProgress> => {
     `completed analyze achievements in ${Math.floor(Date.now() / 1000) - start}`
   );
 
+  console.log("completed analyze achievements total points: ", tPts, utPts);
+
+  // console.dir({ achievements, totalPoints: tPts, userTotalPoints: utPts });
+
   return {
-    achievements,
+    achievements: structuredClone(achievements),
     totalPoints: tPts,
     userTotalPoints: utPts,
     totalPercent: Math.round((utPts / (tPts || 1)) * 100),
