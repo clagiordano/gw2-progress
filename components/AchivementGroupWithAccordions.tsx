@@ -20,7 +20,7 @@ import {
   Text
 } from "@chakra-ui/react";
 
-export const ProgressDetails = ({ data }: { data: Group[] }) => {
+export const AchievementGroupWithAccordions = ({ data }: { data: Group[] }) => {
   return (
     <div>
       {/* <Suspense fallback="loading details component"> */}

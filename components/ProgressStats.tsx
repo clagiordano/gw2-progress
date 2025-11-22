@@ -1,5 +1,5 @@
 "use client";
-import { IGroup } from "@/models/IAchievements";
+import { Group } from "@/models/achievement";
 import { getColor } from "@/services/utils";
 import {
   CircularProgress,
@@ -21,10 +21,10 @@ import {
  * list ordered by percentage (asc / desc)
  */
 
-export const ProgressStats = ({ data }: { data: IGroup[] }) => {
+export const ProgressStats = ({ data }: { data: Group[] }) => {
   return (
     <Wrap spacing={4}>
-      {data.map((group: IGroup) => {
+      {data.map((group: Group) => {
         return (
           <WrapItem key={group.id}>
             <Card h={150} w={220}>
