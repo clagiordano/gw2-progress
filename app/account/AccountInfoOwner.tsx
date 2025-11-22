@@ -1,20 +1,21 @@
 "use client";
 
 import { Heading, Box, Text, Tooltip, HStack, Icon } from "@chakra-ui/react";
-import {
-  InfoOutlineIcon,
-  CalendarIcon,
-  RepeatIcon,
-} from "@chakra-ui/icons";
+import { InfoOutlineIcon, CalendarIcon, RepeatIcon } from "@chakra-ui/icons";
 import { FaGlobe } from "react-icons/fa";
 import { useAccount } from "../context/AccountContext";
 import { useColorModeValue, useTheme } from "@chakra-ui/react";
 
 export const AccountInfoOwner = () => {
   const { account } = useAccount();
-    const theme = useTheme();
-    const primaryText = useColorModeValue(theme.colors.textPrimary.light, theme.colors.textPrimary.dark);
-    const secondaryText = useColorModeValue(theme.colors.textSecondary.light, theme.colors.textSecondary.dark);
+  const theme = useTheme();
+  const primaryText = useColorModeValue(
+   "black", "white"
+  );
+  const secondaryText = useColorModeValue(
+    theme.colors.textSecondary.light,
+    theme.colors.textSecondary.dark
+  );
 
   return (
     <Box>

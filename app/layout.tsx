@@ -32,7 +32,7 @@ import {
   HiOutlineChartBar,
   HiOutlineTrophy,
 } from "react-icons/hi2";
-// import { useColorModeValue } from "@chakra-ui/react";
+import { useColorModeValue } from "@chakra-ui/react";
 
 export default function RootLayout({
   children,
@@ -41,10 +41,6 @@ export default function RootLayout({
 }) {
   const path = usePathname();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  // const headerTextColor = useColorModeValue(
-  //   theme.colors.text.light,
-  //   theme.colors.text.dark
-  // );
 
   const groupedLinks = [
     {
@@ -72,6 +68,8 @@ export default function RootLayout({
     },
   ];
 
+  const headingColor = useColorModeValue(theme.colors.text.light, theme.colors.text.dark);
+
   return (
     <html lang="en" className={fonts.rubik.variable}>
       <head>
@@ -94,7 +92,7 @@ export default function RootLayout({
               {/* Header */}
               <ColorAwareGridItem area={"header"} pl={4} pr={4} shadow="sm">
                 <Flex alignItems="center" h="100%">
-                  <Heading size="md">
+                  <Heading size="md" as="h1" color={headingColor}>
                     GW2 Progress
                   </Heading>
                   <Spacer />

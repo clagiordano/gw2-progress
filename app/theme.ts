@@ -102,16 +102,16 @@ export const theme = extendTheme({
     }),
   },
   components: {
-    Button: {
-      baseStyle: {
-        borderRadius: "md",
-      },
-    },
-    Heading: {
-      baseStyle: {
-        color: (props: any) =>
-          props.colorMode === "light" ? colors.text.light : colors.text.dark,
-      },
-    },
+    // Button: {
+    //   baseStyle: {
+    //     borderRadius: "md",
+    //   },
+    // },
+    // Heading: {
+    //   baseStyle: {
+    //     color: (props: any) =>
+    //       props.colorMode === "light" ? colors.text.light : colors.text.dark,
+    //   },
+    // },
   },
 });
