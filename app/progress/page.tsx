@@ -6,58 +6,41 @@ import { Group, Progress } from "@/models/achievement";
 import { AchievementGroupWithDrawer } from "@/components/AchievementGroupWithDrawer";
 
 export default function ProgressPage() {
-  const [rawAchievementGroups, setRawAchievementGroups] = useState<Group[]>([]);
-  const [userProgression, setUserProgression] = useState<Progress[]>([]);
   const [achievementGroups, setAchievementGroups] = useState<Group[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch raw achievements
   useEffect(() => {
-    fetch("/api/achievements")
-      .then(res => res.json())
-      .then(data => {
-        setRawAchievementGroups(data);
-        console.log("Fetched raw achievement groups");
-      });
-  }, []);
-
-  // Fetch user progression
-  useEffect(() => {
-    fetch("/api/user/progression")
-      .then(res => res.json())
-      .then(data => {
-        setUserProgression(data);
-        console.log("Fetched user progression");
-      });
-  }, []);
-
-  // Analyze achievements once both raw data and progression are loaded
-  useEffect(() => {
-    if (rawAchievementGroups.length === 0 || userProgression.length === 0) return;
-
-    // Perform analysis **client-side** to avoid large server payloads
-    (async () => {
+    const fetchData = async () => {
       setLoading(true);
 
       try {
-        const analyzed = await analyze(rawAchievementGroups, userProgression);
+        // Fetch achievements and user progression in parallel
+        const [rawAchievements, userProgression] = await Promise.all([
+          fetch("/api/achievements").then(res => res.json()),
+          fetch("/api/user/progression").then(res => res.json())
+        ]);
+
+        console.log("Fetched raw achievements and user progression");
+
+        // Client-side analysis
+        const analyzed = await analyze(rawAchievements, userProgression);
+
         setAchievementGroups(analyzed.achievements);
         console.log("Analyzed achievement groups with user progression");
       } catch (err) {
-        console.error("Error analyzing achievements", err);
+        console.error("Error fetching or analyzing achievements:", err);
       } finally {
         setLoading(false);
       }
-    })();
-  }, [rawAchievementGroups, userProgression]);
+    };
 
-  // Decide which data to render: raw first, analyzed later
-  const dataToRender = achievementGroups.length ? achievementGroups : rawAchievementGroups;
+    fetchData();
+  }, []);
 
   return (
     <div>
-      {loading && <p>Loading...</p>}
-      <AchievementGroupWithDrawer data={dataToRender} />
+      {loading && <p>Loading achievements...</p>}
+      <AchievementGroupWithDrawer data={achievementGroups} />
     </div>
   );
 }
