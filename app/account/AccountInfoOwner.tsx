@@ -9,13 +9,16 @@ import { useColorModeValue, useTheme } from "@chakra-ui/react";
 export const AccountInfoOwner = () => {
   const { account } = useAccount();
   const theme = useTheme();
+
   const primaryText = useColorModeValue(
-   "black", "white"
+    theme.colors.textPrimary.light,
+    theme.colors.textPrimary.dark
   );
   const secondaryText = useColorModeValue(
     theme.colors.textSecondary.light,
     theme.colors.textSecondary.dark
   );
+  const iconColor = secondaryText;
 
   return (
     <Box>
@@ -29,9 +32,9 @@ export const AccountInfoOwner = () => {
       {/* Owner name */}
       <HStack spacing={3} mt={2}>
         <Tooltip label={`ID: ${account?.id}`} fontSize="md">
-          <Icon as={InfoOutlineIcon} boxSize={5} color="gray.500" />
+          <Icon as={InfoOutlineIcon} boxSize={5} color={iconColor} />
         </Tooltip>
-        <Text fontSize="lg" fontWeight="medium">
+        <Text fontSize="lg" fontWeight="medium" color={primaryText}>
           {account?.name}
         </Text>
       </HStack>
@@ -39,25 +42,29 @@ export const AccountInfoOwner = () => {
       {/* Creation date */}
       <HStack spacing={3}>
         <Tooltip label="Account creation date" fontSize="md">
-          <Icon as={CalendarIcon} boxSize={5} color="gray.500" />
+          <Icon as={CalendarIcon} boxSize={5} color={iconColor} />
         </Tooltip>
-        <Text fontSize="md">{account?.created}</Text>
+        <Text fontSize="md" color={primaryText}>
+          {account?.created}
+        </Text>
       </HStack>
 
       {/* Last modified */}
       <HStack spacing={3}>
         <Tooltip label="Account last modification date" fontSize="md">
-          <Icon as={RepeatIcon} boxSize={5} color="gray.500" />
+          <Icon as={RepeatIcon} boxSize={5} color={iconColor} />
         </Tooltip>
-        <Text fontSize="md">{account?.last_modified}</Text>
+        <Text fontSize="md" color={primaryText}>
+          {account?.last_modified}
+        </Text>
       </HStack>
 
       {/* World */}
       <HStack spacing={3}>
         <Tooltip label={`Current world: ${account?.world?.id}`} fontSize="md">
-          <Icon as={FaGlobe} boxSize={5} color="gray.500" />
+          <Icon as={FaGlobe} boxSize={5} color={iconColor} />
         </Tooltip>
-        <Text fontSize="md" fontWeight="medium">
+        <Text fontSize="md" fontWeight="medium" color={primaryText}>
           {account?.world?.name}
         </Text>
       </HStack>

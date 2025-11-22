@@ -92,7 +92,7 @@ export default function RootLayout({
               {/* Header */}
               <ColorAwareGridItem area={"header"} pl={4} pr={4} shadow="sm">
                 <Flex alignItems="center" h="100%">
-                  <Heading size="md" as="h1" color={headingColor}>
+                  <Heading size="md" as="h1">
                     GW2 Progress
                   </Heading>
                   <Spacer />
