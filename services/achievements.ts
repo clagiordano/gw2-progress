@@ -189,7 +189,7 @@ export const analyze = async (achievements: Group[], progression: Progress[]): P
 
             if (progression && progression.constructor === Array) {
               let fIdx = progression.findIndex(
-                (a: Achievement) => a.id == ach.id
+                (a: Progress) => a.id == ach.id
               );
 
               if (fIdx !== -1) {
