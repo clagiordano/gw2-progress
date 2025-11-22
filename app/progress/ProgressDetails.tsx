@@ -2,12 +2,10 @@
 
 import { BitItem } from "@/components/BitItem";
 import {
-  IAchievement,
-  IBit,
-  ICategory,
-  IGroup,
-  ITier,
-} from "@/models/IAchievements";
+  Achievement,
+  Category,
+  Group,
+} from "@/models/achievement";
 import { getColor } from "@/services/utils";
 
 import {
@@ -22,12 +20,12 @@ import {
   Text
 } from "@chakra-ui/react";
 
-export const ProgressDetails = ({ data }: { data: IGroup[] }) => {
+export const ProgressDetails = ({ data }: { data: Group[] }) => {
   return (
     <div>
       {/* <Suspense fallback="loading details component"> */}
       <Accordion allowToggle>
-        {data.map((group: IGroup) => {
+        {data.map((group: Group) => {
           return (
             <AccordionItem key={group.id}>
               {/* {({ isExpanded }) => (
@@ -52,7 +50,7 @@ export const ProgressDetails = ({ data }: { data: IGroup[] }) => {
 
               <AccordionPanel pb={4}>
                 <Accordion allowToggle>
-                  {group.categories.map((category: ICategory) => {
+                  {group.categories.map((category: Category) => {
                     return (
                       <AccordionItem key={category.id}>
                         <h3>
@@ -80,7 +78,7 @@ export const ProgressDetails = ({ data }: { data: IGroup[] }) => {
                         <AccordionPanel pb={4}>
                           <Accordion allowToggle>
                             {category.achievements.map(
-                              (achievement: IAchievement) => {
+                              (achievement: Achievement) => {
                                 return (
                                   <div key={achievement.id}>
                                     <AccordionItem key={achievement.id}>
