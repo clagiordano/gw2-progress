@@ -2,21 +2,18 @@
 
 import { Suspense } from "react";
 import { fonts } from "./fonts";
-import { ChakraProvider, ColorModeScript, useColorModeValue } from "@chakra-ui/react";
+import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 import { theme } from "./theme";
 import { AccountProvider } from "./context/AccountContext";
 import {
-  Box,
   ButtonGroup,
   Flex,
   Grid,
-  GridItem,
   Heading,
   IconButton,
   Link,
   Spacer,
   Spinner,
-  VStack,
   Drawer,
   DrawerOverlay,
   DrawerContent,
@@ -28,53 +25,13 @@ import { SettingsIcon, HamburgerIcon } from "@chakra-ui/icons";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import { ColorAwareGridItem } from "@/components/ColorAwareGridItem";
-import { FaUser, FaBoxOpen, FaSearch, FaChartPie, FaTasks, FaIdBadge } from "react-icons/fa";
-import { GiAchievement, GiChest, GiCompass, GiMagnifyingGlass } from "react-icons/gi";
+import { SidebarLinks } from "@/components/SidebarLinks";
 import {
   HiOutlineUser,
   HiOutlineMagnifyingGlass,
   HiOutlineChartBar,
   HiOutlineTrophy,
 } from "react-icons/hi2";
-
-const SidebarLinks = ({
-  groups,
-  currentPath,
-  onClickLink,
-}: {
-  groups: { label: string; links: { href: string; label: string; icon: any }[] }[];
-  currentPath: string;
-  onClickLink?: () => void;
-}) => (
-  <VStack align="stretch" spacing={6} mt={4}>
-    {groups.map((group) => (
-      <Box key={group.label}>
-        <Heading size="xs" mb={2} opacity={0.6}>
-          {group.label}
-        </Heading>
-
-        <VStack align="stretch" spacing={1}>
-          {group.links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              as={NextLink}
-              fontWeight={currentPath === link.href ? "bold" : "normal"}
-              onClick={onClickLink}
-              display="flex"
-              alignItems="center"
-              gap={2}
-              fontSize="sm"
-            >
-              <link.icon size={18} />
-              {link.label}
-            </Link>
-          ))}
-        </VStack>
-      </Box>
-    ))}
-  </VStack>
-);
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const path = usePathname();
