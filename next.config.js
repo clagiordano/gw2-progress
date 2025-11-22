@@ -4,7 +4,14 @@ const nextConfig = {
     API_GW_BASE_URL: "https://api.guildwars2.com/v2",
   },
   images: {
-    domains: ["render.guildwars2.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "render.guildwars2.com",
+        port: "",
+        pathname: "/**", // allow all paths from this hostname
+      },
+    ],
   },
   experimental: {
     serverActions: {

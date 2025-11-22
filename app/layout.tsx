@@ -32,39 +32,52 @@ import {
   HiOutlineChartBar,
   HiOutlineTrophy,
 } from "react-icons/hi2";
+// import { useColorModeValue } from "@chakra-ui/react";
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const path = usePathname();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  // const headerTextColor = useColorModeValue(
+  //   theme.colors.text.light,
+  //   theme.colors.text.dark
+  // );
 
-const groupedLinks = [
-  {
-    label: "Account",
-    links: [
-      { href: "/account", label: "Account", icon: HiOutlineUser },
-    ],
-  },
-  {
-    label: "Items",
-    links: [
-      { href: "/items/explorer", label: "Explore Items", icon: HiOutlineMagnifyingGlass },
-      { href: "/items/stats", label: "Items Overview", icon: HiOutlineChartBar },
-    ],
-  },
-  {
-    label: "Progression",
-    links: [
-      { href: "/progress", label: "Progress", icon: HiOutlineTrophy },
-    ],
-  },
-];
+  const groupedLinks = [
+    {
+      label: "Account",
+      links: [{ href: "/account", label: "Account", icon: HiOutlineUser }],
+    },
+    {
+      label: "Items",
+      links: [
+        {
+          href: "/items/explorer",
+          label: "Explore Items",
+          icon: HiOutlineMagnifyingGlass,
+        },
+        {
+          href: "/items/stats",
+          label: "Items Overview",
+          icon: HiOutlineChartBar,
+        },
+      ],
+    },
+    {
+      label: "Progression",
+      links: [{ href: "/progress", label: "Progress", icon: HiOutlineTrophy }],
+    },
+  ];
 
   return (
     <html lang="en" className={fonts.rubik.variable}>
       <head>
-        {/* ColorModeScript qui, prima di qualsiasi client component */}
         <ColorModeScript initialColorMode={theme.config.initialColorMode} />
       </head>
+
       <body>
         <ChakraProvider theme={theme}>
           <AccountProvider>
@@ -81,7 +94,9 @@ const groupedLinks = [
               {/* Header */}
               <ColorAwareGridItem area={"header"} pl={4} pr={4} shadow="sm">
                 <Flex alignItems="center" h="100%">
-                  <Heading size="md">GW2 Progress</Heading>
+                  <Heading size="md">
+                    GW2 Progress
+                  </Heading>
                   <Spacer />
                   {/* Hamburger solo mobile */}
                   <IconButton
@@ -93,7 +108,10 @@ const groupedLinks = [
                   />
                   <ButtonGroup display={{ base: "none", md: "flex" }}>
                     <Link href="/settings" as={NextLink}>
-                      <IconButton aria-label="Settings" icon={<SettingsIcon />} />
+                      <IconButton
+                        aria-label="Settings"
+                        icon={<SettingsIcon />}
+                      />
                     </Link>
                   </ButtonGroup>
                 </Flex>
@@ -123,15 +141,8 @@ const groupedLinks = [
               </ColorAwareGridItem>
 
               {/* Footer */}
-              <ColorAwareGridItem
-                area={"footer"}
-                pl={4}
-                pr={4}
-                shadow="inner"
-              >
-                <Flex h="100%" align="center" justify="center">
-
-                </Flex>
+              <ColorAwareGridItem area={"footer"} pl={4} pr={4} shadow="inner">
+                <Flex h="100%" align="center" justify="center"></Flex>
               </ColorAwareGridItem>
 
               {/* Drawer mobile */}

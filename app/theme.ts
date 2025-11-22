@@ -39,7 +39,7 @@ const colors = {
   },
   text: {
     light: "gray.800",
-    dark: "whiteAlpha.900",
+    dark: "gray.50",
   },
   link: {
     light: "blue.600",
