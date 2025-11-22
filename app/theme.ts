@@ -41,9 +41,21 @@ const colors = {
     light: "gray.800",
     dark: "gray.50",
   },
-  link: {
+  linkAlt: {
     light: "blue.600",
     dark: "blue.300",
+  },
+  link: {
+    light: "gray.800",
+    dark: "whiteAlpha.900",
+  },
+  linkActive: {
+    light: "black",
+    dark: "white",
+  },
+  linkCategory: {
+    light: "gray.600",
+    dark: "gray.400",
   },
   cardBg: {
     light: "gray.50",
@@ -52,6 +64,14 @@ const colors = {
   cardHover: {
     light: "gray.100",
     dark: "gray.600"
+  },
+  textPrimary: {
+    light: "gray.800",
+    dark: "gray.50",
+  },
+  textSecondary: {
+    light: "gray.600",
+    dark: "gray.400",
   },
 };
 

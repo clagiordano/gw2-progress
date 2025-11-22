@@ -8,15 +8,17 @@ import {
 } from "@chakra-ui/icons";
 import { FaGlobe } from "react-icons/fa";
 import { useAccount } from "../context/AccountContext";
-import { useColorModeValue } from "@chakra-ui/react";
+import { useColorModeValue, useTheme } from "@chakra-ui/react";
 
 export const AccountInfoOwner = () => {
   const { account } = useAccount();
-  const secondaryText = useColorModeValue("gray.600", "gray.400");
+    const theme = useTheme();
+    const primaryText = useColorModeValue(theme.colors.textPrimary.light, theme.colors.textPrimary.dark);
+    const secondaryText = useColorModeValue(theme.colors.textSecondary.light, theme.colors.textSecondary.dark);
 
   return (
     <Box>
-      <Heading size="xs" textTransform="uppercase">
+      <Heading size="xs" textTransform="uppercase" color={primaryText}>
         Owner
       </Heading>
       <Text pt="2" fontSize="sm" color={secondaryText}>

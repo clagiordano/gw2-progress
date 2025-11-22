@@ -21,15 +21,15 @@ import {
   DrawerBody,
   useDisclosure,
   useColorModeValue,
+  useTheme,
 } from "@chakra-ui/react";
 import {  useState } from "react";
 import { BitItem } from "./BitItem";
-import { theme } from "@/app/theme";
 
 export const AchievementGroupWithDrawer = ({ data }: { data: Group[] }) => {
   const [selected, setSelected] = useState<Achievement | null>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const theme = useTheme();
 
   const openDetails = (ach: Achievement) => {
     setSelected(ach);

@@ -1,5 +1,4 @@
 import { copyChatLink, rarityColor } from "@/app/lib/itemHelper";
-import { theme } from "@/app/theme";
 import { Item } from "@/models/item";
 import {
   Flex,
@@ -12,11 +11,13 @@ import {
   Text,
   useToast,
   useColorModeValue,
+  useTheme,
 } from "@chakra-ui/react";
 import { forwardRef } from "react";
 
 const ItemCard = forwardRef<HTMLDivElement, { data: Item }>(({ data }, ref) => {
   const toast = useToast();
+  const theme = useTheme();
   const bg = useColorModeValue(theme.colors.cardBg.light, theme.colors.cardBg.dark);
   const hoverBg = useColorModeValue(theme.colors.cardHover.light, theme.colors.cardHover.dark);
 
@@ -28,7 +29,7 @@ const ItemCard = forwardRef<HTMLDivElement, { data: Item }>(({ data }, ref) => {
       borderWidth="1px"
       borderRadius="lg"
       bg={bg}
-      _hover={{ shadow: "lg" }}
+      _hover={{ bg: hoverBg }}
       align="center"
       gap={4}
     >
