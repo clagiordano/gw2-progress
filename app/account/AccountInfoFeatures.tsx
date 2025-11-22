@@ -12,6 +12,7 @@ import {
   GiGamepad,
 } from "react-icons/gi";
 import { useAccount } from "../context/AccountContext";
+import { ReactNode } from "react";
 
 export const AccountInfoFeatures = () => {
   const { account } = useAccount();
@@ -24,7 +25,7 @@ export const AccountInfoFeatures = () => {
     hasEoD: false,
     hasSotO: false,
     hasJW: false,
-    hasVoE: false,
+    hasVoE: false, // default to false
   };
 
   account.access.forEach((acc) => {
@@ -52,20 +53,27 @@ export const AccountInfoFeatures = () => {
       features.hasGW2 = true;
       features.hasJW = true;
     }
-    if (acc.includes("VisionsOfEternity")) {
-      features.hasGW2 = true;
-      features.hasVoE = true;
-    }
+    // Non impostiamo features.hasVoE perché l'API non lo fornisce
   });
 
-  const expansions = [
-    {
-      key: "hasF2P",
-      available: features.hasF2P && !features.hasGW2,
-      text: "F2P",
-      tip: "Play For Free",
-      bg: "gray",
-    },
+  const expansions: {
+    key: string;
+    available: boolean | "unknown";
+    text: ReactNode;
+    tip: string;
+    bg: string;
+  }[] = [
+    ...(features.hasF2P && !features.hasGW2
+      ? [
+          {
+            key: "hasF2P",
+            available: true,
+            text: "F2P",
+            tip: "Play For Free",
+            bg: "gray",
+          },
+        ]
+      : []),
     {
       key: "hasGW2",
       available: features.hasGW2,
@@ -110,10 +118,10 @@ export const AccountInfoFeatures = () => {
     },
     {
       key: "hasVoE",
-      available: features.hasVoE,
+      available: "unknown", // currently not available from API
       text: <Icon as={GiIsland} boxSize={6} />,
-      tip: "Visions of Eternity",
-      bg: "teal",
+      tip: "Visions of Eternity (unknown)",
+      bg: "gray", // “disabled” color
     },
   ];
 
@@ -123,18 +131,15 @@ export const AccountInfoFeatures = () => {
         Features
       </Heading>
       <HStack spacing={4} mt={2}>
-        {expansions.map(
-          (exp) =>
-            exp.available && (
-              <ExpansionInfo
-                key={exp.key}
-                available={exp.available}
-                text={exp.text}
-                tip={exp.tip}
-                bg={exp.bg}
-              />
-            )
-        )}
+        {expansions.map((exp) => (
+          <ExpansionInfo
+            key={exp.key}
+            available={exp.available}
+            text={exp.text}
+            tip={exp.tip}
+            bg={exp.bg}
+          />
+        ))}
       </HStack>
     </Box>
   );
