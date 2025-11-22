@@ -1,20 +1,23 @@
+import { getToken } from "@/app/actions";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (req: NextRequest) => {
   const { searchParams } = new URL(req.url);
 
-  const token = searchParams.get("token");
+  let token = searchParams.get("token");
+
+  if (!token) {
+    token = await getToken();
+    // return NextResponse.json(
+    //   { error: "No access token available" },
+    //   { status: 401 }
+    // );
+  }
+
   const headers = {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
   };
-
-  if (!token) {
-    return NextResponse.json(
-      { error: "No access token available" },
-      { status: 401 }
-    );
-  }
 
   try {
     const resp = await fetch(

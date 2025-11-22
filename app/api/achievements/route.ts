@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
-import achievements from "@/app/lib/achievements.json";
+import rawAchievements from "@/app/lib/achievements_detailed.json";
+import { Group } from "@/models/achievement";
+
+const achievements: Group[] = rawAchievements as Group[];
 
 export async function GET() {
   if (!achievements) {
