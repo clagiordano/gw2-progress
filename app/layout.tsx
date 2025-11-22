@@ -28,28 +28,47 @@ import { SettingsIcon, HamburgerIcon } from "@chakra-ui/icons";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import { ColorAwareGridItem } from "@/components/ColorAwareGridItem";
+import { FaUser, FaBoxOpen, FaSearch, FaChartPie, FaTasks } from "react-icons/fa";
 
-// SidebarLinks fuori dal componente principale
+
 const SidebarLinks = ({
-  links,
+  groups,
   currentPath,
   onClickLink,
 }: {
-  links: { href: string; label: string }[];
+  groups: { label: string; links: { href: string; label: string; icon: any }[] }[];
   currentPath: string;
   onClickLink?: () => void;
 }) => (
-  <VStack align="stretch" spacing={3} mt={4}>
-    {links.map((link) => (
-      <Link
-        key={link.href}
-        href={link.href}
-        as={NextLink}
-        fontWeight={currentPath === link.href ? "bold" : "normal"}
-        onClick={onClickLink}
-      >
-        {link.label}
-      </Link>
+  <VStack align="stretch" spacing={6} mt={4}>
+    {groups.map((group) => (
+      <Box key={group.label}>
+        <Heading size="xs" mb={2} opacity={0.6}>
+          {group.label}
+        </Heading>
+
+        <VStack align="stretch" spacing={1}>
+          {group.links.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              as={NextLink}
+              onClick={onClickLink}
+              _hover={{ textDecoration: "none", opacity: 0.85 }}
+            >
+              <Flex
+                align="center"
+                gap={3}
+                fontWeight={currentPath === link.href ? "bold" : "normal"}
+                pl={1}
+              >
+                <Box as={link.icon} boxSize={4} opacity={0.8} />
+                {link.label}
+              </Flex>
+            </Link>
+          ))}
+        </VStack>
+      </Box>
     ))}
   </VStack>
 );
@@ -58,12 +77,28 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const path = usePathname();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const links = [
-    { href: "/account", label: "Account" },
-    { href: "/items/explorer", label: "Explore Items" },
-    { href: "/progress", label: "Progress" },
-    // { href: "/progress/dailies", label: "Dailies" },
-  ];
+const groupedLinks = [
+  {
+    label: "Account",
+    links: [
+      { href: "/account", label: "Account", icon: FaUser },
+    ],
+  },
+  {
+    label: "Items",
+    links: [
+      { href: "/items/explorer", label: "Explore Items", icon: FaSearch },
+      { href: "/items/stats", label: "Items Overview", icon: FaBoxOpen },
+    ],
+  },
+  {
+    label: "Progression",
+    links: [
+      { href: "/progress", label: "Progress", icon: FaChartPie },
+      // { href: "/progress/dailies", label: "Dailies", icon: FaTasks },
+    ],
+  },
+];
 
   return (
     <html lang="en" className={fonts.rubik.variable}>
@@ -113,7 +148,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 shadow="sm"
                 display={{ base: "none", md: "block" }}
               >
-                <SidebarLinks links={links} currentPath={path} />
+                <SidebarLinks groups={groupedLinks} currentPath={path} />
               </ColorAwareGridItem>
 
               {/* Main content */}
@@ -136,7 +171,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 shadow="inner"
               >
                 <Flex h="100%" align="center" justify="center">
-                  Footer content
+
                 </Flex>
               </ColorAwareGridItem>
 
@@ -147,7 +182,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   <DrawerCloseButton />
                   <DrawerBody>
                     <SidebarLinks
-                      links={links}
+                      groups={groupedLinks}
                       currentPath={path}
                       onClickLink={onClose}
                     />
