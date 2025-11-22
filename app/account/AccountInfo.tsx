@@ -9,6 +9,8 @@ import {
   Stack,
   StackDivider,
   Skeleton,
+  useTheme,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { AccountInfoOwner } from "./AccountInfoOwner";
 import { AccountInfoFeatures } from "./AccountInfoFeatures";
@@ -16,12 +18,16 @@ import { AccountInfoGuilds } from "./AccountInfoGuilds";
 import { useAccount } from "../context/AccountContext";
 
 export const AccountInfo = () => {
-  const { account, loading } = useAccount();
+  const { loading } = useAccount();
+    const theme = useTheme();
+
+    const primaryText = useColorModeValue(theme.colors.textPrimary.light, theme.colors.textPrimary.dark);
+    const secondaryText = useColorModeValue(theme.colors.textSecondary.light, theme.colors.textSecondary.dark);
 
   return (
     <Card>
       <CardHeader>
-        <Heading size="md">Account Information</Heading>
+        <Heading size="md" color={primaryText}>Account Information</Heading>
       </CardHeader>
 
       <CardBody>
