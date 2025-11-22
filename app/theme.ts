@@ -45,6 +45,14 @@ const colors = {
     light: "blue.600",
     dark: "blue.300",
   },
+  cardBg: {
+    light: "gray.50",
+    dark: "gray.700"
+  },
+  cardHover: {
+    light: "gray.100",
+    dark: "gray.600"
+  },
 };
 
 export const theme = extendTheme({
@@ -57,11 +65,16 @@ export const theme = extendTheme({
   styles: {
     global: (props: any) => ({
       body: {
-        bg: props.colorMode === "light" ? colors.mainBg.light : colors.mainBg.dark,
-        color: props.colorMode === "light" ? colors.text.light : colors.text.dark,
+        bg:
+          props.colorMode === "light"
+            ? colors.mainBg.light
+            : colors.mainBg.dark,
+        color:
+          props.colorMode === "light" ? colors.text.light : colors.text.dark,
       },
       a: {
-        color: props.colorMode === "light" ? colors.link.light : colors.link.dark,
+        color:
+          props.colorMode === "light" ? colors.link.light : colors.link.dark,
         _hover: {
           textDecoration: "underline",
         },
@@ -76,7 +89,8 @@ export const theme = extendTheme({
     },
     Heading: {
       baseStyle: {
-        color: (props: any) => (props.colorMode === "light" ? colors.text.light : colors.text.dark),
+        color: (props: any) =>
+          props.colorMode === "light" ? colors.text.light : colors.text.dark,
       },
     },
   },
