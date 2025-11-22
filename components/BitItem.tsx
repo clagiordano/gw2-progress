@@ -10,7 +10,6 @@ export const BitItem = ({ bit }: { bit: Bit }) => {
   const icon = bit.item?.icon ?? bit.skin?.icon ?? bit.minipet?.icon;
   const bg = useColorModeValue(theme.colors.cardBg.light, theme.colors.cardBg.dark);
 
-
   return (
     <Box display="flex" alignItems="center" gap={2} p={1} borderRadius="md" bg={bg}>
       {icon && (

@@ -191,12 +191,14 @@ export const analyze = async (achievements: Group[], progression: Progress[]): P
               let fIdx = progression.findIndex(
                 (a: Achievement) => a.id == ach.id
               );
+
               if (fIdx !== -1) {
                 // console.log('fIdx', fIdx);
                 let uach = progression[fIdx];
+                let current = uach.current ?? 0;
                 progression.splice(fIdx, 1);
                 uaPts = ach.tiers
-                  .filter((t: Tier) => t.count <= uach.current)
+                  .filter((t: Tier) => t.count <= current)
                   .reduce((uaPts: number, t: Tier) => t.points + uaPts, 0);
 
                 if (uach.repeated) {
