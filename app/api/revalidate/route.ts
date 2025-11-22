@@ -3,6 +3,7 @@ import { revalidateTag } from "next/cache"
 
 const ALLOWED_TAGS = new Set([
   "items-stats",
+  "achievements",
 ])
 
 export async function POST(req: Request) {

@@ -1,16 +1,26 @@
 import { NextResponse } from "next/server";
-import rawAchievements from "@/app/lib/achievements_detailed.json";
 import { Group } from "@/models/achievement";
+import { unstable_cache } from "next/cache";
 
-const achievements: Group[] = rawAchievements as Group[];
+// Memoized function
+const getAchievements = unstable_cache(
+  async () => {
+    const achievementsModule = await import("@/app/lib/achievements_detailed.json");
+    return achievementsModule.default as Group[];
+  },
+  ["achievements"],          // Cache key
+  { tags: ["achievements"] } // Allow revalidation by tag
+);
 
 export async function GET() {
-  if (!achievements) {
+  try {
+    const achievements = await getAchievements();
+    return NextResponse.json(achievements);
+  } catch (error: any) {
+    console.error("Error fetching achievements:", error);
     return NextResponse.json(
-      { error: "Achievements data not found" },
-      { status: 404 }
+      { error: "Failed to fetch achievements", details: error?.message || "unknown" },
+      { status: 500 }
     );
   }
-
-  return NextResponse.json(achievements);
 }
