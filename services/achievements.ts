@@ -1,206 +1,281 @@
-'use server';
+"use server";
 
-import { getToken } from '@/app/actions';
-import { IAchievement, ICategory, IGroup, ITier } from '@/models/IAchievements';
+// import { getToken } from "@/app/actions";
+import { Achievement, AnalizedProgress, Category, Group, Progress, Tier } from "@/models/achievement";
+import { unstable_cache } from "next/cache";
 
-const baseOptions = {
-	headers: {
-		'Content-Type': 'application/json'
-	},
-	next: { revalidate: 3600 }
-};
+// const baseOptions = {
+//   headers: {
+//     "Content-Type": "application/json",
+//   },
+//   next: { revalidate: 3600 },
+// };
 
 // export const getLocalAchievements = async () => {
 // 	const achievements: any = await fsPromises.readFile(path.join(process.cwd(), 'data/achievements.json'));
 // 	return await JSON.parse(achievements);
 // }
 
-import fsPromises from 'fs/promises';
-import path from 'path'
-export async function getLocalAchievements() {
-	const filePath = path.join(process.cwd(), 'data/achievements.json');
-	const jsonData: any = await fsPromises.readFile(filePath);
-	const objectData = JSON.parse(jsonData);
+// import fsPromises from "fs/promises";
+// import path from "path";
+// export async function getLocalAchievements() {
+//   console.log("started getLocalAchievements");
+//   const start = Math.floor(Date.now() / 1000);
+//   const filePath = path.join(process.cwd(), "data/achievements_detailed.json");
+//   const jsonData: any = await fsPromises.readFile(filePath);
+//   const objectData = JSON.parse(jsonData);
 
-	console.log('completed getLocalAchievements');
-	return objectData
+//   console.log("completed getLocalAchievements in ", Math.floor(Date.now() / 1000) - start);
+//   return objectData;
+// }
+
+// export const getAchievements = async () => {
+//   const achievements = await getAchievementsGroups();
+//   // console.log('achievements', achievements.length, achievements);
+
+//   for (const idx in achievements) {
+//     // console.log('fetching ', achievements[idx]);
+//     /**
+//      * Populate groups
+//      */
+//     achievements[idx] = await getAchievementsGroupsById(achievements[idx]);
+//     // console.log('achievements[idx]', achievements[idx]);
+
+//     /**
+//      * Populate categories
+//      */
+//     if (
+//       achievements[idx].categories &&
+//       achievements[idx].categories.constructor === Array
+//     ) {
+//       achievements[idx].categories = await getAchievementsCategoryById(
+//         achievements[idx].categories.join(",")
+//       );
+//     }
+
+//     /**
+//      * Populate achievements
+//      */
+//     for (const cId in achievements[idx].categories) {
+//       achievements[idx].categories[cId].achievements = await getAchievementById(
+//         achievements[idx].categories[cId].achievements.join(",")
+//       );
+//     }
+//   }
+
+//   return achievements;
+// };
+
+// export const getUserProgression = async () => {
+//   const accessToken = await getToken();
+//   // console.log('getUserProgression', accessToken)
+//   let start = Math.floor(Date.now() / 1000);
+//   console.log("started fetch user progression");
+
+//   const options = {
+//     ...baseOptions.headers,
+//     headers: { ...baseOptions.headers, Authorization: `Bearer ${accessToken}` },
+//   };
+//   const resp = await fetch(
+//     `${process.env.API_GW_BASE_URL}/account/achievements`,
+//     options
+//   );
+
+//   if (!resp.ok) {
+//     console.error(
+//       "Failed to fetch user progression",
+//       resp.ok,
+//       resp.status,
+//       resp.statusText
+//     );
+//     return [];
+//   }
+
+//   const data = await resp.json();
+//   console.log(
+//     `completed fetch user progression in ${
+//       Math.floor(Date.now() / 1000) - start
+//     }`,
+//     data.length
+//   );
+
+//   return data;
+// };
+
+// export async function getAchievementsGroups() {
+//   const resp = await fetch(
+//     `${process.env.API_GW_BASE_URL}/achievements/groups`,
+//     baseOptions
+//   );
+//   return await resp.json();
+// }
+
+// export async function getAchievementsGroupsById(groupId: number | string) {
+//   const resp = await fetch(
+//     `${process.env.API_GW_BASE_URL}/achievements/groups/${groupId}`,
+//     baseOptions
+//   );
+//   return await resp.json();
+// }
+
+// export async function getAchievementsCategoryById(cId: number | string) {
+//   const resp = await fetch(
+//     `${process.env.API_GW_BASE_URL}/achievements/categories?ids=${cId}`,
+//     baseOptions
+//   );
+//   return await resp.json();
+// }
+
+// export async function getAchievementById(aId: number | string) {
+//   if (!aId) {
+//     /**
+//      * On emprty aId directly returns an empty array to avoid useless api calls
+//      */
+//     return [];
+//   }
+//   const resp = await fetch(
+//     `${process.env.API_GW_BASE_URL}/achievements?ids=${aId}`,
+//     baseOptions
+//   );
+//   return await resp.json();
+// }
+
+// Memoized function
+export const getAchievements = unstable_cache(
+  async () => {
+    const achievementsModule = await import("@/app/lib/achievements_detailed.json");
+    return achievementsModule.default as Group[];
+  },
+  ["achievements"],          // Cache key
+  { tags: ["achievements"] } // Allow revalidation by tag
+);
+
+export const analyze = async (achievements: Group[], progression: Progress[]): Promise<AnalizedProgress> => {
+  console.log("started analyze achievements");
+  // console.dir(achievements);
+  let start = Math.floor(Date.now() / 1000);
+  // const achievements: Group[] = (await getLocalAchievements()) || [];
+  // const progression: Progress[] = (await getUserProgression()) || [];
+  console.log(
+    `completed fetch local achievements in ${
+      Math.floor(Date.now() / 1000) - start
+    }`
+  );
+
+  let tPts = 0;
+  let utPts = 0;
+
+  start = Math.floor(Date.now() / 1000);
+  console.log("analyzing achievements progress");
+  if (achievements && achievements.constructor === Array) {
+    achievements.map((group: Group) => {
+      // console.log(`${group.name}: `);
+      let gPts = 0;
+      let ugPts = 0;
+
+      group.gPts = 0;
+      group.ugPts = 0;
+
+      if (group.categories && group.categories.constructor === Array) {
+        group.categories.map((cat: Category) => {
+          let cPts = 0;
+          let ucPts = 0;
+
+          cat.cPts = 0;
+          cat.ucPts = 0;
+
+          if (!cat.achievements || cat.achievements.constructor !== Array) {
+            console.warn(
+              `Invalid achievements data for ${cat.name}, expected array`
+            );
+            return;
+          }
+
+          cat.achievements.map((ach: Achievement) => {
+            let aPts = ach.tiers.reduce(
+              (aPts: number, t: Tier) => t.points + aPts,
+              0
+            );
+            let uaPts = 0;
+
+            if (progression && progression.constructor === Array) {
+              let fIdx = progression.findIndex(
+                (a: Progress) => a.id == ach.id
+              );
+
+              if (fIdx !== -1) {
+                // console.log('fIdx', fIdx);
+                let uach = progression[fIdx];
+                let current = uach.current ?? 0;
+                progression.splice(fIdx, 1);
+                uaPts = ach.tiers
+                  .filter((t: Tier) => t.count <= current)
+                  .reduce((uaPts: number, t: Tier) => t.points + uaPts, 0);
+
+                if (uach.repeated) {
+                  /** Include repeated times */
+                  // console.log('repeated ', ach.name, uach.repeated, aPts, (aPts * uach.repeated));
+                  let uaPtsRepeated = aPts * uach.repeated;
+                  if (uaPtsRepeated > ach.point_cap) {
+                    uaPtsRepeated = ach.point_cap;
+                  }
+                  uaPts = uaPts + uaPtsRepeated;
+                }
+              }
+            }
+
+            if (ach.point_cap && ach.point_cap > 0) {
+              /**
+               * For repeatable achievements use point_cap as maximum earnable amount
+               * -1 means infinite
+               */
+              //console.log('override aPts', aPts, '->', ach.point_cap);
+              aPts = ach.point_cap;
+            }
+
+            ach.aPts = aPts;
+            ach.uaPts = uaPts;
+
+            // console.log(` -> ${ach.name}: ${uaPts} / ${aPts}`);
+            cPts = cPts + aPts;
+            ucPts = ucPts + uaPts;
+
+            cat.cPts = cPts;
+            cat.ucPts = ucPts;
+
+            cat.cPtsPercent = Math.round((ucPts / (cPts || 1)) * 100);
+          });
+
+          //console.log(`  \u21B3 ${cat.name}: ${ucPts} / ${cPts}`);
+          gPts = gPts + cPts;
+          ugPts = ugPts + ucPts;
+        });
+      }
+
+      group.gPts = gPts;
+      group.ugPts = ugPts;
+
+      tPts = tPts + gPts;
+      utPts = utPts + ugPts;
+      // console.log(`${group.name} group points: ${ugPts} / ${gPts}`);
+      //console.log(sprintf("%25s: %5d / %5d (%3d%%)", `${group.name}`, ugPts, gPts, ((ugPts / (gPts || 1)) * 100)));
+
+      group.gPtsPercent = Math.round((ugPts / (gPts || 1)) * 100);
+    });
   }
 
-export const getAchievements = async () => {
-	const achievements = await getAchievementsGroups();
-	// console.log('achievements', achievements.length, achievements);
+  console.log(
+    `completed analyze achievements in ${Math.floor(Date.now() / 1000) - start}`
+  );
 
-	for (const idx in achievements) {
-		// console.log('fetching ', achievements[idx]);
-		/**
-		 * Populate groups
-		 */
-		achievements[idx] = await getAchievementsGroupsById(achievements[idx]);
-		// console.log('achievements[idx]', achievements[idx]);
+  console.log("completed analyze achievements total points: ", tPts, utPts);
 
-		/**
-		 * Populate categories
-		 */
-		if (achievements[idx].categories && achievements[idx].categories.constructor === Array) {
-			achievements[idx].categories = await getAchievementsCategoryById(achievements[idx].categories.join(','));
-		}
+  // console.dir({ achievements, totalPoints: tPts, userTotalPoints: utPts });
 
-		/**
-		 * Populate achievements
-		 */
-		for (const cId in achievements[idx].categories) {
-			achievements[idx].categories[cId].achievements = await getAchievementById(
-				achievements[idx].categories[cId].achievements.join(',')
-			);
-		}
-	}
-
-	return achievements;
-};
-
-export const getUserProgression = async () => {
-	const accessToken = await getToken();
-	// console.log('getUserProgression', accessToken)
-
-	const options = {
-		...baseOptions.headers,
-		headers: { ...baseOptions.headers, Authorization: `Bearer ${accessToken}` }
-	};
-	const resp = await fetch(`${process.env.API_GW_BASE_URL}/account/achievements`, options);
-
-	if (!resp.ok) {
-		console.error('Failed to fetch user progression', resp.ok, resp.status, resp.statusText);
-		return [];
-	}
-
-	const data = await resp.json();
-	// console.log("completed fetch user progression", data.length)
-
-	return data;
-};
-
-export async function getAchievementsGroups() {
-	const resp = await fetch(`${process.env.API_GW_BASE_URL}/achievements/groups`, baseOptions);
-	return await resp.json();
-}
-
-export async function getAchievementsGroupsById(groupId: number | string) {
-	const resp = await fetch(`${process.env.API_GW_BASE_URL}/achievements/groups/${groupId}`, baseOptions);
-	return await resp.json();
-}
-
-export async function getAchievementsCategoryById(cId: number | string) {
-	const resp = await fetch(`${process.env.API_GW_BASE_URL}/achievements/categories?ids=${cId}`, baseOptions);
-	return await resp.json();
-}
-
-export async function getAchievementById(aId: number | string) {
-	if (!aId) {
-		/**
-		 * On emprty aId directly returns an empty array to avoid useless api calls
-		 */
-		return [];
-	}
-	const resp = await fetch(`${process.env.API_GW_BASE_URL}/achievements?ids=${aId}`, baseOptions);
-	return await resp.json();
-}
-
-export const analyze = async (progression: any) => {
-	const achievements = (await getLocalAchievements()) || [];
-	//const progression = (await getUserProgression()) || [];
-
-	let tPts = 0;
-	let utPts = 0;
-
-	if (achievements && achievements.constructor === Array) {
-		achievements.map((group: IGroup) => {
-			// console.log(`${group.name}: `);
-			let gPts = 0;
-			let ugPts = 0;
-
-			group.gPts = 0;
-			group.ugPts = 0;
-
-			if (group.categories && group.categories.constructor === Array) {
-				group.categories.map((cat: ICategory) => {
-					let cPts = 0;
-					let ucPts = 0;
-
-					cat.cPts = 0;
-					cat.ucPts = 0;
-
-					if (!cat.achievements || cat.achievements.constructor !== Array) {
-						console.warn(`Invalid achievements data for ${cat.name}, expected array`);
-						return;
-					}
-
-					cat.achievements.map((ach: IAchievement) => {
-						let aPts = ach.tiers.reduce((aPts: number, t: ITier) => t.points + aPts, 0);
-						let uaPts = 0;
-
-						if (progression && progression.constructor === Array) {
-							let fIdx = progression.findIndex((a: IAchievement) => a.id == ach.id);
-							if (fIdx !== -1) {
-								// console.log('fIdx', fIdx);
-								let uach = progression[fIdx];
-								progression.splice(fIdx, 1);
-								uaPts = ach.tiers
-									.filter((t: ITier) => t.count <= uach.current)
-									.reduce((uaPts: number, t: ITier) => t.points + uaPts, 0);
-
-								if (uach.repeated) {
-									/** Include repeated times */
-									// console.log('repeated ', ach.name, uach.repeated, aPts, (aPts * uach.repeated));
-									let uaPtsRepeated = aPts * uach.repeated;
-									if (uaPtsRepeated > ach.point_cap) {
-										uaPtsRepeated = ach.point_cap;
-									}
-									uaPts = uaPts + uaPtsRepeated;
-								}
-							}
-						}
-
-						if (ach.point_cap && ach.point_cap > 0) {
-							/**
-							 * For repeatable achievements use point_cap as maximum earnable amount
-							 * -1 means infinite
-							 */
-							//console.log('override aPts', aPts, '->', ach.point_cap);
-							aPts = ach.point_cap;
-						}
-
-						ach.aPts = aPts;
-						ach.uaPts = uaPts;
-
-						// console.log(` -> ${ach.name}: ${uaPts} / ${aPts}`);
-						cPts = cPts + aPts;
-						ucPts = ucPts + uaPts;
-
-						cat.cPts = cPts;
-						cat.ucPts = ucPts;
-
-						cat.cPtsPercent = Math.round((ucPts / (cPts || 1)) * 100);
-					});
-
-					//console.log(`  \u21B3 ${cat.name}: ${ucPts} / ${cPts}`);
-					gPts = gPts + cPts;
-					ugPts = ugPts + ucPts;
-				});
-			}
-
-			group.gPts = gPts;
-			group.ugPts = ugPts;
-
-			tPts = tPts + gPts;
-			utPts = utPts + ugPts;
-			// console.log(`${group.name} group points: ${ugPts} / ${gPts}`);
-			//console.log(sprintf("%25s: %5d / %5d (%3d%%)", `${group.name}`, ugPts, gPts, ((ugPts / (gPts || 1)) * 100)));
-
-			group.gPtsPercent = Math.round((ugPts / (gPts || 1)) * 100);
-		});
-	}
-
-	console.log("completed data analysis for progress detection", achievements.length)
-
-	return achievements;
+  return {
+    achievements: structuredClone(achievements),
+    totalPoints: tPts,
+    userTotalPoints: utPts,
+    totalPercent: Math.round((utPts / (tPts || 1)) * 100),
+  };
 };

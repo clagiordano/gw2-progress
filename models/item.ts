@@ -1,4 +1,3 @@
-// stile moderno / consigliato
 export interface Item {
     name: string;
     type: string;
@@ -24,4 +23,17 @@ export interface ItemDetails {
     attribute_adjustment?: number;
     secondary_suffix_item_id?: string;
     bonuses?: string[];
+}
+
+export interface TypeGroup {
+  type: string;
+  count: number;
+  subtypes: { subtype: string | null; count: number; rarities: { rarity: string; count: number }[] }[];
+}
+
+export interface ItemResult {
+  id: number;
+  created_at: string;
+  updated_at: string | null;
+  data: Item;
 }

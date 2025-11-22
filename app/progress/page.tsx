@@ -1,38 +1,42 @@
-'use client';
+"use client";
 
-import { Divider } from '@chakra-ui/react';
-import { Suspense, useEffect, useState } from 'react';
-import { ProgressStats } from './ProgressStats';
-import { ProgressDetails } from './ProgressDetails';
-import { analyze, getLocalAchievements, getUserProgression } from '@/services/achievements';
+import { useEffect, useState } from "react";
+import { Group, AnalizedProgress } from "@/models/achievement";
+import { AchievementGroupWithDrawer } from "@/components/AchievementGroupWithDrawer";
 
-export default function Progress(  ) {
-	const [progress, setProgress] = useState([]);
-	const [progression, setProgression] = useState([]);
+export default function ProgressPage() {
+  const [rawAchievementGroups, setRawAchievementGroups] = useState<Group[]>([]);
+  const [analyzed, setAnalyzed] = useState<AnalizedProgress | null>(null);
+  const [loading, setLoading] = useState(true);
 
-	useEffect(() => {
-		getUserProgression().then((data) => setProgression(data));
-	}, []);
+  // Load raw achievements first (instant thanks to server cache)
+  useEffect(() => {
+    fetch("/api/achievements")
+      .then(res => res.json())
+      .then(data => {
+        setRawAchievementGroups(data);
+        console.log("Fetched raw achievement groups");
+      });
+  }, []);
 
-	// useEffect(() => {
-	// 	console.log('triggered by progression change', progression)
-	// }, [progression]);
+  // Load analyzed progression (can take some seconds server-side)
+  useEffect(() => {
+    fetch("/api/user/progression")
+      .then(res => res.json())
+      .then(data => {
+        setAnalyzed(data);
+        console.log("Fetched analyzed progression");
+      })
+      .finally(() => setLoading(false));
+  }, []);
 
-	useEffect(() => {
-		analyze(progression).then((data) => setProgress(data));
-	}, [progression]);
+  // Render raw first, then replace with analyzed
+  const dataToRender = analyzed?.achievements ?? rawAchievementGroups;
 
-	return (
-		<div>
-			<Suspense fallback="Loading stats...">
-				<ProgressStats data={progress} />
-			</Suspense>
-
-			<Divider />
-
-			<Suspense fallback="Loading details...">
-				<ProgressDetails data={progress} />
-			</Suspense>
-		</div>
-	);
+  return (
+    <div>
+      {loading && <p>Loading...</p>}
+      <AchievementGroupWithDrawer data={dataToRender} />
+    </div>
+  );
 }

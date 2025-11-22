@@ -23,6 +23,17 @@ const rarityColor = (rarity: string) => {
   }
 }
 
+const rarityOrder = [
+  "Junk",
+  "Basic",
+  "Fine",
+  "Masterwork",
+  "Rare",
+  "Exotic",
+  "Ascended",
+  "Legendary",
+];
+
 // Copia chat_link nella clipboard con toast
 const copyChatLink = (link: string, toast: ReturnType<typeof useToast>) => {
   navigator.clipboard.writeText(link);
@@ -35,4 +46,4 @@ const copyChatLink = (link: string, toast: ReturnType<typeof useToast>) => {
   });
 };
 
-export { rarityColor, copyChatLink };
+export { rarityColor, copyChatLink, rarityOrder };

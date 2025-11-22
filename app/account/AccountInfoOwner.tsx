@@ -1,53 +1,55 @@
-import { Account } from '@/models/account';
-import {
-	Heading,
-	Box,
-	Text,
-	Tooltip,
-	HStack
-} from '@chakra-ui/react';
-import { InfoOutlineIcon, CalendarIcon, AtSignIcon } from '@chakra-ui/icons';
+"use client";
 
-export const AccountInfoOwner = ({ data }: { data: Account }) => {
-	return (
-		<Box>
-			<Heading size="xs" textTransform="uppercase">
-				Owner
-			</Heading>
-			<Text pt="2" fontSize="sm">
-				Account basic information
-			</Text>
+import { Heading, Box, Text, HStack, Icon, Tooltip } from "@chakra-ui/react";
+import { InfoOutlineIcon, CalendarIcon, RepeatIcon } from "@chakra-ui/icons";
+import { FaGlobe } from "react-icons/fa";
+import { useAccount } from "../context/AccountContext";
+import { useColorModeValue, useTheme } from "@chakra-ui/react";
 
-			<HStack spacing={3}>
-				<Tooltip label={`ID: ${data?.id}`} aria-label="info icon" fontSize="md">
-					<InfoOutlineIcon />
-				</Tooltip>
-				<Text fontSize="lg">{data?.name}</Text>
-			</HStack>
+export const AccountInfoOwner = () => {
+  const { account } = useAccount();
+  const theme = useTheme();
 
-			{/* // Wrong response from API - disbled */}
-			{/* <Text fontSize="lg">{fmt_duration(data.age)}</Text> */}
+  const primaryText = useColorModeValue(theme.colors.textPrimary.light, theme.colors.textPrimary.dark);
+  const secondaryText = useColorModeValue(theme.colors.textSecondary.light, theme.colors.textSecondary.dark);
+  const iconColor = secondaryText;
 
-			<HStack spacing={3}>
-				<Tooltip label="Account creation date" aria-label="info icon" fontSize="md">
-					<CalendarIcon />
-				</Tooltip>
-				<Text fontSize="lg">{data?.created}</Text>
-			</HStack>
+  return (
+    <Box>
+      <Heading size="xs" textTransform="uppercase" color={primaryText}>
+        Owner
+      </Heading>
+      <Text pt={2} fontSize="sm" color={secondaryText}>
+        Account basic information
+      </Text>
 
-			<HStack spacing={3}>
-				<Tooltip label="Account last modification date" aria-label="info icon" fontSize="md">
-					<CalendarIcon />
-				</Tooltip>
-				<Text fontSize="lg">{data?.last_modified}</Text>
-			</HStack>
+      <HStack spacing={3} mt={2}>
+        <Tooltip label={`ID: ${account?.id}`} fontSize="md">
+          <Icon as={InfoOutlineIcon} boxSize={5} color={iconColor} />
+        </Tooltip>
+        <Text fontSize="lg" fontWeight="medium">{account?.name}</Text>
+      </HStack>
 
-			<HStack spacing={3}>
-				<Tooltip label={`Current world: ${data?.world?.id}`} aria-label="info icon" fontSize="md">
-					<AtSignIcon />
-				</Tooltip>
-				<Text fontSize="lg">{data?.world?.name}</Text>
-			</HStack>
-		</Box>
-	);
+      <HStack spacing={3}>
+        <Tooltip label="Account creation date" fontSize="md">
+          <Icon as={CalendarIcon} boxSize={5} color={iconColor} />
+        </Tooltip>
+        <Text fontSize="md">{account?.created}</Text>
+      </HStack>
+
+      <HStack spacing={3}>
+        <Tooltip label="Account last modification date" fontSize="md">
+          <Icon as={RepeatIcon} boxSize={5} color={iconColor} />
+        </Tooltip>
+        <Text fontSize="md">{account?.last_modified}</Text>
+      </HStack>
+
+      <HStack spacing={3}>
+        <Tooltip label={`Current world: ${account?.world?.id}`} fontSize="md">
+          <Icon as={FaGlobe} boxSize={5} color={iconColor} />
+        </Tooltip>
+        <Text fontSize="md" fontWeight="medium">{account?.world?.name}</Text>
+      </HStack>
+    </Box>
+  );
 };
