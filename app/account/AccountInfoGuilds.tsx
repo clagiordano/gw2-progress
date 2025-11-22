@@ -27,7 +27,7 @@ export const AccountInfoGuilds = () => {
             Guilds this account belongs to
           </Text>
 
-          <List spacing={3}>
+          <List spacing={3} mt={2}>
             {guilds.map((guild: any) => (
               <ListItem key={guild.id}>
                 <HStack spacing={3}>

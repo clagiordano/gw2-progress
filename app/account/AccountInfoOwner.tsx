@@ -24,7 +24,7 @@ export const AccountInfoOwner = () => {
       </Text>
 
       {/* Owner name */}
-      <HStack spacing={3} mt={3}>
+      <HStack spacing={3} mt={2}>
         <Tooltip label={`ID: ${account?.id}`} fontSize="md">
           <Icon as={InfoOutlineIcon} boxSize={5} color="gray.500" />
         </Tooltip>
