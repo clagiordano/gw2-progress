@@ -6,7 +6,6 @@ import {
   Category,
   Group,
 } from "@/models/achievement";
-import { getColor } from "@/services/utils";
 
 import {
   Accordion,
@@ -19,6 +18,7 @@ import {
   Image,
   Text
 } from "@chakra-ui/react";
+import { ProgressBar } from "./ProgressBar";
 
 export const AchievementGroupWithAccordions = ({ data }: { data: Group[] }) => {
   return (
@@ -35,16 +35,12 @@ export const AchievementGroupWithAccordions = ({ data }: { data: Group[] }) => {
                   <AccordionIcon />
 
                   {/* <AccordionIcon as={isExpanded ? MinusIcon : AddIcon} /> */}
-                  <Box as="span" flex="1" textAlign="left">
-                    {/* {group.name} {group.gPtsPercent}% ({group.ugPts} /{" "}
-                    {group.gPts}) */}
-                    {group.name} {group.gPtsPercent}% ({group.ugPts} /{" "}
-                    {group.gPts})
-                    <Progress
-                      value={group.gPtsPercent}
-                      colorScheme={getColor(group.gPtsPercent)}
-                    />
-                  </Box>
+                  <ProgressBar
+                    percentage={group.gPtsPercent}
+                    label={group.name}
+                    currentPoints={group.ugPts}
+                    totalPoints={group.gPts}
+                  />
                 </AccordionButton>
               </h2>
 
@@ -64,14 +60,12 @@ export const AchievementGroupWithAccordions = ({ data }: { data: Group[] }) => {
                               alt={category.name}
                             />
 
-                            <Box as="span" flex="1" textAlign="left">
-                              {category.name} {category.cPtsPercent}% (
-                              {category.ucPts} / {category.cPts})
-                              <Progress
-                                value={category.cPtsPercent}
-                                colorScheme={getColor(category.cPtsPercent)}
-                              />
-                            </Box>
+                            <ProgressBar
+                              percentage={category.cPtsPercent}
+                              label={category.name}
+                              currentPoints={category.ucPts}
+                              totalPoints={category.cPts}
+                            />
                           </AccordionButton>
                         </h3>
 
