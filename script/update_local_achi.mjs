@@ -1,3 +1,6 @@
+
+import fs from 'fs/promises';
+
 const { default: items } = await import('../app/lib/items.json', {
   with: { type: 'json' }
 });
@@ -6,8 +9,7 @@ const { default: skins } = await import('../app/lib/skins.json', {
   with: { type: 'json' }
 });
 
-
-const { default: achievements } = await import('../data/achievements.json', {
+const { default: achievements } = await import('../app/lib/achievements_detailed.json', {
   with: { type: 'json' }
 });
 
@@ -36,10 +38,26 @@ for (const aIdx in achievements) {
           }
         }
       }
+
+      if (achi.rewards) {
+        /**
+         * If there are rewards, add item details
+         */
+        for (const rewIdx in achi.rewards) {
+          const reward = achi.rewards[rewIdx];
+
+          if (reward.type === 'Item') {
+            const item = items.find(i => i.id === reward.id);
+            if (item) {
+              achi.rewards[rewIdx]["item"] = item;
+            }
+          }
+        }
+      }
     }
   }
 }
 
-import fs from 'fs/promises';
 
-await fs.writeFile('data/achievements_detailed.json', JSON.stringify(achievements, null, 2));
+await fs.writeFile('../app/lib/achievements_detailed.json', JSON.stringify(achievements));
+console.log('Updated achievements_detailed.json with item and skin details.');
