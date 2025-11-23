@@ -21,7 +21,7 @@ import {
   useColorModeValue,
   useTheme,
 } from "@chakra-ui/react";
-import {  useState } from "react";
+import { useState } from "react";
 import { BitItem } from "./BitItem";
 import { ProgressBar } from "./ProgressBar";
 
@@ -55,7 +55,7 @@ export const AchievementGroupWithDrawer = ({ data }: { data: Group[] }) => {
                 <ProgressBar
                   percentage={group.gPtsPercent}
                   label={group.name}
-                  currentPoints={group.ugPts}
+                  currentPoints={group.ugPts ?? 0}
                   totalPoints={group.gPts}
                 />
               </AccordionButton>
@@ -80,7 +80,7 @@ export const AchievementGroupWithDrawer = ({ data }: { data: Group[] }) => {
                     <ProgressBar
                       percentage={category.cPtsPercent}
                       label={category.name}
-                      currentPoints={category.ucPts}
+                      currentPoints={category.ucPts ?? 0}
                       totalPoints={category.cPts}
                     />
                   </Flex>
