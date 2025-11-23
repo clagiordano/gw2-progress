@@ -55,8 +55,8 @@ export const AchievementGroupWithDrawer = ({ data }: { data: Group[] }) => {
                 <ProgressBar
                   percentage={group.gPtsPercent}
                   label={group.name}
-                  currentPoints={group.ugPts ?? 0}
-                  totalPoints={group.gPts}
+                  currentPoints={group?.ugPts ?? 0}
+                  totalPoints={group?.gPts ?? 0}
                 />
               </AccordionButton>
             </h2>
@@ -80,8 +80,8 @@ export const AchievementGroupWithDrawer = ({ data }: { data: Group[] }) => {
                     <ProgressBar
                       percentage={category.cPtsPercent}
                       label={category.name}
-                      currentPoints={category.ucPts ?? 0}
-                      totalPoints={category.cPts}
+                      currentPoints={category?.ucPts ?? 0}
+                      totalPoints={category.cPts ?? 0}
                     />
                   </Flex>
 
