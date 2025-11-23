@@ -48,6 +48,7 @@ export const ProgressBar = ({
       <CircularProgress
         value={percentage}
         color={barColor}
+		trackColor={useColorModeValue("gray.200", "gray.700")}
         size="50px"
         thickness="6px"
       >
