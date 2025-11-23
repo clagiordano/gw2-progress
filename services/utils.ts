@@ -14,35 +14,13 @@
 //   save,
 // };
 
-export const getColor = (value: number) => {
-  /**
-   * "whiteAlpha" | "blackAlpha" | "gray" | "red" | "orange" | "yellow" | "green"
-   * 	| "teal" | "blue" | "cyan" | "purple" | "pink" | "linkedin"
-   * 	| "facebook" | "messenger" | "whatsapp" | "twitter" | "telegram"
-   */
-  if (value <= 17) {
-    return "red";
-  }
-
-  if (value > 17 && value <= 34) {
-    return "purple";
-  }
-
-  if (value > 34 && value <= 51) {
-    return "blue";
-  }
-
-  if (value > 51 && value <= 68) {
-    return "teal";
-  }
-
-  if (value > 68 && value <= 85) {
-    return "cyan";
-  }
-
-  if (value > 85 && value <= 99) {
-    return "green";
-  }
-
-  return "whatsapp";
+export const getProgressIndex = (value: number) => {
+  if (value <= 14) return 0;
+  if (value <= 28) return 1;
+  if (value <= 42) return 2;
+  if (value <= 56) return 3;
+  if (value <= 70) return 4;
+  if (value <= 84) return 5;
+  if (value <= 97) return 6;
+  return 7;
 };

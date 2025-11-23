@@ -54,6 +54,16 @@ const colors = {
       F2P: "gray.500",
     },
   },
+  progressColors: {
+    0: { light: "#8B0000", dark: "#8B0000" },
+    1: { light: "#D32F2F", dark: "#D32F2F" },
+    2: { light: "#F57C00", dark: "#F57C00" },
+    3: { light: "#FBC02D", dark: "#FBC02D" },
+    4: { light: "#43A047", dark: "#43A047" },
+    5: { light: "#2E7D32", dark: "#2E7D32" },
+    6: { light: "#66BB6A", dark: "#66BB6A" },
+    7: { light: "#FFD700", dark: "#FFD700" },
+  },
 };
 
 export const theme = extendTheme({

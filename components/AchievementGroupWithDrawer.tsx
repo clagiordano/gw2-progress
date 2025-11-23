@@ -1,7 +1,6 @@
 "use client";
 
 import { Achievement, Bit, Category, Group, Tier } from "@/models/achievement";
-import { getColor } from "@/services/utils";
 
 import {
   Accordion,
@@ -10,7 +9,6 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
-  Progress,
   Image,
   Text,
   Flex,
@@ -25,6 +23,7 @@ import {
 } from "@chakra-ui/react";
 import {  useState } from "react";
 import { BitItem } from "./BitItem";
+import { ProgressBar } from "./ProgressBar";
 
 export const AchievementGroupWithDrawer = ({ data }: { data: Group[] }) => {
   const [selected, setSelected] = useState<Achievement | null>(null);
@@ -53,14 +52,12 @@ export const AchievementGroupWithDrawer = ({ data }: { data: Group[] }) => {
             <h2>
               <AccordionButton>
                 <AccordionIcon />
-                <Box flex="1" textAlign="left">
-                  {group.name} {group.gPtsPercent}% ({group.ugPts}/{group.gPts})
-                  <Progress
-                    mt={1}
-                    value={group.gPtsPercent}
-                    colorScheme={getColor(group.gPtsPercent)}
-                  />
-                </Box>
+                <ProgressBar
+                  percentage={group.gPtsPercent}
+                  label={group.name}
+                  currentPoints={group.ugPts}
+                  totalPoints={group.gPts}
+                />
               </AccordionButton>
             </h2>
 
@@ -80,16 +77,12 @@ export const AchievementGroupWithDrawer = ({ data }: { data: Group[] }) => {
                       src={category.icon}
                       alt={category.name}
                     />)}
-                    <Box flex="1">
-                      <Text fontWeight="bold">
-                        {category.name} {category.cPtsPercent}% (
-                        {category.ucPts}/{category.cPts})
-                      </Text>
-                      <Progress
-                        value={category.cPtsPercent}
-                        colorScheme={getColor(category.cPtsPercent)}
-                      />
-                    </Box>
+                    <ProgressBar
+                      percentage={category.cPtsPercent}
+                      label={category.name}
+                      currentPoints={category.ucPts}
+                      totalPoints={category.cPts}
+                    />
                   </Flex>
 
                   {/* Achievements list */}

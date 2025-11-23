@@ -146,8 +146,8 @@ export const getAchievements = unstable_cache(
     const achievementsModule = await import("@/app/lib/achievements_detailed.json");
     return achievementsModule.default as Group[];
   },
-  ["achievements"],          // Cache key
-  { tags: ["achievements"] } // Allow revalidation by tag
+  // ["achievements"],          // Cache key
+  // { tags: ["achievements"] } // Allow revalidation by tag
 );
 
 export const analyze = async (achievements: Group[], progression: Progress[]): Promise<AnalizedProgress> => {

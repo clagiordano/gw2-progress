@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { Group, AnalizedProgress } from "@/models/achievement";
 import { AchievementGroupWithDrawer } from "@/components/AchievementGroupWithDrawer";
+import { Divider, Progress, Box, Text,  } from "@chakra-ui/react";
+import { ProgressBar } from "@/components/ProgressBar";
 
 export default function ProgressPage() {
   const [rawAchievementGroups, setRawAchievementGroups] = useState<Group[]>([]);
@@ -35,7 +37,14 @@ export default function ProgressPage() {
 
   return (
     <div>
-      {loading && <p>Loading...</p>}
+      <ProgressBar
+        percentage={analyzed?.totalPercent ?? 0}
+        label="Overall completion"
+        currentPoints={analyzed?.userTotalPoints ?? null}
+        totalPoints={analyzed?.totalPoints ?? 0}
+      />
+
+      <Divider my={4} />
       <AchievementGroupWithDrawer data={dataToRender} />
     </div>
   );
