@@ -1,6 +1,7 @@
 "use client";
+import { theme } from "@/app/theme";
 import { Group } from "@/models/achievement";
-import { getColor } from "@/services/utils";
+import { getProgressIndex } from "@/services/utils";
 import {
   CircularProgress,
   CircularProgressLabel,
@@ -10,6 +11,8 @@ import {
   Text,
   Wrap,
   WrapItem,
+  useTheme,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 /**
@@ -21,7 +24,19 @@ import {
  * list ordered by percentage (asc / desc)
  */
 
+const GetColorBylevel = (percentage: number) => {
+  const level = getProgressIndex(percentage);
+    // Dynamic color based on progress level
+  const barColor = useColorModeValue(
+    theme.colors.progressColors[level]?.light ?? "#3182ce",
+    theme.colors.progressColors[level]?.dark ?? "#3182ce"
+  );
+  return barColor;
+}
+
 export const ProgressStats = ({ data }: { data: Group[] }) => {
+   const theme = useTheme();
+
   return (
     <Wrap spacing={4}>
       {data.map((group: Group) => {
@@ -31,7 +46,7 @@ export const ProgressStats = ({ data }: { data: Group[] }) => {
               <CardBody p={1} textAlign={"center"}>
                 <CircularProgress
                   value={group.gPtsPercent}
-                  color={getColor(group.gPtsPercent)}
+                  color={GetColorBylevel(group.gPtsPercent)}
                   key={group.id}
                   size={"100px"}
                 >
