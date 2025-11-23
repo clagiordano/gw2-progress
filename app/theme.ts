@@ -55,15 +55,15 @@ const colors = {
     },
   },
   progressColors: {
-    0: { light: "#8B0000", dark: "#8B0000" },
-    1: { light: "#D32F2F", dark: "#D32F2F" },
-    2: { light: "#F57C00", dark: "#F57C00" },
-    3: { light: "#FBC02D", dark: "#FBC02D" },
-    4: { light: "#43A047", dark: "#43A047" },
-    5: { light: "#2E7D32", dark: "#2E7D32" },
-    6: { light: "#66BB6A", dark: "#66BB6A" },
-    7: { light: "#FFD700", dark: "#FFD700" },
-  },
+    0: { light: "#8B0000", dark: "#8B0000" }, // dark red
+    1: { light: "#C62828", dark: "#EF5350" }, // red
+    2: { light: "#F57C00", dark: "#FFA726" }, // orange
+    3: { light: "#FFB300", dark: "#FFCA28" }, // amber
+    4: { light: "#9CCC65", dark: "#AED581" }, // light green
+    5: { light: "#43A047", dark: "#66BB6A" }, // green
+    6: { light: "#2E7D32", dark: "#43A047" }, // dark green
+    7: { light: "#FFD700", dark: "#FFD700" }, // gold
+  }
 };
 
 export const theme = extendTheme({
