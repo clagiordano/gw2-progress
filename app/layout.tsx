@@ -31,6 +31,7 @@ import {
   HiOutlineMagnifyingGlass,
   HiOutlineChartBar,
   HiOutlineTrophy,
+  HiCalendarDays,
 } from "react-icons/hi2";
 import { useColorModeValue } from "@chakra-ui/react";
 
@@ -64,7 +65,18 @@ export default function RootLayout({
     },
     {
       label: "Progression",
-      links: [{ href: "/progress", label: "Progress", icon: HiOutlineTrophy }],
+      links: [
+        {
+          href: "/progress",
+          label: "Overview",
+          icon: HiOutlineTrophy
+        },
+        {
+          href: "/progress/dailies",
+          label: "Dailies",
+          icon: HiCalendarDays
+        },
+      ],
     },
   ];
 

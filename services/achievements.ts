@@ -1,15 +1,15 @@
 "use server";
 
-// import { getToken } from "@/app/actions";
+import { getToken } from "@/app/actions";
 import { Achievement, AnalizedProgress, Category, Group, Progress, Tier } from "@/models/achievement";
 import { unstable_cache } from "next/cache";
 
-// const baseOptions = {
-//   headers: {
-//     "Content-Type": "application/json",
-//   },
-//   next: { revalidate: 3600 },
-// };
+const baseOptions = {
+  headers: {
+    "Content-Type": "application/json",
+  },
+  // next: { revalidate: 3600 },
+};
 
 // export const getLocalAchievements = async () => {
 // 	const achievements: any = await fsPromises.readFile(path.join(process.cwd(), 'data/achievements.json'));
@@ -66,96 +66,98 @@ import { unstable_cache } from "next/cache";
 //   return achievements;
 // };
 
-// export const getUserProgression = async () => {
-//   const accessToken = await getToken();
-//   // console.log('getUserProgression', accessToken)
-//   let start = Math.floor(Date.now() / 1000);
-//   console.log("started fetch user progression");
+export async function getUserProgression(): Promise<Progress[]> {
+  const token = await getToken();
 
-//   const options = {
-//     ...baseOptions.headers,
-//     headers: { ...baseOptions.headers, Authorization: `Bearer ${accessToken}` },
-//   };
-//   const resp = await fetch(
-//     `${process.env.API_GW_BASE_URL}/account/achievements`,
-//     options
-//   );
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  };
 
-//   if (!resp.ok) {
-//     console.error(
-//       "Failed to fetch user progression",
-//       resp.ok,
-//       resp.status,
-//       resp.statusText
-//     );
-//     return [];
-//   }
+  const resp = await fetch(
+    `${process.env.API_GW_BASE_URL}/account/achievements`,
+    { headers }
+  );
 
-//   const data = await resp.json();
-//   console.log(
-//     `completed fetch user progression in ${
-//       Math.floor(Date.now() / 1000) - start
-//     }`,
-//     data.length
-//   );
+  if (!resp.ok) {
+    return [];
+  }
 
-//   return data;
-// };
+  return await resp.json();
+}
 
-// export async function getAchievementsGroups() {
-//   const resp = await fetch(
-//     `${process.env.API_GW_BASE_URL}/achievements/groups`,
-//     baseOptions
-//   );
-//   return await resp.json();
-// }
+export async function getAchievementsGroups(): Promise<Group[]> {
+  const resp = await fetch(
+    `${process.env.API_GW_BASE_URL}/achievements/groups`,
+    baseOptions
+  );
 
-// export async function getAchievementsGroupsById(groupId: number | string) {
-//   const resp = await fetch(
-//     `${process.env.API_GW_BASE_URL}/achievements/groups/${groupId}`,
-//     baseOptions
-//   );
-//   return await resp.json();
-// }
+  if (!resp.ok) {
+    return [];
+  }
 
-// export async function getAchievementsCategoryById(cId: number | string) {
-//   const resp = await fetch(
-//     `${process.env.API_GW_BASE_URL}/achievements/categories?ids=${cId}`,
-//     baseOptions
-//   );
-//   return await resp.json();
-// }
+  return await resp.json();
+}
 
-// export async function getAchievementById(aId: number | string) {
-//   if (!aId) {
-//     /**
-//      * On emprty aId directly returns an empty array to avoid useless api calls
-//      */
-//     return [];
-//   }
-//   const resp = await fetch(
-//     `${process.env.API_GW_BASE_URL}/achievements?ids=${aId}`,
-//     baseOptions
-//   );
-//   return await resp.json();
-// }
+export async function getAchievementsGroupsById(groupId: number | string): Promise<Group | null> {
+  const resp = await fetch(
+    `${process.env.API_GW_BASE_URL}/achievements/groups/${groupId}`,
+    baseOptions
+  );
+
+  if (!resp.ok) {
+    return null;
+  }
+
+  return await resp.json();
+}
+
+export async function getAchievementsCategoriesByIds(cId: number | string): Promise<Category[]> {
+  const resp = await fetch(
+    `${process.env.API_GW_BASE_URL}/achievements/categories?ids=${cId}`,
+    baseOptions
+  );
+
+  if (!resp.ok) {
+    return [];
+  }
+
+  return await resp.json();
+}
+
+export async function getAchievementByIds(aId: number | string): Promise<Achievement[]> {
+  if (!aId) {
+    /**
+     * On emprty aId directly returns an empty array to avoid useless api calls
+     */
+    return [];
+  }
+  const resp = await fetch(
+    `${process.env.API_GW_BASE_URL}/achievements?ids=${aId}`,
+    baseOptions
+  );
+
+  if (!resp.ok) {
+    return [];
+  }
+
+  return await resp.json();
+}
 
 // Memoized function
-export const getAchievements = unstable_cache(
-  async () => {
-    const achievementsModule = await import("@/app/lib/achievements_detailed.json");
-    return achievementsModule.default as Group[];
-  },
-  // ["achievements"],          // Cache key
-  // { tags: ["achievements"] } // Allow revalidation by tag
-);
+export const getAchievements = async () => {
+  const achievementsModule = await import("@/app/lib/achievements_detailed.json");
+  return achievementsModule.default as Group[];
+};
 
+/**
+ * Iterate through any achievements group and calculate total and user points
+ * @param achievements
+ * @param progression
+ * @returns
+ */
 export const analyze = async (achievements: Group[], progression: Progress[]): Promise<AnalizedProgress> => {
-  console.log("started analyze achievements");
-  // console.dir(achievements);
   let start = Math.floor(Date.now() / 1000);
-  // const achievements: Group[] = (await getLocalAchievements()) || [];
-  // const progression: Progress[] = (await getUserProgression()) || [];
   console.log(
     `completed fetch local achievements in ${
       Math.floor(Date.now() / 1000) - start
@@ -166,10 +168,8 @@ export const analyze = async (achievements: Group[], progression: Progress[]): P
   let utPts = 0;
 
   start = Math.floor(Date.now() / 1000);
-  console.log("analyzing achievements progress");
   if (achievements && achievements.constructor === Array) {
     achievements.map((group: Group) => {
-      // console.log(`${group.name}: `);
       let gPts = 0;
       let ugPts = 0;
 
@@ -204,7 +204,6 @@ export const analyze = async (achievements: Group[], progression: Progress[]): P
               );
 
               if (fIdx !== -1) {
-                // console.log('fIdx', fIdx);
                 let uach = progression[fIdx];
                 let current = uach.current ?? 0;
                 progression.splice(fIdx, 1);
@@ -214,7 +213,6 @@ export const analyze = async (achievements: Group[], progression: Progress[]): P
 
                 if (uach.repeated) {
                   /** Include repeated times */
-                  // console.log('repeated ', ach.name, uach.repeated, aPts, (aPts * uach.repeated));
                   let uaPtsRepeated = aPts * uach.repeated;
                   if (uaPtsRepeated > ach.point_cap) {
                     uaPtsRepeated = ach.point_cap;
@@ -263,14 +261,6 @@ export const analyze = async (achievements: Group[], progression: Progress[]): P
       group.gPtsPercent = Math.round((ugPts / (gPts || 1)) * 100);
     });
   }
-
-  console.log(
-    `completed analyze achievements in ${Math.floor(Date.now() / 1000) - start}`
-  );
-
-  console.log("completed analyze achievements total points: ", tPts, utPts);
-
-  // console.dir({ achievements, totalPoints: tPts, userTotalPoints: utPts });
 
   return {
     achievements: structuredClone(achievements),
