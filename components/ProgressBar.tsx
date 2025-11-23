@@ -1,16 +1,16 @@
 "use client";
 
 import {
+  HStack,
+  VStack,
   Box,
   Text,
   Progress,
-  useTheme,
-  useColorModeValue,
-  HStack,
-  Badge,
   CircularProgress,
   CircularProgressLabel,
-  VStack,
+  Badge,
+  useTheme,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { getProgressIndex } from "@/services/utils";
 
@@ -30,11 +30,15 @@ export const ProgressBar = ({
   const theme = useTheme();
   const level = getProgressIndex(percentage);
 
-  // Use light/dark color
+  // Dynamic color based on progress level
   const barColor = useColorModeValue(
     theme.colors.progressColors[level]?.light ?? "#3182ce",
     theme.colors.progressColors[level]?.dark ?? "#3182ce"
   );
+
+  // Dynamic badge colors based on theme
+  const doneColor = useColorModeValue("green.500", "green.300");
+  const totalColor = useColorModeValue("gray.400", "gray.500");
 
   const isIndeterminate = currentPoints == null || totalPoints == null;
 
@@ -47,9 +51,7 @@ export const ProgressBar = ({
         size="50px"
         thickness="6px"
       >
-        <CircularProgressLabel fontSize="sm">
-          {percentage}%
-        </CircularProgressLabel>
+        <CircularProgressLabel fontSize="sm">{percentage}%</CircularProgressLabel>
       </CircularProgress>
 
       {/* Label + progress bar */}
@@ -58,12 +60,12 @@ export const ProgressBar = ({
           <Text fontWeight="bold" fontSize="md">
             {label}
           </Text>
-          <HStack spacing={1}>
-            <Badge colorScheme="green" fontSize="xs">
+          <HStack spacing={2}>
+            <Badge colorScheme={doneColor} fontSize="xs">
               {currentPoints ?? 0}
             </Badge>
             <Text fontSize="xs">/</Text>
-            <Badge colorScheme="gray" fontSize="xs">
+            <Badge colorScheme={totalColor} fontSize="xs">
               {totalPoints ?? 0} pts
             </Badge>
           </HStack>
@@ -73,9 +75,7 @@ export const ProgressBar = ({
           value={percentage}
           isIndeterminate={isIndeterminate}
           sx={{
-            "& > div": {
-              backgroundColor: barColor,
-            },
+            "& > div": { backgroundColor: barColor },
           }}
           size="sm"
           borderRadius="md"
