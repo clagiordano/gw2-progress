@@ -1,12 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
-// import {
-//   getAchievementById,
-//   getAchievementsCategoryById,
-//   getAchievementsGroupsById,
-//   getUserProgression,
-// } from "@/services/achievements";
+import { useEffect, useState } from "react";
 import {
   Achievement,
   Achievements,
@@ -27,6 +21,7 @@ import {
   getAchievementByIds,
   getAchievementsCategoriesByIds,
   getAchievementsGroupsById,
+  getUserProgression,
 } from "@/services/achievements";
 
 export default function Dailies() {
@@ -38,6 +33,8 @@ export default function Dailies() {
     Record<string, Achievement[]>
   >({});
   const [isAchievementsLoading, setAchievementsLoading] = useState(true);
+  const [userProgression, setUserProgression] = useState<Progress[]>([]);
+  const [isProgressionLoading, setUserProgressionLoading] = useState(true);
 
   useEffect(() => {
     getAchievementsGroupsById("18DB115A-8637-4290-A636-821362A3C4A8").then(
@@ -46,6 +43,13 @@ export default function Dailies() {
         setDailiesLoading(false);
       }
     );
+  }, []);
+
+  useEffect(() => {
+    getUserProgression().then((data) => {
+      setUserProgression(data);
+      setUserProgressionLoading(false);
+    });
   }, []);
 
   useEffect(() => {
@@ -70,33 +74,25 @@ export default function Dailies() {
     });
   }, [categories]);
 
-  // useEffect(() => {
-  //   // console.log("progress init");
-  //   getUserProgression().then((data) => {
-  //     // console.log("fetched progression data", data);
-  //     setProgression(data);
-  //   });
-  // }, []);
+  useEffect(() => {
+    // console.log("progression changed", progression);
+    // console.log("achievements changed", achievements);
 
-  // useEffect(() => {
-  //   // console.log("progression changed", progression);
-  //   // console.log("achievements changed", achievements);
+    Object.entries(achievements).map(([cid, achis]) => {
+      // console.log('cid', cid);
+      // console.log('achis', achis);
 
-  //   Object.entries(achievements).map(([cid, achis]) => {
-  //     // console.log('cid', cid);
-  //     // console.log('achis', achis);
+      achis.map((ach: Achievement) => {
+        // console.log('ach.id', ach.id)
+        let found: any = userProgression?.find((pro: Progress) => pro.id === ach.id);
+        if (found) {
+          ach.done = found?.done !== undefined ? found.done : false;
+        }
+      });
 
-  //     achis.map((ach: Achievement) => {
-  //       // console.log('ach.id', ach.id)
-  //       let found: any = progression?.find((pro: Progress) => pro.id === ach.id);
-  //       if (found) {
-  //         ach.done = found?.done !== undefined ? found.done : false;
-  //       }
-  //     });
-
-  //     setAchievements((act: any) => ({ ...act, [cid]: achis }));
-  //   });
-  // }, [achievements, progression]);
+      setAchievements((act: any) => ({ ...act, [cid]: achis }));
+    });
+  }, [achievements, userProgression]);
 
   return (
     <div>
@@ -125,7 +121,7 @@ export default function Dailies() {
                           as={CheckCircleIcon}
                           color={`${achi.done ? "green" : "gray"}.500`}
                         />
-                        ({achi.id}) {achi.name}: {achi.description}
+                        {achi.name}: {achi.description}
                       </ListItem>
                     )
                   )}
