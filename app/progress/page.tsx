@@ -42,7 +42,7 @@ export default function ProgressPage() {
       <ProgressBar
         percentage={analyzed?.totalPercent ?? 0}
         label="Overall completion"
-        currentPoints={analyzed?.userTotalPoints ?? null}
+        currentPoints={analyzed?.userTotalPoints ?? loading ? null : 0}
         totalPoints={analyzed?.totalPoints ?? 0}
       />
       <Divider my={4} />

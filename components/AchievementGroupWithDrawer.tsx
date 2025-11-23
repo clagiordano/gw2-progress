@@ -73,7 +73,7 @@ export const AchievementGroupWithDrawer = ({ data }: { data: Group[] }) => {
                   <Flex align="center" gap={3} mb={2}>
                     {category.icon && (<Image
                       borderRadius="full"
-                      boxSize="32px"
+                      boxSize="50px"
                       src={category.icon}
                       alt={category.name}
                     />)}
