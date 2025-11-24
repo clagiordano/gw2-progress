@@ -31,6 +31,9 @@ export const AchievementGroupWithDrawer = ({ data }: { data: Group[] }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const theme = useTheme();
 
+  const primaryText = useColorModeValue(theme.colors.textPrimary.light, theme.colors.textPrimary.dark);
+  const secondaryText = useColorModeValue(theme.colors.textSecondary.light, theme.colors.textSecondary.dark);
+
   const openDetails = (ach: Achievement) => {
     setSelected(ach);
     onOpen();
@@ -162,9 +165,13 @@ export const AchievementGroupWithDrawer = ({ data }: { data: Group[] }) => {
 
                 {selected?.bits && selected.bits.length > 0 && (
                   <>
-                    <Text fontWeight="bold" mb={2}>
+                    <Text fontWeight="bold" pt={2} mb={2}>
                       Objectives
                     </Text>
+                    <Text fontSize="sm" color={primaryText}>
+                      {selected.requirement}
+                    </Text>
+
                     <ul>
                       {selected?.bits?.map((bit: Bit, idx) => (
                         <BitItem key={idx} data={bit} />

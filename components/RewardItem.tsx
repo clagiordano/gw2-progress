@@ -4,21 +4,21 @@ import { Reward } from "@/models/achievement";
 
 export const RewardItem = ({ data }: { data: Reward }) => {
   // Text label & icon to show
-  let label = `${data.type}: `;
+  let label = "";
   let icon = null;
   switch (data.type) {
     case "Coins":
-      label += `${data.count} coins`;
+      label = `${data.type}: ${data.count} coins`;
       break;
     case "Item":
       label += data.item?.name ?? "N/A";
       icon = data.item?.icon ?? null;
       break;
     case "Mastery":
-      label += data.mastery?.name ?? "N/A";
+      label += `Mastery Point from ${data.mastery?.region ?? "N/A"}`;
       break;
     case "Title":
-      label += data.title?.name ?? "N/A";
+      label += `Title: ${data.title?.name ?? "N/A"}`;
       break;
   }
 
