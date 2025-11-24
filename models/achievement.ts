@@ -50,9 +50,38 @@ export interface Tier {
 }
 
 export interface Reward {
-    type: string,
+    type: "Coins" | "Item" | "Mastery" | "Title",
+    region: string, // for masteries
+    count?: number, // for coins and items
+    id: number, // for items and masteries or title id
+    item?: Item,
+    mastery?: Mastery,
+    title?: Title
+}
+
+export interface Title {
+    id: number,
+    name: string,
+    achievement: number,
+    achievements: number[],
+    ap_required?: number
+}
+
+export interface Mastery {
+    id: number,
+    name: string,
+    requirement: string,
+    order: number,
+    background: string,
     region: string,
-    id: number
+    levels: {
+        name: string,
+        description: string,
+        instruction: string,
+        icon: string,
+        point_cost: number,
+        exp_cost: number
+    }[]
 }
 
 /**

@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
-import { Group, AnalizedProgress } from "@/models/achievement";
+import { useEffect, useState } from "react";
+import { Group, Achievement, AnalizedProgress, Bit, Reward } from "@/models/achievement";
 import { AchievementGroupWithDrawer } from "@/components/AchievementGroupWithDrawer";
-import { Divider, Box, Input, HStack, Checkbox, Text } from "@chakra-ui/react";
+import { Divider, Box, Text, Input, Spinner } from "@chakra-ui/react";
 import { ProgressBar } from "@/components/ProgressBar";
 import { ProgressLegend } from "@/components/ProgressLegend";
 
@@ -12,10 +12,11 @@ export default function ProgressPage() {
   const [analyzed, setAnalyzed] = useState<AnalizedProgress | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Filters
-  const [searchText, setSearchText] = useState("");
-  const [filterCompleted, setFilterCompleted] = useState(false);
-  const [filterUncompleted, setFilterUncompleted] = useState(false);
+  // Search state
+  const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState("");
+  const [isFiltering, setIsFiltering] = useState(false);
+  const [filteredData, setFilteredData] = useState<Group[]>([]);
 
   // Load raw achievements
   useEffect(() => {
@@ -34,38 +35,91 @@ export default function ProgressPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  // Base data
-  const baseData = analyzed?.achievements ?? rawAchievementGroups;
+  // Render raw first, then analyzed once available
+  const dataToRender = analyzed?.achievements ?? rawAchievementGroups;
 
-  // ---- FILTERING LOGIC ----
-  const filteredData = useMemo(() => {
-    if (!baseData) return [];
+  // Initialize filteredData on first load or updates
+  useEffect(() => {
+    setFilteredData(dataToRender);
+  }, [dataToRender]);
 
-    return baseData
-      .map((group) => {
-        const filteredCategories = group.categories.map((cat) => {
-          const filteredAchievements = cat.achievements.filter((achievement) => {
-            const nameMatch = achievement.name
-              .toLowerCase()
-              .includes(searchText.toLowerCase());
+  // Debounce the search query
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedQuery(searchQuery);
+    }, 300);
 
-            const done = achievement.done === true;
+    return () => clearTimeout(handler);
+  }, [searchQuery]);
 
-            const completedMatch = filterCompleted ? done : true;
-            const uncompletedMatch = filterUncompleted ? !done : true;
+  // Match helper: searches inside achievement fields AND rewards/bits
+  const matchesQuery = (ach: Achievement, query: string): boolean => {
+    const q = query.toLowerCase();
 
-            return nameMatch && completedMatch && uncompletedMatch;
-          });
+    if (
+      ach.name.toLowerCase().includes(q) ||
+      ach.description?.toLowerCase().includes(q) ||
+      ach.requirement?.toLowerCase().includes(q)
+    ) return true;
 
-          return { ...cat, achievements: filteredAchievements };
-        });
+    // Search in reward items: item.name, skin.name, minipet.name, text
+    if (ach.bits) {
+      for (const bit of ach.bits) {
+        if (matchesBit(bit, q)) return true;
+      }
+    }
 
-        return { ...group, categories: filteredCategories };
-      })
+    if (ach.rewards) {
+      for (const reward of ach.rewards) {
+        if (matchesReward(reward, q)) return true;
+      }
+    }
+
+    return false;
+  };
+
+  const matchesBit = (bit: Bit, q: string): boolean => {
+    if (bit.text && bit.text.toLowerCase().includes(q)) return true;
+    if (bit.item?.name?.toLowerCase().includes(q)) return true;
+    if (bit.skin?.name?.toLowerCase().includes(q)) return true;
+    if (bit.minipet?.name?.toLowerCase().includes(q)) return true;
+    return false;
+  };
+
+  const matchesReward = (reward: Reward, q: string): boolean => {
+    if (reward.item?.name?.toLowerCase().includes(q)) return true;
+    return false;
+  };
+
+  // Filtering logic
+  useEffect(() => {
+    if (!debouncedQuery.trim()) {
+      setFilteredData(dataToRender);
+      setIsFiltering(false);
+      return;
+    }
+
+    setIsFiltering(true);
+
+    const q = debouncedQuery.toLowerCase();
+
+    const filtered = dataToRender
+      .map((group) => ({
+        ...group,
+        categories: group.categories.map((cat) => ({
+          ...cat,
+          achievements: cat.achievements.filter((ach) =>
+            matchesQuery(ach, q)
+          ),
+        })),
+      }))
       .filter((group) =>
         group.categories.some((cat) => cat.achievements.length > 0)
       );
-  }, [baseData, searchText, filterCompleted, filterUncompleted]);
+
+    setFilteredData(filtered);
+    setIsFiltering(false);
+  }, [debouncedQuery, dataToRender]);
 
   return (
     <div>
@@ -77,35 +131,23 @@ export default function ProgressPage() {
       />
 
       <Divider my={4} />
-
       <ProgressLegend />
-
       <Divider my={4} />
 
-      {/* SEARCH + FILTER BAR */}
+      {/* Search bar */}
       <Box mb={4}>
         <Input
-          placeholder="Search achievements..."
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          mb={3}
+          placeholder="Search achievements, items, skins, minis…"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
         />
 
-        <HStack spacing={4}>
-          <Checkbox
-            isChecked={filterCompleted}
-            onChange={(e) => setFilterCompleted(e.target.checked)}
-          >
-            Completed only
-          </Checkbox>
-
-          <Checkbox
-            isChecked={filterUncompleted}
-            onChange={(e) => setFilterUncompleted(e.target.checked)}
-          >
-            Uncompleted only
-          </Checkbox>
-        </HStack>
+        {isFiltering && (
+          <Box mt={2} display="flex" alignItems="center" gap={2}>
+            <Spinner size="sm" />
+            <Text fontSize="sm" opacity={0.7}>Filtering…</Text>
+          </Box>
+        )}
       </Box>
 
       <AchievementGroupWithDrawer data={filteredData} />

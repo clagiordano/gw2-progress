@@ -1,6 +1,6 @@
 "use client";
 
-import { Achievement, Bit, Category, Group, Tier } from "@/models/achievement";
+import { Achievement, Bit, Category, Group, Reward, Tier } from "@/models/achievement";
 
 import {
   Accordion,
@@ -24,6 +24,7 @@ import {
 import { useState } from "react";
 import { BitItem } from "./BitItem";
 import { ProgressBar } from "./ProgressBar";
+import { RewardItem } from "./RewardItem";
 
 export const AchievementGroupWithDrawer = ({ data }: { data: Group[] }) => {
   const [selected, setSelected] = useState<Achievement | null>(null);
@@ -129,20 +130,20 @@ export const AchievementGroupWithDrawer = ({ data }: { data: Group[] }) => {
           <DrawerBody>
             {selected && (
               <>
-                {selected?.bits && selected.bits.length > 0 && (
+              {selected?.rewards && selected.rewards.length > 0 && (
                   <>
                     <Text fontWeight="bold" mb={2}>
-                      Objectives
+                      Rewards
                     </Text>
                     <ul>
-                      {selected?.bits?.map((bit: Bit, idx) => (
-                        <BitItem key={idx} bit={bit} />
+                      {selected?.rewards?.map((bit: Reward, idx) => (
+                        <RewardItem key={idx} data={bit} />
                       ))}
                     </ul>
                   </>
                 )}
 
-                {selected.tiers?.length > 0 && (
+              {selected.tiers?.length > 0 && (
                   <>
                     <Text fontWeight="bold" mt={4} mb={2}>
                       Tiers
@@ -158,6 +159,21 @@ export const AchievementGroupWithDrawer = ({ data }: { data: Group[] }) => {
                     </ul>
                   </>
                 )}
+
+                {selected?.bits && selected.bits.length > 0 && (
+                  <>
+                    <Text fontWeight="bold" mb={2}>
+                      Objectives
+                    </Text>
+                    <ul>
+                      {selected?.bits?.map((bit: Bit, idx) => (
+                        <BitItem key={idx} data={bit} />
+                      ))}
+                    </ul>
+                  </>
+                )}
+
+
               </>
             )}
           </DrawerBody>
