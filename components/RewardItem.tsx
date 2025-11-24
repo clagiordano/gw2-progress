@@ -11,14 +11,14 @@ export const RewardItem = ({ data }: { data: Reward }) => {
       label = `${data.type}: ${data.count} coins`;
       break;
     case "Item":
-      label += data.item?.name ?? "N/A";
+      label += data.item?.name ?? "not available";
       icon = data.item?.icon ?? null;
       break;
     case "Mastery":
-      label += `Mastery Point from ${data.mastery?.region ?? "N/A"}`;
+      label += `Mastery Point from ${data.region ?? "not available"}`;
       break;
     case "Title":
-      label += `Title: ${data.title?.name ?? "N/A"}`;
+      label += `Title: ${data.title?.name ?? "not available"}`;
       break;
   }
 

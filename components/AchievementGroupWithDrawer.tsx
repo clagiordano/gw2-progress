@@ -133,14 +133,14 @@ export const AchievementGroupWithDrawer = ({ data }: { data: Group[] }) => {
           <DrawerBody>
             {selected && (
               <>
-              {selected?.rewards && selected.rewards.length > 0 && (
+              {selected.rewards && selected.rewards.length > 0 && (
                   <>
                     <Text fontWeight="bold" mb={2}>
                       Rewards
                     </Text>
                     <ul>
-                      {selected?.rewards?.map((bit: Reward, idx) => (
-                        <RewardItem key={idx} data={bit} />
+                      {selected.rewards.map((reward: Reward, idx) => (
+                        <RewardItem key={idx} data={reward} />
                       ))}
                     </ul>
                   </>
