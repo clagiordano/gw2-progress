@@ -62,13 +62,14 @@ export default function ProgressPage() {
       ach.requirement?.toLowerCase().includes(q)
     ) return true;
 
-    // Search in reward items: item.name, skin.name, minipet.name, text
+    // Search within objectives
     if (ach.bits) {
       for (const bit of ach.bits) {
         if (matchesBit(bit, q)) return true;
       }
     }
 
+    // Search within rewards
     if (ach.rewards) {
       for (const reward of ach.rewards) {
         if (matchesReward(reward, q)) return true;
@@ -137,7 +138,7 @@ export default function ProgressPage() {
       {/* Search bar */}
       <Box mb={4}>
         <Input
-          placeholder="Search achievements, items, skins, minis…"
+          placeholder="Search using name, description, requirements, objectives, rewards..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
