@@ -118,7 +118,7 @@ export const AchievementGroupWithAccordions = ({ data }: { data: Group[] }) => {
                                                 (bit, idx) => (
                                                   <BitItem
                                                     key={idx}
-                                                    bit={bit}
+                                                    data={bit}
                                                   />
                                                 )
                                               )}

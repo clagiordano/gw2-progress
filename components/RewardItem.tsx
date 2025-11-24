@@ -3,7 +3,7 @@ import { Reward } from "@/models/achievement";
 
 
 export const RewardItem = ({ data }: { data: Reward }) => {
-  // Text label to show
+  // Text label & icon to show
   let label = `${data.type}: `;
   let icon = null;
   switch (data.type) {
@@ -22,7 +22,6 @@ export const RewardItem = ({ data }: { data: Reward }) => {
       break;
   }
 
-  // Icon to show (if any)
   const theme = useTheme();
   const bg = useColorModeValue(theme.colors.cardBg.light, theme.colors.cardBg.dark);
 
