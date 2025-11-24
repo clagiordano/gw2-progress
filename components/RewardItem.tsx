@@ -15,6 +15,7 @@ export const RewardItem = ({ data }: { data: Reward }) => {
       icon = data.item?.icon ?? null;
       break;
     case "Mastery":
+      // TODO: icon = choose icon based on region
       label += `Mastery Point from ${data.region ?? "not available"}`;
       break;
     case "Title":
