@@ -5,7 +5,7 @@ export interface Account {
 	world: {
 		id: number;
 		name: string;
-		population: string; // Low, Medium, High, VeryHigh, Full
+		population: "Low" | "Medium" | "High" | "VeryHigh" | "Full";
 	};
 	guilds: any[];
 	guild_leader: any[];

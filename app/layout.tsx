@@ -4,15 +4,10 @@ import { Suspense } from "react";
 import { fonts } from "./fonts";
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 import { theme } from "./theme";
-import { AccountProvider } from "./context/AccountContext";
+import { AccountProvider, useAccount } from "./context/AccountContext";
 import {
-  ButtonGroup,
   Flex,
   Grid,
-  Heading,
-  IconButton,
-  Link,
-  Spacer,
   Spinner,
   Drawer,
   DrawerOverlay,
@@ -21,8 +16,7 @@ import {
   DrawerBody,
   useDisclosure,
 } from "@chakra-ui/react";
-import { SettingsIcon, HamburgerIcon } from "@chakra-ui/icons";
-import NextLink from "next/link";
+
 import { usePathname } from "next/navigation";
 import { ColorAwareGridItem } from "@/components/ColorAwareGridItem";
 import { SidebarLinks } from "@/components/SidebarLinks";
@@ -33,7 +27,7 @@ import {
   HiOutlineTrophy,
   HiCalendarDays,
 } from "react-icons/hi2";
-import { useColorModeValue } from "@chakra-ui/react";
+import Header from "@/components/Header";
 
 export default function RootLayout({
   children,
@@ -42,7 +36,6 @@ export default function RootLayout({
 }) {
   const path = usePathname();
   const { isOpen, onOpen, onClose } = useDisclosure();
-
   const groupedLinks = [
     {
       label: "Account",
@@ -101,28 +94,7 @@ export default function RootLayout({
             >
               {/* Header */}
               <ColorAwareGridItem area={"header"} pl={4} pr={4} shadow="sm">
-                <Flex alignItems="center" h="100%">
-                  <Heading size="md" as="h1">
-                    GW2 Progress
-                  </Heading>
-                  <Spacer />
-                  {/* Hamburger solo mobile */}
-                  <IconButton
-                    aria-label="Open menu"
-                    icon={<HamburgerIcon />}
-                    display={{ base: "flex", md: "none" }}
-                    onClick={onOpen}
-                    mr={2}
-                  />
-                  <ButtonGroup display={{ base: "none", md: "flex" }}>
-                    <Link href="/settings" as={NextLink}>
-                      <IconButton
-                        aria-label="Settings"
-                        icon={<SettingsIcon />}
-                      />
-                    </Link>
-                  </ButtonGroup>
-                </Flex>
+                <Header onOpen={onOpen} />
               </ColorAwareGridItem>
 
               {/* Sidebar Desktop */}

@@ -1,18 +1,18 @@
 import { Account } from "@/models/account";
 
 export const initialAccountState: Account = {
-  id: "-",
-  name: "-",
+  id: "",
+  name: "",
   age: 0,
-  last_modified: "-",
+  last_modified: "",
   world: {
     id: 0,
-    name: "-",
-    population: "-",
+    name: "",
+    population: "Full",
   },
   guilds: [],
   guild_leader: [],
-  created: "-",
+  created: "",
   access: ["None"],
   commander: false,
   fractal_level: 0,
