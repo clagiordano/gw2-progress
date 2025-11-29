@@ -169,7 +169,19 @@ export const AchievementGroupWithDrawer = ({ data }: { data: Group[] }) => {
       <Drawer isOpen={isOpen} placement="right" size="md" onClose={onClose}>
         <DrawerOverlay />
         <DrawerContent>
-          <DrawerHeader>{selected?.name}</DrawerHeader>
+          <DrawerHeader>
+            <Box flex="1" minW={0}>
+              {/* Name */}
+              <Text fontWeight="semibold" noOfLines={1}>
+                {selected?.name}
+              </Text>
+              {/* Description */}
+              {selected?.description && (
+              <Text fontSize="sm" color={secondaryText} noOfLines={2}>
+                Desc: {selected?.description}
+              </Text>)}
+            </Box>
+          </DrawerHeader>
           <DrawerBody>
             {selected && (
               <>
@@ -214,7 +226,7 @@ export const AchievementGroupWithDrawer = ({ data }: { data: Group[] }) => {
 
                     <ul>
                       {selected?.bits?.map((bit: Bit, idx) => (
-                        <BitItem key={idx} data={bit} />
+                        <li key={idx}><BitItem data={bit} /></li>
                       ))}
                     </ul>
                   </>

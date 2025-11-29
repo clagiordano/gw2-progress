@@ -4,7 +4,21 @@ import { Bit } from "@/models/achievement";
 
 export const BitItem = ({ data }: { data: Bit }) => {
   // Text label to show
-  const label = data.text ?? data.item?.name ?? data.skin?.name ?? data.minipet?.name;
+  let label = "";
+  switch (data.type) {
+    case "Text":
+      label = data.text ?? "N/A";
+      break;
+    case "Item":
+      label = data.item?.name ?? "N/A";
+      break;
+    case "Skin":
+      label = data.skin?.name ?? "N/A";
+      break;
+    case "Minipet":
+      label = data.minipet?.name ?? "N/A";
+      break;
+  }
 
   // Icon to show (if any)
   const icon = data.item?.icon ?? data.skin?.icon ?? data.minipet?.icon;
