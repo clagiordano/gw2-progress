@@ -6,6 +6,7 @@ import { AchievementGroupWithDrawer } from "@/components/AchievementGroupWithDra
 import { Divider, Box, Text, Input, Spinner } from "@chakra-ui/react";
 import { ProgressBar } from "@/components/ProgressBar";
 import { ProgressLegend } from "@/components/ProgressLegend";
+import { useAccount } from "../context/AccountContext";
 
 export default function ProgressPage() {
   const [rawAchievementGroups, setRawAchievementGroups] = useState<Group[]>([]);
@@ -17,6 +18,8 @@ export default function ProgressPage() {
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const [isFiltering, setIsFiltering] = useState(false);
   const [filteredData, setFilteredData] = useState<Group[]>([]);
+
+  const account = useAccount();
 
   // Load raw achievements
   useEffect(() => {
@@ -122,12 +125,14 @@ export default function ProgressPage() {
     setIsFiltering(false);
   }, [debouncedQuery, dataToRender]);
 
+  const volatileTotalAP = (account?.account?.daily_ap ?? 0) + (account?.account?.monthly_ap ?? 0);
+  const grandTotal = ((analyzed?.userTotalPoints ?? 0) + volatileTotalAP);
   return (
     <div>
       <ProgressBar
         percentage={analyzed?.totalPercent ?? 0}
-        label="Overall completion"
-        currentPoints={analyzed?.userTotalPoints ?? (loading ? null : 0)}
+        label={`Overall completion - Total: ${grandTotal}, Daily: ${account?.account?.daily_ap}, Monthly: ${account?.account?.monthly_ap}`}
+        currentPoints={loading ? null : (analyzed?.userTotalPoints ?? 0)}
         totalPoints={analyzed?.totalPoints ?? 0}
       />
 
