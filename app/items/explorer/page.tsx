@@ -7,6 +7,7 @@ import {
   useMemo,
   useTransition,
   useCallback,
+  useRef,
 } from "react";
 import {
   Flex,
@@ -39,6 +40,8 @@ export default function ItemsExplorer() {
   const [categories, setCategories] = useState<string[]>([]);
   const [statsData, setStatsData] = useState<TypeGroup[]>([]);
   const [isPending, startTransition] = useTransition();
+
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const subtypes = useMemo(() => {
     if (!category) return [];
@@ -107,86 +110,93 @@ export default function ItemsExplorer() {
   }, [fetchResults]);
 
   return (
-    <Box p={6}>
-      <Text fontSize="2xl" fontWeight="bold" mb={4}>
-        Item Explorer
-      </Text>
+    <Box display="flex" flexDirection="column" height="100%">
 
-      {/* Input Fields */}
-      <Flex wrap="wrap" gap={4} mb={4}>
-        <Box flex="1">
-          <Input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Name"
-          />
-        </Box>
+      {/* Fixed position for title, inputs, and spinner */}
+      <Box flexShrink={0} pb={4}>
+        <Text fontSize="2xl" fontWeight="bold" mb={4}>
+          Explore Items
+        </Text>
 
-        <Box flex="1">
-          <Select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            placeholder="All Categories"
-          >
-            {categories.map((c) => (
-              <option key={c} value={c}>{c}</option>
-            ))}
-          </Select>
-        </Box>
+        {/* Input Fields */}
+        <Flex wrap="wrap" gap={4} mb={4}>
+          <Box flex="1">
+            <Input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Name"
+            />
+          </Box>
 
-        {category && (
           <Box flex="1">
             <Select
-              value={subtype}
-              onChange={(e) => setSubtype(e.target.value)}
-              placeholder="All Subtypes"
-              isDisabled={subtypes.length === 0}
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              placeholder="All Categories"
             >
-              {subtypes.map((s) => (
-                <option key={s} value={s}>{s}</option>
+              {categories.map((c) => (
+                <option key={c} value={c}>{c}</option>
               ))}
             </Select>
           </Box>
-        )}
 
-        <Box flex="1">
-          <Select
-            value={rarity}
-            onChange={(e) => setRarity(e.target.value)}
-            placeholder="All Rarities"
-          >
-            <option value="junk">Junk</option>
-            <option value="basic">Basic</option>
-            <option value="fine">Fine</option>
-            <option value="masterwork">Masterwork</option>
-            <option value="rare">Rare</option>
-            <option value="exotic">Exotic</option>
-            <option value="ascended">Ascended</option>
-            <option value="legendary">Legendary</option>
-          </Select>
-        </Box>
+          {category && (
+            <Box flex="1">
+              <Select
+                value={subtype}
+                onChange={(e) => setSubtype(e.target.value)}
+                placeholder="All Subtypes"
+                isDisabled={subtypes.length === 0}
+              >
+                {subtypes.map((s) => (
+                  <option key={s} value={s}>{s}</option>
+                ))}
+              </Select>
+            </Box>
+          )}
 
-        <Box flex="1">
-          <Input
-            value={bonuses}
-            onChange={(e) => setBonuses(e.target.value)}
-            placeholder="Bonuses"
-          />
-        </Box>
-      </Flex>
+          <Box flex="1">
+            <Select
+              value={rarity}
+              onChange={(e) => setRarity(e.target.value)}
+              placeholder="All Rarities"
+            >
+              <option value="junk">Junk</option>
+              <option value="basic">Basic</option>
+              <option value="fine">Fine</option>
+              <option value="masterwork">Masterwork</option>
+              <option value="rare">Rare</option>
+              <option value="exotic">Exotic</option>
+              <option value="ascended">Ascended</option>
+              <option value="legendary">Legendary</option>
+            </Select>
+          </Box>
 
-      {(loading || isPending) && <Spinner />}
+          <Box flex="1">
+            <Input
+              value={bonuses}
+              onChange={(e) => setBonuses(e.target.value)}
+              placeholder="Bonuses"
+            />
+          </Box>
+        </Flex>
+      </Box>
 
-      {/* Cards */}
-      <Suspense fallback={<Spinner />}>
-        <VStack spacing={4} align="stretch">
-          {results.map((item) => (
-            <ItemPopover key={item.data.id} item={item.data}>
-              <ItemCard data={item.data} />
-            </ItemPopover>
-          ))}
-        </VStack>
-      </Suspense>
+      {/* Scrollable section */}
+      <Box flex="1" minH={0} overflowY="auto" pr={2} ref={scrollRef}>
+        {(loading || isPending) && <Spinner />}
+
+        {/* Cards */}
+        <Suspense fallback={<Spinner />}>
+          <VStack spacing={4} align="stretch">
+            {results.map((item) => (
+              <ItemPopover portalProps={{ containerRef: scrollRef }} key={item.data.id} item={item.data}>
+                <ItemCard data={item.data} />
+              </ItemPopover>
+            ))}
+          </VStack>
+        </Suspense>
+      </Box>
     </Box>
   );
 }
