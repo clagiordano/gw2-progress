@@ -28,7 +28,6 @@ import {
   useColorModeValue,
   useTheme,
   SimpleGrid,
-  Badge,
   useColorMode,
 } from "@chakra-ui/react";
 import { useState } from "react";
@@ -36,6 +35,7 @@ import { BitItem } from "./BitItem";
 import { ProgressBar } from "./ProgressBar";
 import { RewardItem } from "./RewardItem";
 import { getProgressIndex } from "@/services/utils";
+import AchievementItem from "./AchievementItem";
 
 export const AchievementGroupWithDrawer = ({ data }: { data: Group[] }) => {
   const [selected, setSelected] = useState<Achievement | null>(null);
@@ -130,54 +130,12 @@ export const AchievementGroupWithDrawer = ({ data }: { data: Group[] }) => {
                   <Box mt={2}>
                     <SimpleGrid minChildWidth="300px" spacing={3}>
                       {category.achievements.map((achievement) => {
-                        const badgeBg = getBadgeColor(
-                          achievement.uaPts,
-                          achievement.aPts
-                        );
                         return (
-                          <Box
+                          <AchievementItem
                             key={achievement.id}
-                            p={3}
-                            borderWidth="1px"
-                            borderRadius="md"
-                            cursor="pointer"
-                            bg={bg}
-                            _hover={{ bg: hoverBg }}
+                            achievement={achievement}
                             onClick={() => openDetails(achievement)}
-                          >
-                            <Flex align="center" gap={3}>
-                              {achievement.icon && (
-                                <Image
-                                  borderRadius="full"
-                                  boxSize="28px"
-                                  src={achievement.icon}
-                                  alt={achievement.name}
-                                />
-                              )}
-                              <Box flex="1" minW={0}>
-                                <Text fontWeight="semibold" noOfLines={1}>
-                                  {achievement.name}
-                                </Text>
-                              </Box>
-                            </Flex>
-
-                            {/* Badge on a dedicated line below */}
-                            <Flex mt={2} justify="flex-end" gap={2} wrap="wrap">
-                              {!!achievement.rewards?.length && (
-                                <Badge colorScheme="green">Rewards</Badge>
-                              )}
-
-                              {!!achievement.tiers?.length && (
-                                <Badge
-                                  bg={badgeBg}
-                                  color={secondaryText}
-                                  borderColor="rgba(0,0,0,0.12)"
-                                >
-                                  {achievement.uaPts}/{achievement.aPts} pts
-                                </Badge>
-                              )}
-                            </Flex>
-                          </Box>
+                          />
                         );
                       })}
                     </SimpleGrid>
