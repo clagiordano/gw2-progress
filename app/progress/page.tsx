@@ -9,7 +9,15 @@ import {
   Reward,
 } from "@/models/achievement";
 import { AchievementGroupWithDrawer } from "@/components/AchievementGroupWithDrawer";
-import { Divider, Box, Text, Input, Spinner, InputGroup, InputRightElement } from "@chakra-ui/react";
+import {
+  Divider,
+  Box,
+  Text,
+  Input,
+  Spinner,
+  InputGroup,
+  InputRightElement,
+} from "@chakra-ui/react";
 import { ProgressBar } from "@/components/ProgressBar";
 import { ProgressLegend } from "@/components/ProgressLegend";
 import { useAccount } from "../context/AccountContext";
@@ -117,18 +125,19 @@ export default function ProgressPage() {
     startTransition(() => {
       const q = debouncedQuery.toLowerCase();
       const filtered = dataToRender
-        .map((group) => ({
-          ...group,
-          categories: group.categories.map((cat) => ({
-            ...cat,
-            achievements: cat.achievements.filter((ach) =>
-              matchesQuery(ach, q)
-            ),
-          })),
-        }))
-        .filter((group) =>
-          group.categories.some((cat) => cat.achievements.length > 0)
-        );
+        .map((group) => {
+          const categories = group.categories
+            .map((cat) => ({
+              ...cat,
+              achievements: cat.achievements.filter((ach) =>
+                matchesQuery(ach, q)
+              ),
+            }))
+            .filter((cat) => cat.achievements.length > 0);
+
+          return { ...group, categories };
+        })
+        .filter((group) => group.categories.length > 0);
 
       setFilteredData(filtered);
       setIsFiltering(false);
@@ -140,37 +149,43 @@ export default function ProgressPage() {
   const grandTotal = (analyzed?.userTotalPoints ?? 0) + volatileTotalAP;
   const memoizedData = useMemo(() => filteredData, [filteredData]);
   return (
-    <div>
-      <ProgressBar
-        percentage={analyzed?.totalPercent ?? 0}
-        label={`Overall completion - Total: ${grandTotal}, Daily: ${account?.account?.daily_ap}, Monthly: ${account?.account?.monthly_ap}`}
-        currentPoints={loading ? null : analyzed?.userTotalPoints ?? 0}
-        totalPoints={analyzed?.totalPoints ?? 0}
-      />
+    <Box display="flex" flexDirection="column" height="100%">
+      {/* Fixed position for overall progress and search section */}
+      <Box flexShrink={0} pb={4}>
+        <ProgressBar
+          percentage={analyzed?.totalPercent ?? 0}
+          label={`Overall completion - Total: ${grandTotal}, Daily: ${account?.account?.daily_ap}, Monthly: ${account?.account?.monthly_ap}`}
+          currentPoints={loading ? null : analyzed?.userTotalPoints ?? 0}
+          totalPoints={analyzed?.totalPoints ?? 0}
+        />
 
-      <Divider my={4} />
-      <ProgressLegend />
-      <Divider my={4} />
+        <Divider my={4} />
+        <ProgressLegend />
+        <Divider my={4} />
 
-      {/* Search bar */}
-      <Box mb={4}>
-        <InputGroup>
-          <Input
-            placeholder="Search using name, description, requirements, objectives, rewards..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <InputRightElement>
-            <Spinner
-              size="sm"
-              opacity={(isPending || isFiltering) ? 1 : 0}
-              transition="opacity 0.2s"
+        {/* Search bar */}
+        <Box mb={4}>
+          <InputGroup>
+            <Input
+              placeholder="Search using name, description, requirements, objectives, rewards..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
-          </InputRightElement>
-        </InputGroup>
+            <InputRightElement>
+              <Spinner
+                size="sm"
+                opacity={isPending || isFiltering ? 1 : 0}
+                transition="opacity 0.2s"
+              />
+            </InputRightElement>
+          </InputGroup>
+        </Box>
       </Box>
 
-      <AchievementGroupWithDrawer data={memoizedData} />
-    </div>
+      {/* Scrollable section */}
+      <Box flex="1" minH={0} overflowY="auto" pr={2}>
+        <AchievementGroupWithDrawer data={memoizedData} />
+      </Box>
+    </Box>
   );
 }
