@@ -163,7 +163,7 @@ export default function ProgressPage() {
           <InputRightElement>
             <Spinner
               size="sm"
-              opacity={isPending ? 1 : 0}
+              opacity={(isPending || isFiltering) ? 1 : 0}
               transition="opacity 0.2s"
             />
           </InputRightElement>
