@@ -1,12 +1,19 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Group, Achievement, AnalizedProgress, Bit, Reward } from "@/models/achievement";
+import {
+  Group,
+  Achievement,
+  AnalizedProgress,
+  Bit,
+  Reward,
+} from "@/models/achievement";
 import { AchievementGroupWithDrawer } from "@/components/AchievementGroupWithDrawer";
-import { Divider, Box, Text, Input, Spinner } from "@chakra-ui/react";
+import { Divider, Box, Text, Input, Spinner, InputGroup, InputRightElement } from "@chakra-ui/react";
 import { ProgressBar } from "@/components/ProgressBar";
 import { ProgressLegend } from "@/components/ProgressLegend";
 import { useAccount } from "../context/AccountContext";
+import { useTransition, useMemo } from "react";
 
 export default function ProgressPage() {
   const [rawAchievementGroups, setRawAchievementGroups] = useState<Group[]>([]);
@@ -20,6 +27,7 @@ export default function ProgressPage() {
   const [filteredData, setFilteredData] = useState<Group[]>([]);
 
   const account = useAccount();
+  const [isPending, startTransition] = useTransition();
 
   // Load raw achievements
   useEffect(() => {
@@ -63,7 +71,8 @@ export default function ProgressPage() {
       ach.name.toLowerCase().includes(q) ||
       ach.description?.toLowerCase().includes(q) ||
       ach.requirement?.toLowerCase().includes(q)
-    ) return true;
+    )
+      return true;
 
     // Search within objectives
     if (ach.bits) {
@@ -98,41 +107,44 @@ export default function ProgressPage() {
   // Filtering logic
   useEffect(() => {
     if (!debouncedQuery.trim()) {
-      setFilteredData(dataToRender);
-      setIsFiltering(false);
+      startTransition(() => {
+        setFilteredData(dataToRender);
+        setIsFiltering(false);
+      });
       return;
     }
 
-    setIsFiltering(true);
+    startTransition(() => {
+      const q = debouncedQuery.toLowerCase();
+      const filtered = dataToRender
+        .map((group) => ({
+          ...group,
+          categories: group.categories.map((cat) => ({
+            ...cat,
+            achievements: cat.achievements.filter((ach) =>
+              matchesQuery(ach, q)
+            ),
+          })),
+        }))
+        .filter((group) =>
+          group.categories.some((cat) => cat.achievements.length > 0)
+        );
 
-    const q = debouncedQuery.toLowerCase();
-
-    const filtered = dataToRender
-      .map((group) => ({
-        ...group,
-        categories: group.categories.map((cat) => ({
-          ...cat,
-          achievements: cat.achievements.filter((ach) =>
-            matchesQuery(ach, q)
-          ),
-        })),
-      }))
-      .filter((group) =>
-        group.categories.some((cat) => cat.achievements.length > 0)
-      );
-
-    setFilteredData(filtered);
-    setIsFiltering(false);
+      setFilteredData(filtered);
+      setIsFiltering(false);
+    });
   }, [debouncedQuery, dataToRender]);
 
-  const volatileTotalAP = (account?.account?.daily_ap ?? 0) + (account?.account?.monthly_ap ?? 0);
-  const grandTotal = ((analyzed?.userTotalPoints ?? 0) + volatileTotalAP);
+  const volatileTotalAP =
+    (account?.account?.daily_ap ?? 0) + (account?.account?.monthly_ap ?? 0);
+  const grandTotal = (analyzed?.userTotalPoints ?? 0) + volatileTotalAP;
+  const memoizedData = useMemo(() => filteredData, [filteredData]);
   return (
     <div>
       <ProgressBar
         percentage={analyzed?.totalPercent ?? 0}
         label={`Overall completion - Total: ${grandTotal}, Daily: ${account?.account?.daily_ap}, Monthly: ${account?.account?.monthly_ap}`}
-        currentPoints={loading ? null : (analyzed?.userTotalPoints ?? 0)}
+        currentPoints={loading ? null : analyzed?.userTotalPoints ?? 0}
         totalPoints={analyzed?.totalPoints ?? 0}
       />
 
@@ -142,21 +154,23 @@ export default function ProgressPage() {
 
       {/* Search bar */}
       <Box mb={4}>
-        <Input
-          placeholder="Search using name, description, requirements, objectives, rewards..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-
-        {isFiltering && (
-          <Box mt={2} display="flex" alignItems="center" gap={2}>
-            <Spinner size="sm" />
-            <Text fontSize="sm" opacity={0.7}>Filtering…</Text>
-          </Box>
-        )}
+        <InputGroup>
+          <Input
+            placeholder="Search using name, description, requirements, objectives, rewards..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <InputRightElement>
+            <Spinner
+              size="sm"
+              opacity={isPending ? 1 : 0}
+              transition="opacity 0.2s"
+            />
+          </InputRightElement>
+        </InputGroup>
       </Box>
 
-      <AchievementGroupWithDrawer data={filteredData} />
+      <AchievementGroupWithDrawer data={memoizedData} />
     </div>
   );
 }
