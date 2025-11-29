@@ -12,8 +12,16 @@ import {
   UnorderedList,
   Text,
   ListIcon,
+  Image,
   Heading,
   Skeleton,
+  Box,
+  useTheme,
+  useColorModeValue,
+  SkeletonText,
+  SimpleGrid,
+  Flex,
+  Icon,
 } from "@chakra-ui/react";
 import { CheckCircleIcon } from "@chakra-ui/icons";
 import {
@@ -35,12 +43,18 @@ export default function Dailies() {
     Record<string, boolean>
   >({});
   const [userProgression, setUserProgression] = useState<Progress[]>([]);
+  const dailiesId = "18DB115A-8637-4290-A636-821362A3C4A8";
+  const theme = useTheme();
+
+  const primaryText = useColorModeValue(theme.colors.textPrimary.light, theme.colors.textPrimary.dark);
+  const secondaryText = useColorModeValue(theme.colors.textSecondary.light, theme.colors.textSecondary.dark);
 
   useEffect(() => {
-    getAchievementsGroupsById("18DB115A-8637-4290-A636-821362A3C4A8").then(
+    getAchievementsGroupsById(dailiesId).then(
       (data) => {
         setDailies(data);
         setDailiesLoading(false);
+        console.log("Dailies group data:", data);
       }
     );
   }, []);
@@ -57,6 +71,7 @@ export default function Dailies() {
         (data) => {
           setCategories(data);
           setCategoriesLoading(false);
+          console.log("Dailies categories data:", data);
         }
       );
     }
@@ -89,38 +104,77 @@ export default function Dailies() {
       return [cid, updated];
     })
   );
-
+  console.log(achievementsWithDone);
   return (
     <div>
       {dailies && (
-        <Heading size="lg" as="h1" mb={4}>
-          <Skeleton isLoaded={!isDailiesLoading} noOfLines={1}>
-            {dailies.name}: {dailies.description}
-          </Skeleton>
+        <Heading size="lg" as="h1" mb={2}>
+          <SkeletonText isLoaded={!isDailiesLoading} noOfLines={1}>
+            {dailies.description}
+          </SkeletonText>
         </Heading>
       )}
 
       <Skeleton isLoaded={!isCategoriesLoading}>
         {categories.map((cat) => (
-          <div key={`cont_${cat.id}`}>
-            <Text fontSize="2xl">
-              {cat.name}: {cat.description}
-            </Text>
+          <Box key={`cont_${cat.id}`} p={2} mb={2}>
+            <Box flex="1" minW={0}>
+              {/* Name */}
+              <Text fontSize="lg" fontWeight="semibold" color={primaryText} noOfLines={1}>
+                {cat?.name}
+              </Text>
+
+              {/* Description */}
+              {cat?.description && (
+              <Text fontSize="md" fontStyle="italic" color={secondaryText} noOfLines={2}>
+                {cat?.description}
+              </Text>)}
+            </Box>
 
             <Skeleton isLoaded={!achievementsLoading[cat.id]}>
-              <UnorderedList mb={6}>
+              {/* <UnorderedList mb={6}> */}
+              <SimpleGrid minChildWidth="300px" spacing={1} borderWidth="1px"
+                     borderRadius="md" >
                 {achievementsWithDone[cat.id]?.map((achi) => (
-                  <ListItem key={achi.id}>
-                    <ListIcon
-                      as={CheckCircleIcon}
-                      color={achi.done ? "green.500" : "gray.500"}
-                    />
-                    {achi.name}: {achi.description}
-                  </ListItem>
+                  // <ListItem key={achi.id}>
+                  //   <ListIcon
+                  //     as={CheckCircleIcon}
+                  //     color={achi.done ? "green.500" : "gray.500"}
+                  //   />
+                  //   {achi.name}: {achi.description}
+                  // </ListItem>
+                  <Box
+                    key={achi.id}
+                    p={1}
+                    // borderWidth="1px"
+                    // borderRadius="md"
+                    // cursor="pointer"
+                    // bg={bg}
+                    // _hover={{ bg: hoverBg }}
+                    // onClick={() => openDetails(achievement)}
+                  >
+                  <Flex align="center">
+                    {/* {achi.icon && (
+                      <Image
+                        borderRadius="full"
+                        boxSize="28px"
+                        src={achi.icon}
+                        alt={achi.name}
+                      />
+                    )} */}
+                    <Box flex="1" minW={0} _hover={{ bg: "gray" }} borderRadius="full" p={1}>
+                      <Text fontWeight="semibold" noOfLines={1}>
+                        <Icon as={CheckCircleIcon} color={achi.done ? "green.500" : "gray.500"} mr={2} />
+                        {achi.name}
+                      </Text>
+                    </Box>
+                  </Flex>
+                  </Box>
                 ))}
-              </UnorderedList>
+                </SimpleGrid>
+              {/* </UnorderedList> */}
             </Skeleton>
-          </div>
+          </Box>
         ))}
       </Skeleton>
     </div>

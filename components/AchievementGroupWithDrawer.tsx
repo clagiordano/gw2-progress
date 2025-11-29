@@ -136,7 +136,7 @@ export const AchievementGroupWithDrawer = ({ data }: { data: Group[] }) => {
                             </Box>
                           </Flex>
 
-                          {/* Badge su una riga separata sotto */}
+                          {/* Badge on a dedicated line below */}
                           <Flex mt={2} justify="flex-end" gap={2} wrap="wrap">
                             {!!(achievement.rewards?.length) && (
                               <Badge colorScheme="green">Rewards</Badge>
