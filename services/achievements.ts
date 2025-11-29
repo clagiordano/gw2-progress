@@ -206,6 +206,7 @@ export const analyze = async (achievements: Group[], progression: Progress[]): P
               if (fIdx !== -1) {
                 let uach = progression[fIdx];
                 let current = uach.current ?? 0;
+                ach.done = uach.done ?? false;
                 progression.splice(fIdx, 1);
                 uaPts = ach.tiers
                   .filter((t: Tier) => t.count <= current)
