@@ -9,7 +9,7 @@ const { default: skins } = await import('../app/lib/skins.json', {
   with: { type: 'json' }
 });
 
-const { default: achievements } = await import('../app/lib/achievements_detailed.json', {
+const { default: achievements } = await import('../data/achievements.json', {
   with: { type: 'json' }
 });
 
@@ -59,5 +59,5 @@ for (const aIdx in achievements) {
 }
 
 
-await fs.writeFile('../app/lib/achievements_detailed.json', JSON.stringify(achievements));
+await fs.writeFile('app/lib/achievements_detailed.json', JSON.stringify(achievements));
 console.log('Updated achievements_detailed.json with item and skin details.');
