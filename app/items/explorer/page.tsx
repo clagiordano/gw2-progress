@@ -47,7 +47,9 @@ export default function ItemsExplorer() {
     if (!category) return [];
     const catData = statsData.find((t) => t.type === category);
     return (
-      catData?.subtypes?.filter((s: any) => s.subtype).map((s: any) => s.subtype) || []
+      catData?.subtypes
+        ?.filter((s: any) => s.subtype)
+        .map((s: any) => s.subtype) || []
     );
   }, [category, statsData]);
 
@@ -111,7 +113,6 @@ export default function ItemsExplorer() {
 
   return (
     <Box display="flex" flexDirection="column" height="100%">
-
       {/* Fixed position for title, inputs, and spinner */}
       <Box flexShrink={0} pb={4}>
         <Text fontSize="2xl" fontWeight="bold" mb={4}>
@@ -135,7 +136,9 @@ export default function ItemsExplorer() {
               placeholder="All Categories"
             >
               {categories.map((c) => (
-                <option key={c} value={c}>{c}</option>
+                <option key={c} value={c}>
+                  {c}
+                </option>
               ))}
             </Select>
           </Box>
@@ -149,7 +152,9 @@ export default function ItemsExplorer() {
                 isDisabled={subtypes.length === 0}
               >
                 {subtypes.map((s) => (
-                  <option key={s} value={s}>{s}</option>
+                  <option key={s} value={s}>
+                    {s}
+                  </option>
                 ))}
               </Select>
             </Box>
@@ -183,19 +188,30 @@ export default function ItemsExplorer() {
       </Box>
 
       {/* Scrollable section */}
-      <Box flex="1" minH={0} overflowY="auto" pr={2} ref={scrollRef}>
+      <Box
+        flex="1"
+        minH={0}
+        overflowY="auto"
+        pr={2}
+        ref={scrollRef}
+        position="relative"
+      >
         {(loading || isPending) && <Spinner />}
 
         {/* Cards */}
-        <Suspense fallback={<Spinner />}>
-          <VStack spacing={4} align="stretch">
-            {results.map((item) => (
-              <ItemPopover portalProps={{ containerRef: scrollRef }} key={item.data.id} item={item.data}>
+        <VStack spacing={4} align="stretch">
+          {results.map((item) => (
+            <ItemPopover
+              key={item.data.id}
+              item={item.data}
+              portalProps={{ containerRef: scrollRef }}
+            >
+              <Box>
                 <ItemCard data={item.data} />
-              </ItemPopover>
-            ))}
-          </VStack>
-        </Suspense>
+              </Box>
+            </ItemPopover>
+          ))}
+        </VStack>
       </Box>
     </Box>
   );
