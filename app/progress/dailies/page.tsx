@@ -1,17 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Achievement, Category, Group, Progress } from "@/models/achievement";
 import {
-  Achievement,
-  Category,
-  Group,
-  Progress,
-} from "@/models/achievement";
-import {
-  ListItem,
-  UnorderedList,
   Text,
-  ListIcon,
   Image,
   Heading,
   Skeleton,
@@ -46,17 +38,25 @@ export default function Dailies() {
   const dailiesId = "18DB115A-8637-4290-A636-821362A3C4A8";
   const theme = useTheme();
 
-  const primaryText = useColorModeValue(theme.colors.textPrimary.light, theme.colors.textPrimary.dark);
-  const secondaryText = useColorModeValue(theme.colors.textSecondary.light, theme.colors.textSecondary.dark);
+  const primaryText = useColorModeValue(
+    theme.colors.textPrimary.light,
+    theme.colors.textPrimary.dark
+  );
+  const secondaryText = useColorModeValue(
+    theme.colors.textSecondary.light,
+    theme.colors.textSecondary.dark
+  );
+  const hoverBg = useColorModeValue(
+    theme.colors.cardHover.light,
+    theme.colors.cardHover.dark
+  );
 
   useEffect(() => {
-    getAchievementsGroupsById(dailiesId).then(
-      (data) => {
-        setDailies(data);
-        setDailiesLoading(false);
-        console.log("Dailies group data:", data);
-      }
-    );
+    getAchievementsGroupsById(dailiesId).then((data) => {
+      setDailies(data);
+      setDailiesLoading(false);
+      console.log("Dailies group data:", data);
+    });
   }, []);
 
   useEffect(() => {
@@ -92,19 +92,20 @@ export default function Dailies() {
   }, [categories]);
 
   // Derived achievements with done status (recommended by React)
-  const achievementsWithDone: Record<string, Achievement[]> = Object.fromEntries(
-    Object.entries(achievements).map(([cid, list]) => {
-      const updated = list.map((ach) => {
-        const found = userProgression.find((p) => p.id === ach.id);
-        return {
-          ...ach,
-          done: found ? !!found.done : false,
-        };
-      });
-      return [cid, updated];
-    })
-  );
-  console.log(achievementsWithDone);
+  const achievementsWithDone: Record<string, Achievement[]> =
+    Object.fromEntries(
+      Object.entries(achievements).map(([cid, list]) => {
+        const updated = list.map((ach) => {
+          const found = userProgression.find((p) => p.id === ach.id);
+          return {
+            ...ach,
+            done: found ? !!found.done : false,
+          };
+        });
+        return [cid, updated];
+      })
+    );
+
   return (
     <div>
       {dailies && (
@@ -118,31 +119,49 @@ export default function Dailies() {
       <Skeleton isLoaded={!isCategoriesLoading}>
         {categories.map((cat) => (
           <Box key={`cont_${cat.id}`} p={2} mb={2}>
-            <Box flex="1" minW={0}>
-              {/* Name */}
-              <Text fontSize="lg" fontWeight="semibold" color={primaryText} noOfLines={1}>
-                {cat?.name}
-              </Text>
-
-              {/* Description */}
-              {cat?.description && (
-              <Text fontSize="md" fontStyle="italic" color={secondaryText} noOfLines={2}>
-                {cat?.description}
-              </Text>)}
-            </Box>
+            <Flex gap={2} align="center" mb={2}>
+              {cat.icon && (
+                <Image
+                  borderRadius="full"
+                  boxSize="56px"
+                  src={cat.icon}
+                  alt={cat.name}
+                />
+              )}
+              <Box flex="1" minW={0}>
+                <Text
+                  fontSize="lg"
+                  fontWeight="semibold"
+                  lineHeight="1.3"
+                  color={primaryText}
+                  noOfLines={1}
+                >
+                  {cat.name}
+                </Text>
+                <Text
+                  fontSize="md"
+                  lineHeight="1.3"
+                  fontStyle="italic"
+                  color={secondaryText}
+                  noOfLines={2}
+                >
+                  {cat.description != ""
+                    ? cat.description
+                    : "sadly, no description provided yet"}
+                </Text>
+              </Box>
+            </Flex>
 
             <Skeleton isLoaded={!achievementsLoading[cat.id]}>
               {/* <UnorderedList mb={6}> */}
-              <SimpleGrid minChildWidth="300px" spacing={1} borderWidth="1px"
-                     borderRadius="md" >
+              <SimpleGrid
+                minChildWidth="300px"
+                spacing={1}
+                p={2}
+                borderWidth="1px"
+                borderRadius="md"
+              >
                 {achievementsWithDone[cat.id]?.map((achi) => (
-                  // <ListItem key={achi.id}>
-                  //   <ListIcon
-                  //     as={CheckCircleIcon}
-                  //     color={achi.done ? "green.500" : "gray.500"}
-                  //   />
-                  //   {achi.name}: {achi.description}
-                  // </ListItem>
                   <Box
                     key={achi.id}
                     p={1}
@@ -153,8 +172,8 @@ export default function Dailies() {
                     // _hover={{ bg: hoverBg }}
                     // onClick={() => openDetails(achievement)}
                   >
-                  <Flex align="center">
-                    {/* {achi.icon && (
+                    <Flex align="center">
+                      {/* {achi.icon && (
                       <Image
                         borderRadius="full"
                         boxSize="28px"
@@ -162,17 +181,26 @@ export default function Dailies() {
                         alt={achi.name}
                       />
                     )} */}
-                    <Box flex="1" minW={0} _hover={{ bg: "gray" }} borderRadius="full" p={1}>
-                      <Text fontWeight="semibold" noOfLines={1}>
-                        <Icon as={CheckCircleIcon} color={achi.done ? "green.500" : "gray.500"} mr={2} />
-                        {achi.name}
-                      </Text>
-                    </Box>
-                  </Flex>
+                      <Box
+                        flex="1"
+                        minW={0}
+                        _hover={{ bg: hoverBg }}
+                        borderRadius="full"
+                        p={1}
+                      >
+                        <Text fontWeight="semibold" noOfLines={1}>
+                          <Icon
+                            as={CheckCircleIcon}
+                            color={achi.done ? "green.500" : "gray.500"}
+                            mr={2}
+                          />
+                          {achi.name}
+                        </Text>
+                      </Box>
+                    </Flex>
                   </Box>
                 ))}
-                </SimpleGrid>
-              {/* </UnorderedList> */}
+              </SimpleGrid>
             </Skeleton>
           </Box>
         ))}
