@@ -66,24 +66,29 @@ const baseOptions = {
 //   return achievements;
 // };
 
+// User based caching for user progression data with 5 minutes TTL
+const getUserProgressionCached = unstable_cache(
+  async (token: string): Promise<Progress[]> => {
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    };
+
+    const resp = await fetch(
+      `${process.env.API_GW_BASE_URL}/account/achievements`,
+      { headers }
+    );
+
+    if (!resp.ok) return [];
+    return await resp.json();
+  },
+  ["user-progression"], // base key
+  { revalidate: 300, tags: ["user-progression"] } // TTL + tag
+);
+
 export async function getUserProgression(): Promise<Progress[]> {
   const token = await getToken();
-
-  const headers = {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`,
-  };
-
-  const resp = await fetch(
-    `${process.env.API_GW_BASE_URL}/account/achievements`,
-    { headers }
-  );
-
-  if (!resp.ok) {
-    return [];
-  }
-
-  return await resp.json();
+  return getUserProgressionCached(token);
 }
 
 export async function getAchievementsGroups(): Promise<Group[]> {
