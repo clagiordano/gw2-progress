@@ -1,6 +1,13 @@
 "use client";
 
-import { Achievement, Bit, Category, Group, Reward, Tier } from "@/models/achievement";
+import {
+  Achievement,
+  Bit,
+  Category,
+  Group,
+  Reward,
+  Tier,
+} from "@/models/achievement";
 
 import {
   Accordion,
@@ -35,9 +42,18 @@ export const AchievementGroupWithDrawer = ({ data }: { data: Group[] }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const theme = useTheme();
 
-  const primaryText = useColorModeValue(theme.colors.textPrimary.light, theme.colors.textPrimary.dark);
-  const secondaryText = useColorModeValue(theme.colors.textSecondary.light, theme.colors.textSecondary.dark);
-  const linkActiveColor = useColorModeValue(theme.colors.linkActive.light, theme.colors.linkActive.dark);
+  const primaryText = useColorModeValue(
+    theme.colors.textPrimary.light,
+    theme.colors.textPrimary.dark
+  );
+  const secondaryText = useColorModeValue(
+    theme.colors.textSecondary.light,
+    theme.colors.textSecondary.dark
+  );
+  const linkActiveColor = useColorModeValue(
+    theme.colors.linkActive.light,
+    theme.colors.linkActive.dark
+  );
 
   const openDetails = (ach: Achievement) => {
     setSelected(ach);
@@ -46,11 +62,16 @@ export const AchievementGroupWithDrawer = ({ data }: { data: Group[] }) => {
 
   const { colorMode } = useColorMode();
   // Helper to get badge color based on progress
-  const getBadgeColor = (uaPts: number | undefined, aPts: number | undefined) => {
+  const getBadgeColor = (
+    uaPts: number | undefined,
+    aPts: number | undefined
+  ) => {
     if (!aPts || aPts <= 0) return undefined;
     const pct = Math.min(100, Math.round(((uaPts ?? 0) / aPts) * 100));
     const level = getProgressIndex(pct);
-    return theme.colors.progressColors[level]?.[colorMode === "light" ? "light" : "dark"];
+    return theme.colors.progressColors[level]?.[
+      colorMode === "light" ? "light" : "dark"
+    ];
   };
 
   const bg = useColorModeValue(
@@ -89,12 +110,14 @@ export const AchievementGroupWithDrawer = ({ data }: { data: Group[] }) => {
                   mb={3}
                 >
                   <Flex align="center" gap={3} mb={2}>
-                    {category.icon && (<Image
-                      borderRadius="full"
-                      boxSize="50px"
-                      src={category.icon}
-                      alt={category.name}
-                    />)}
+                    {category.icon && (
+                      <Image
+                        borderRadius="full"
+                        boxSize="50px"
+                        src={category.icon}
+                        alt={category.name}
+                      />
+                    )}
                     <ProgressBar
                       percentage={category.cPtsPercent}
                       label={category.name}
@@ -107,56 +130,57 @@ export const AchievementGroupWithDrawer = ({ data }: { data: Group[] }) => {
                   <Box mt={2}>
                     <SimpleGrid minChildWidth="300px" spacing={3}>
                       {category.achievements.map((achievement) => {
-                         const badgeBg = getBadgeColor(achievement.uaPts, achievement.aPts);
+                        const badgeBg = getBadgeColor(
+                          achievement.uaPts,
+                          achievement.aPts
+                        );
                         return (
-                        <Box
-                          key={achievement.id}
-                          p={3}
-                          borderWidth="1px"
-                          borderRadius="md"
-                          cursor="pointer"
-                          bg={bg}
-                          _hover={{ bg: hoverBg }}
-                          onClick={() => openDetails(achievement)}
-                        >
+                          <Box
+                            key={achievement.id}
+                            p={3}
+                            borderWidth="1px"
+                            borderRadius="md"
+                            cursor="pointer"
+                            bg={bg}
+                            _hover={{ bg: hoverBg }}
+                            onClick={() => openDetails(achievement)}
+                          >
+                            <Flex align="center" gap={3}>
+                              {achievement.icon && (
+                                <Image
+                                  borderRadius="full"
+                                  boxSize="28px"
+                                  src={achievement.icon}
+                                  alt={achievement.name}
+                                />
+                              )}
+                              <Box flex="1" minW={0}>
+                                <Text fontWeight="semibold" noOfLines={1}>
+                                  {achievement.name}
+                                </Text>
+                              </Box>
+                            </Flex>
 
-                          <Flex align="center" gap={3}>
-                            {achievement.icon && (
-                              <Image
-                                borderRadius="full"
-                                boxSize="28px"
-                                src={achievement.icon}
-                                alt={achievement.name}
-                              />
-                            )}
-                            <Box flex="1" minW={0}>
-                              <Text fontWeight="semibold" noOfLines={1}>
-                                {achievement.name}
-                              </Text>
-                            </Box>
-                          </Flex>
+                            {/* Badge on a dedicated line below */}
+                            <Flex mt={2} justify="flex-end" gap={2} wrap="wrap">
+                              {!!achievement.rewards?.length && (
+                                <Badge colorScheme="green">Rewards</Badge>
+                              )}
 
-                          {/* Badge on a dedicated line below */}
-                          <Flex mt={2} justify="flex-end" gap={2} wrap="wrap">
-                            {!!(achievement.rewards?.length) && (
-                              <Badge colorScheme="green">Rewards</Badge>
-                            )}
-
-                            {!!(achievement.tiers?.length) && (
-                              <Badge
-                                bg={badgeBg}
-                                color={secondaryText}
-                                borderColor="rgba(0,0,0,0.12)"
+                              {!!achievement.tiers?.length && (
+                                <Badge
+                                  bg={badgeBg}
+                                  color={secondaryText}
+                                  borderColor="rgba(0,0,0,0.12)"
                                 >
-                                {achievement.uaPts}/{achievement.aPts} pts
-                              </Badge>
-                            )}
-
-                          </Flex>
-                        </Box>
+                                  {achievement.uaPts}/{achievement.aPts} pts
+                                </Badge>
+                              )}
+                            </Flex>
+                          </Box>
                         );
                       })}
-                      </SimpleGrid>
+                    </SimpleGrid>
                   </Box>
                 </Box>
               ))}
@@ -177,15 +201,16 @@ export const AchievementGroupWithDrawer = ({ data }: { data: Group[] }) => {
               </Text>
               {/* Description */}
               {selected?.description && (
-              <Text fontSize="sm" color={secondaryText} noOfLines={2}>
-                {selected?.description}
-              </Text>)}
+                <Text fontSize="sm" color={secondaryText} noOfLines={2}>
+                  {selected?.description}
+                </Text>
+              )}
             </Box>
           </DrawerHeader>
           <DrawerBody>
             {selected && (
               <>
-              {selected.rewards && selected.rewards.length > 0 && (
+                {selected.rewards && selected.rewards.length > 0 && (
                   <>
                     <Text fontWeight="bold" mb={2}>
                       Rewards
@@ -198,7 +223,7 @@ export const AchievementGroupWithDrawer = ({ data }: { data: Group[] }) => {
                   </>
                 )}
 
-              {selected.tiers?.length > 0 && (
+                {selected.tiers?.length > 0 && (
                   <>
                     <Text fontWeight="bold" mt={4} mb={2}>
                       Tiers
@@ -226,7 +251,9 @@ export const AchievementGroupWithDrawer = ({ data }: { data: Group[] }) => {
 
                     <ul>
                       {selected?.bits?.map((bit: Bit, idx) => (
-                        <li key={idx}><BitItem data={bit} /></li>
+                        <li key={idx}>
+                          <BitItem data={bit} />
+                        </li>
                       ))}
                     </ul>
                   </>
