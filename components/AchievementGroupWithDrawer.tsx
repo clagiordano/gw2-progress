@@ -178,7 +178,7 @@ export const AchievementGroupWithDrawer = ({ data }: { data: Group[] }) => {
               {/* Description */}
               {selected?.description && (
               <Text fontSize="sm" color={secondaryText} noOfLines={2}>
-                Desc: {selected?.description}
+                {selected?.description}
               </Text>)}
             </Box>
           </DrawerHeader>
