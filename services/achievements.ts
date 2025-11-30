@@ -67,8 +67,9 @@ const baseOptions = {
 // };
 
 // User based caching for user progression data with 5 minutes TTL
-const getUserProgressionCached = unstable_cache(
-  async (token: string): Promise<Progress[]> => {
+const getUserProgressionCached = (token: string) =>
+  unstable_cache(
+  async (): Promise<Progress[]> => {
     const headers = {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
@@ -82,9 +83,9 @@ const getUserProgressionCached = unstable_cache(
     if (!resp.ok) return [];
     return await resp.json();
   },
-  ["user-progression"], // base key
+  ["user-progression", token], // base key
   { revalidate: 300, tags: ["user-progression"] } // TTL + tag
-);
+)();
 
 export async function getUserProgression(): Promise<Progress[]> {
   const token = await getToken();
