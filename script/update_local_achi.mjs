@@ -9,7 +9,7 @@ const { default: skins } = await import('../app/lib/skins.json', {
   with: { type: 'json' }
 });
 
-const { default: achievements } = await import('../app/lib/achievements_detailed.json', {
+const { default: achievements } = await import('../app/lib/achievements.json', {
   with: { type: 'json' }
 });
 
