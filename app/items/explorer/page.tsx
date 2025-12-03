@@ -3,11 +3,11 @@
 import {
   useState,
   useEffect,
-  Suspense,
   useMemo,
   useTransition,
   useCallback,
   useRef,
+  useDeferredValue,
 } from "react";
 import {
   Flex,
@@ -89,7 +89,7 @@ export default function ItemsExplorer() {
     if (debouncedBonuses) params.append("bonuses", debouncedBonuses);
 
     if (params.toString() === "") {
-      setResults([]);
+      startTransition(() => setResults([]));
       return;
     }
 
@@ -97,10 +97,10 @@ export default function ItemsExplorer() {
     try {
       const res = await fetch(`/api/items/search?${params.toString()}`);
       const data = await res.json();
-      setResults(data);
+      startTransition(() => setResults(data));
     } catch (err) {
       console.error(err);
-      setResults([]);
+      startTransition(() => setResults([]));
     } finally {
       setLoading(false);
     }
@@ -110,6 +110,8 @@ export default function ItemsExplorer() {
   useEffect(() => {
     fetchResults();
   }, [fetchResults]);
+
+  const deferredResults = useDeferredValue(results);
 
   return (
     <Box display="flex" flexDirection="column" height="100%">
@@ -200,7 +202,7 @@ export default function ItemsExplorer() {
 
         {/* Cards */}
         <VStack spacing={4} align="stretch">
-          {results.map((item) => (
+          {deferredResults.map((item) => (
             <ItemPopover
               key={item.data.id}
               item={item.data}
