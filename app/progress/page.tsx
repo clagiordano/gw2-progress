@@ -1,18 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import {
-  Group,
-  Achievement,
-  AnalizedProgress,
-  Bit,
-  Reward,
-} from "@/models/achievement";
+import { useEffect, useState, useDeferredValue } from "react";
+import { Group, Achievement, AnalizedProgress, Bit, Reward } from "@/models/achievement";
 import { AchievementGroupWithDrawer } from "@/components/AchievementGroupWithDrawer";
 import {
   Divider,
   Box,
-  Text,
   Input,
   Spinner,
   InputGroup,
@@ -21,7 +14,45 @@ import {
 import { ProgressBar } from "@/components/ProgressBar";
 import { ProgressLegend } from "@/components/ProgressLegend";
 import { useAccount } from "../context/AccountContext";
-import { useTransition, useMemo } from "react";
+import { useTransition } from "react";
+
+const matchesBit = (bit: Bit, q: string): boolean => {
+  if (bit.text && bit.text.toLowerCase().includes(q)) return true;
+  if (bit.item?.name?.toLowerCase().includes(q)) return true;
+  if (bit.skin?.name?.toLowerCase().includes(q)) return true;
+  if (bit.minipet?.name?.toLowerCase().includes(q)) return true;
+  return false;
+};
+
+const matchesReward = (reward: Reward, q: string): boolean => {
+  if (reward.item?.name?.toLowerCase().includes(q)) return true;
+  return false;
+};
+
+const matchesQuery = (ach: Achievement, query: string): boolean => {
+  const q = query.toLowerCase();
+
+  if (
+    ach.name.toLowerCase().includes(q) ||
+    ach.description?.toLowerCase().includes(q) ||
+    ach.requirement?.toLowerCase().includes(q)
+  )
+    return true;
+
+  if (ach.bits) {
+    for (const bit of ach.bits) {
+      if (matchesBit(bit, q)) return true;
+    }
+  }
+
+  if (ach.rewards) {
+    for (const reward of ach.rewards) {
+      if (matchesReward(reward, q)) return true;
+    }
+  }
+
+  return false;
+};
 
 export default function ProgressPage() {
   const [rawAchievementGroups, setRawAchievementGroups] = useState<Group[]>([]);
@@ -71,47 +102,6 @@ export default function ProgressPage() {
     return () => clearTimeout(handler);
   }, [searchQuery]);
 
-  // Match helper: searches inside achievement fields AND rewards/bits
-  const matchesQuery = (ach: Achievement, query: string): boolean => {
-    const q = query.toLowerCase();
-
-    if (
-      ach.name.toLowerCase().includes(q) ||
-      ach.description?.toLowerCase().includes(q) ||
-      ach.requirement?.toLowerCase().includes(q)
-    )
-      return true;
-
-    // Search within objectives
-    if (ach.bits) {
-      for (const bit of ach.bits) {
-        if (matchesBit(bit, q)) return true;
-      }
-    }
-
-    // Search within rewards
-    if (ach.rewards) {
-      for (const reward of ach.rewards) {
-        if (matchesReward(reward, q)) return true;
-      }
-    }
-
-    return false;
-  };
-
-  const matchesBit = (bit: Bit, q: string): boolean => {
-    if (bit.text && bit.text.toLowerCase().includes(q)) return true;
-    if (bit.item?.name?.toLowerCase().includes(q)) return true;
-    if (bit.skin?.name?.toLowerCase().includes(q)) return true;
-    if (bit.minipet?.name?.toLowerCase().includes(q)) return true;
-    return false;
-  };
-
-  const matchesReward = (reward: Reward, q: string): boolean => {
-    if (reward.item?.name?.toLowerCase().includes(q)) return true;
-    return false;
-  };
-
   // Filtering logic
   useEffect(() => {
     if (!debouncedQuery.trim()) {
@@ -122,6 +112,7 @@ export default function ProgressPage() {
       return;
     }
 
+    setIsFiltering(true);
     startTransition(() => {
       const q = debouncedQuery.toLowerCase();
       const filtered = dataToRender
@@ -147,7 +138,7 @@ export default function ProgressPage() {
   const volatileTotalAP =
     (account?.account?.daily_ap ?? 0) + (account?.account?.monthly_ap ?? 0);
   const grandTotal = (analyzed?.userTotalPoints ?? 0) + volatileTotalAP;
-  const memoizedData = useMemo(() => filteredData, [filteredData]);
+  const deferredData = useDeferredValue(filteredData);
   return (
     <Box display="flex" flexDirection="column" height="100%">
       {/* Fixed position for overall progress and search section */}
@@ -184,7 +175,7 @@ export default function ProgressPage() {
 
       {/* Scrollable section */}
       <Box flex="1" minH={0} overflowY="auto" pr={2}>
-        <AchievementGroupWithDrawer data={memoizedData} />
+        <AchievementGroupWithDrawer data={deferredData} />
       </Box>
     </Box>
   );

@@ -30,14 +30,18 @@ import {
   SimpleGrid,
   useColorMode,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { BitItem } from "./BitItem";
 import { ProgressBar } from "./ProgressBar";
 import { RewardItem } from "./RewardItem";
 import { getProgressIndex } from "@/services/utils";
 import AchievementItem from "./AchievementItem";
 
-export const AchievementGroupWithDrawer = ({ data }: { data: Group[] }) => {
+type AchievementGroupWithDrawerProps = {
+  data: Group[];
+};
+
+const AchievementGroupWithDrawerComponent = ({ data }: AchievementGroupWithDrawerProps) => {
   const [selected, setSelected] = useState<Achievement | null>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const theme = useTheme();
@@ -224,3 +228,5 @@ export const AchievementGroupWithDrawer = ({ data }: { data: Group[] }) => {
     </>
   );
 };
+
+export const AchievementGroupWithDrawer = memo(AchievementGroupWithDrawerComponent);
