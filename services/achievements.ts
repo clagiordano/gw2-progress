@@ -158,22 +158,17 @@ export const getAchievements = async () => {
 
 /**
  * Iterate through any achievements group and calculate total and user points
+ *
  * @param achievements
  * @param progression
  * @returns
  */
 export const analyze = async (achievements: Group[], progression: Progress[]): Promise<AnalizedProgress> => {
-  let start = Math.floor(Date.now() / 1000);
-  console.log(
-    `completed fetch local achievements in ${
-      Math.floor(Date.now() / 1000) - start
-    }`
-  );
 
   let tPts = 0;
   let utPts = 0;
+  let buckets: { [key: number]: number } = {};
 
-  start = Math.floor(Date.now() / 1000);
   if (achievements && achievements.constructor === Array) {
     achievements.map((group: Group) => {
       let gPts = 0;
@@ -240,6 +235,14 @@ export const analyze = async (achievements: Group[], progression: Progress[]): P
 
             ach.aPts = aPts;
             ach.uaPts = uaPts;
+            ach.aPtsPercent = Math.round((uaPts / (aPts || 1)) * 100);
+            buckets[ach.aPtsPercent] = (buckets[ach.aPtsPercent] || 0) + 1;
+
+            if (ach.aPtsPercent > 100 || ach.aPtsPercent < 0) {
+              console.warn(`Weird aPtsPercent for achievement ${ach.name}: ${ach.aPtsPercent}%`, ach);
+              /** Remove from buckets */
+              delete buckets[ach.aPtsPercent];
+            }
 
             // console.log(` -> ${ach.name}: ${uaPts} / ${aPts}`);
             cPts = cPts + aPts;
@@ -274,5 +277,6 @@ export const analyze = async (achievements: Group[], progression: Progress[]): P
     totalPoints: tPts,
     userTotalPoints: utPts,
     totalPercent: Math.round((utPts / (tPts || 1)) * 100),
+    distribution: buckets,
   };
 };

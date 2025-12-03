@@ -22,6 +22,7 @@ import { ProgressBar } from "@/components/ProgressBar";
 import { ProgressLegend } from "@/components/ProgressLegend";
 import { useAccount } from "../context/AccountContext";
 import { useTransition, useMemo } from "react";
+import HistogramRangeSelector from "@/components/HistogramRangeSelector";
 
 export default function ProgressPage() {
   const [rawAchievementGroups, setRawAchievementGroups] = useState<Group[]>([]);
@@ -36,6 +37,7 @@ export default function ProgressPage() {
 
   const account = useAccount();
   const [isPending, startTransition] = useTransition();
+  // const [range, setRange] = useState<[number, number]>([0, 100]);
 
   // Load raw achievements
   useEffect(() => {
@@ -112,6 +114,55 @@ export default function ProgressPage() {
     return false;
   };
 
+  // useEffect(() => {
+  //   setIsFiltering(true);
+  //   console.log("Range changed:", range);
+
+  //     const filtered = dataToRender
+  //       .map((group) => {
+  //         const categories = group.categories
+  //           .map((cat) => ({
+  //             ...cat,
+  //             achievements: cat.achievements.filter((ach) =>
+  //               (ach.aPtsPercent >= range[0] && ach.aPtsPercent <= range[1])
+  //             ),
+  //           }))
+  //           .filter((cat) => cat.achievements.length > 0);
+
+  //         return { ...group, categories };
+  //       })
+  //       .filter((group) => group.categories.length > 0);
+
+  //     setFilteredData(filtered);
+  //     setIsFiltering(false);
+
+
+  // }, [dataToRender, range]);
+
+
+  const filterAchievementsByRange = (range: [number, number]) => {
+    setIsFiltering(true);
+    // console.log("Range changed:", range);
+
+      const filtered = dataToRender
+        .map((group) => {
+          const categories = group.categories
+            .map((cat) => ({
+              ...cat,
+              achievements: cat.achievements.filter((ach) =>
+                (ach.aPtsPercent >= range[0] && ach.aPtsPercent <= range[1])
+              ),
+            }))
+            .filter((cat) => cat.achievements.length > 0);
+
+          return { ...group, categories };
+        })
+        .filter((group) => group.categories.length > 0);
+
+      setFilteredData(filtered);
+      setIsFiltering(false);
+  }
+
   // Filtering logic
   useEffect(() => {
     if (!debouncedQuery.trim()) {
@@ -161,6 +212,7 @@ export default function ProgressPage() {
 
         <Divider my={4} />
         <ProgressLegend />
+        <HistogramRangeSelector distribution={analyzed?.distribution || []} initialBucketSize={1} onRangeChange={filterAchievementsByRange} />
         <Divider my={4} />
 
         {/* Search bar */}
@@ -182,8 +234,14 @@ export default function ProgressPage() {
         </Box>
       </Box>
 
+
       {/* Scrollable section */}
       <Box flex="1" minH={0} overflowY="auto" pr={2}>
+        {isFiltering && (
+          <Text mb={4} color="gray.500">
+            Filtering results...
+          </Text>
+        )}
         <AchievementGroupWithDrawer data={memoizedData} />
       </Box>
     </Box>

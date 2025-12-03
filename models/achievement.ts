@@ -113,7 +113,7 @@ export interface Progress {
     max?: number,
     done: boolean,
     repeated?: number,
-    unlocked?: boolean
+    unlocked?: boolean,
 }
 
 export interface Achievements {
@@ -125,5 +125,6 @@ export interface AnalizedProgress {
     achievements: Group[],
     totalPoints: number,
     userTotalPoints: number,
-    totalPercent: number
+    totalPercent: number,
+    distribution?: { [key: number]: number } // stats bucket
 }
