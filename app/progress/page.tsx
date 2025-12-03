@@ -1,7 +1,14 @@
 "use client";
 
-import { useEffect, useState, useDeferredValue } from "react";
-import { Group, Achievement, AnalizedProgress, Bit, Reward } from "@/models/achievement";
+import { useEffect, useState, useDeferredValue, useMemo } from "react";
+import {
+  Group,
+  Achievement,
+  AnalizedProgress,
+  Bit,
+  Reward,
+  Category,
+} from "@/models/achievement";
 import { AchievementGroupWithDrawer } from "@/components/AchievementGroupWithDrawer";
 import {
   Divider,
@@ -10,6 +17,9 @@ import {
   Spinner,
   InputGroup,
   InputRightElement,
+  FormControl,
+  FormHelperText,
+  Flex,
 } from "@chakra-ui/react";
 import { ProgressBar } from "@/components/ProgressBar";
 import { ProgressLegend } from "@/components/ProgressLegend";
@@ -56,6 +66,7 @@ const matchesQuery = (ach: Achievement, query: string): boolean => {
 
 export default function ProgressPage() {
   const [rawAchievementGroups, setRawAchievementGroups] = useState<Group[]>([]);
+  const [totalAchievements, setTotalAchievements] = useState<number>(0);
   const [analyzed, setAnalyzed] = useState<AnalizedProgress | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -74,6 +85,14 @@ export default function ProgressPage() {
       .then((res) => res.json())
       .then((data) => {
         setRawAchievementGroups(data);
+        setTotalAchievements(
+          data
+            .flatMap((group: Group) => group.categories)
+            .reduce(
+              (sum: number, cat: Category) => sum + cat.achievements.length,
+              0
+            )
+        );
       });
   }, []);
 
@@ -139,6 +158,14 @@ export default function ProgressPage() {
     (account?.account?.daily_ap ?? 0) + (account?.account?.monthly_ap ?? 0);
   const grandTotal = (analyzed?.userTotalPoints ?? 0) + volatileTotalAP;
   const deferredData = useDeferredValue(filteredData);
+  const filteredCount = useMemo(
+    () =>
+      deferredData
+        .flatMap((group) => group.categories)
+        .reduce((sum, cat) => sum + cat.achievements.length, 0),
+    [deferredData]
+  );
+
   return (
     <Box display="flex" flexDirection="column" height="100%">
       {/* Fixed position for overall progress and search section */}
@@ -156,26 +183,52 @@ export default function ProgressPage() {
 
         {/* Search bar */}
         <Box mb={4}>
-          <InputGroup>
-            <Input
-              placeholder="Search using name, description, requirements, objectives, rewards..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <InputRightElement>
-              <Spinner
-                size="sm"
-                opacity={isPending || isFiltering ? 1 : 0}
-                transition="opacity 0.2s"
+          <FormControl>
+            <InputGroup>
+              <Input
+                placeholder="Search using name, description, requirements, objectives, rewards..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
-            </InputRightElement>
-          </InputGroup>
+              <InputRightElement>
+                <Spinner
+                  size="sm"
+                  opacity={isPending || isFiltering ? 1 : 0}
+                  transition="opacity 0.2s"
+                />
+              </InputRightElement>
+            </InputGroup>
+            <FormHelperText textAlign="right">
+              {totalAchievements === 0
+                ? "Loading achievements..."
+                : filteredCount === 0 && debouncedQuery.trim()
+                ? "No achievements match the current search"
+                : filteredCount === totalAchievements
+                ? `Showing all ${totalAchievements} achievements`
+                : `Showing ${filteredCount} of ${totalAchievements} achievements`}
+            </FormHelperText>
+          </FormControl>
         </Box>
       </Box>
 
       {/* Scrollable section */}
       <Box flex="1" minH={0} overflowY="auto" pr={2}>
-        <AchievementGroupWithDrawer data={deferredData} />
+        {deferredData.length === 0 ? (
+          <Box
+            borderWidth="1px"
+            borderRadius="md"
+            p={8}
+            textAlign="center"
+            color="gray.500"
+          >
+            <Flex textAlign="center" fontSize="lg">
+              No achievements match your current search, please try different
+              terms
+            </Flex>
+          </Box>
+        ) : (
+          <AchievementGroupWithDrawer data={deferredData} />
+        )}
       </Box>
     </Box>
   );
