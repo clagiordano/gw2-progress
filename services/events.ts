@@ -89,7 +89,7 @@ const getSpecialEventsCached = () =>
       return events;
     },
     ["special-events"], // base key
-    { revalidate: 1, tags: ["special-events"] } // TTL + tag
+    { revalidate: 43200, tags: ["special-events"] } // TTL + tag
   )();
 
 export async function getSpecialEvents(): Promise<any[]> {
