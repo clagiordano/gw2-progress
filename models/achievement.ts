@@ -31,7 +31,7 @@ export interface Achievement {
     description: string;
     requirement: string;
     locked_text: string;
-    type: string; // default or itemset -> collections
+    type: "Default" | "ItemSet";
     flags: string[];
     tiers: Tier[];
     prerequisites: number[];
